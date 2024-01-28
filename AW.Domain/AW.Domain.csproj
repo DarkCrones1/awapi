@@ -1,0 +1,20 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net7.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Folder Include="Entities\" />
+    <Folder Include="Interfaces\" />
+    <Folder Include="Enumerations\" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\AW.Common\AW.Common.csproj" />
+    <ProjectReference Include="..\AW.Domain.Dto\AW.Domain.Dto.csproj" />
+  </ItemGroup>
+
+</Project>
