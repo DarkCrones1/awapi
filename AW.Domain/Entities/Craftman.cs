@@ -12,8 +12,6 @@ public partial class Craftman : BaseRemovableAuditablePaginationEntity
 
     public string LastName { get; set; } = null!;
 
-    public string? Email { get; set; }
-
     public string? Phone { get; set; }
 
     public string CellPhone { get; set; } = null!;
@@ -31,6 +29,8 @@ public partial class Craftman : BaseRemovableAuditablePaginationEntity
     public virtual ICollection<Craft> Craft { get; } = new List<Craft>();
 
     public virtual ICollection<Sale> Sale { get; } = new List<Sale>();
+
+    public virtual ICollection<TechniqueType> TechniqueType { get; } = new List<TechniqueType>();
 
     public virtual ICollection<UserAccount> UserAccount { get; } = new List<UserAccount>();
 }

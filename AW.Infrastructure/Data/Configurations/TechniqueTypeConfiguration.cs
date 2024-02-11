@@ -5,9 +5,9 @@ using AW.Domain.Entities;
 
 namespace AW.Infrastructure.Data.Configurations;
 
-public class CraftFamilyConfiguration : IEntityTypeConfiguration<CraftFamily>
+public class TechniqueTypeConfiguration : IEntityTypeConfiguration<TechniqueType>
 {
-    public void Configure(EntityTypeBuilder<CraftFamily> builder)
+    public void Configure(EntityTypeBuilder<TechniqueType> builder)
     {
         builder.Property(e => e.CreatedBy)
             .HasMaxLength(50)
@@ -19,6 +19,5 @@ public class CraftFamilyConfiguration : IEntityTypeConfiguration<CraftFamily>
         builder.Property(e => e.LastModifiedBy).HasMaxLength(50);
         builder.Property(e => e.LastModifiedDate).HasColumnType("datetime");
         builder.Property(e => e.Name).HasMaxLength(50);
-        
     }
 }

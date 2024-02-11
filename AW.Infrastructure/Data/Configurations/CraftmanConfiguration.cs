@@ -22,9 +22,6 @@ public class CraftmanConfiguration : IEntityTypeConfiguration<Craftman>
         builder.Property(e => e.CreatedDate)
             .HasDefaultValueSql("(getdate())")
             .HasColumnType("datetime");
-        builder.Property(e => e.Email)
-            .HasMaxLength(150)
-            .IsUnicode(false);
         builder.Property(e => e.FirstName)
             .HasMaxLength(200)
             .IsUnicode(false);

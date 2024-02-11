@@ -14,6 +14,9 @@ public class UserAccountConfiguration : IEntityTypeConfiguration<UserAccount>
             .HasColumnType("datetime");
         builder.Property(e => e.Password).HasMaxLength(100);
         builder.Property(e => e.UserName).HasMaxLength(150);
+        builder.Property(e => e.Email)
+            .HasMaxLength(150)
+            .IsUnicode(false);
 
         builder.HasMany(d => d.Administrator).WithMany(p => p.UserAccount)
             .UsingEntity<Dictionary<string, object>>(

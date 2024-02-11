@@ -12,8 +12,6 @@ public partial class Customer : BaseRemovableAuditablePaginationEntity
 
     public string LastName { get; set; } = null!;
 
-    public string? Email { get; set; }
-
     public string? Phone { get; set; }
 
     public string CellPhone { get; set; } = null!;

@@ -28,8 +28,6 @@ public partial class AWDbContext : DbContext
 
     public virtual DbSet<Craft> Craft { get; set; }
 
-    public virtual DbSet<CraftFamily> CraftFamily { get; set; }
-
     public virtual DbSet<Craftman> Craftman { get; set; }
 
     public virtual DbSet<Culture> Culture { get; set; }

@@ -16,7 +16,7 @@ public partial class Administrator : BaseRemovableAuditablePaginationEntity
 
     public string CellPhone { get; set; } = null!;
 
-    public string Email { get; set; } = null!;
+    public string FullName { get => $"{FirstName} {MiddleName} {LastName}".Trim(); }
 
     public virtual ICollection<UserAccount> UserAccount { get; } = new List<UserAccount>();
 }

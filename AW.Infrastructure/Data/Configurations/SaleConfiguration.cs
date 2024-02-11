@@ -9,6 +9,7 @@ public class SaleConfiguration : IEntityTypeConfiguration<Sale>
 {
     public void Configure(EntityTypeBuilder<Sale> builder)
     {
+        builder.Property(e => e.Amount).HasColumnType("decimal(10,6)");
         builder.HasOne(d => d.Craftman).WithMany(p => p.Sale)
             .HasForeignKey(d => d.CraftmanId)
             .OnDelete(DeleteBehavior.ClientSetNull)

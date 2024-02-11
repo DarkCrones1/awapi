@@ -5,15 +5,12 @@ using AW.Domain.Entities;
 
 namespace AW.Infrastructure.Data.Configurations;
 
-public class CustomerConfiguration : IEntityTypeConfiguration<Customer>
+public class AdministratorConfiguration : IEntityTypeConfiguration<Administrator>
 {
-    public void Configure(EntityTypeBuilder<Customer> builder)
+    public void Configure(EntityTypeBuilder<Administrator> builder)
     {
-        // Don't Delete, Manual configuration
         builder.Ignore(x => x.FullName);
-
-        // Automatic Scaffold Configuration
-        builder.HasKey(e => e.Id).HasName("PK__Customer__3214EC076D7D9088");
+        builder.HasKey(e => e.Id).HasName("PK__Administrator__4587FC235D7D5044");
 
         builder.Property(e => e.CellPhone)
             .HasMaxLength(50)
