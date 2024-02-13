@@ -29,7 +29,37 @@ public class CrudService<T> : ICrudService<T> where T : BaseEntity
     {
         var typeRep = typeof(T);
 
-        return null;
+        if (typeRep == typeof(Address))
+            return (ICrudRepository<T>)this._unitOfWork.AddressRepository;
+
+        if (typeRep == typeof(Administrator))
+            return (ICrudRepository<T>)this._unitOfWork.AdministratorRepository;
+
+        if (typeRep == typeof(Cart))
+            return (ICrudRepository<T>)this._unitOfWork.CartRepository;
+
+        if (typeRep == typeof(City))
+            return (ICrudRepository<T>)this._unitOfWork.CityRepository;
+
+        if (typeRep == typeof(Country))
+            return (ICrudRepository<T>)this._unitOfWork.CountryRepository;
+
+        if (typeRep == typeof(Craftman))
+            return (ICrudRepository<T>)this._unitOfWork.CraftmanRepository;
+
+        if (typeRep == typeof(Customer))
+            return (ICrudRepository<T>)this._unitOfWork.CustomerRepository;
+
+        if (typeRep == typeof(CustomerAddress))
+            return (ICrudRepository<T>)this._unitOfWork.CustomerAddressRepository;
+
+        if (typeRep == typeof(Sale))
+            return (ICrudRepository<T>)this._unitOfWork.SaleRepository;
+
+        if (typeRep == typeof(UserAccount))
+            return (ICrudRepository<T>)this._unitOfWork.UserAccountRepository;
+
+        return (ICrudRepository<T>)this._unitOfWork.TicketRepository;
     }
 
     public virtual async Task<int> Create(T entity)
