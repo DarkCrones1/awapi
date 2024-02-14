@@ -19,9 +19,9 @@ using AW.Infrastructure.Repositories;
 using AW.Common.Interfaces.Services;
 using AW.Application.Services;
 using AW.Domain.Interfaces;
-// using AW.Api.Helper;
-// using AW.Domain.Interfaces.Repositories;
-// using AW.Domain.Interfaces.Services;
+using AW.Common.Helpers;
+using AW.Domain.Interfaces.Repositories;
+using AW.Domain.Interfaces.Services;
 
 namespace AW.Api;
 
@@ -103,11 +103,14 @@ public class Startup
         services.AddScoped(typeof(ICrudRepository<>), typeof(CrudRepository<>));
         services.AddScoped(typeof(IRetrieveRepository<>), typeof(RetrieveRepository<>));
         services.AddScoped(typeof(ICatalogBaseRepository<>), typeof(CatalogBaseRepository<>));
-        services.AddScoped<IUnitOfWork, UnirOfWork>();
+        services.AddScoped<IUnitOfWork, UnitOfWork>();
+        services.AddScoped<IUserAccountRepository, UserAccountRepository>();
 
         // Add Serivces
         services.AddScoped(typeof(ICrudService<>), typeof(CrudService<>));
         services.AddScoped(typeof(ICatalogBaseService<>), typeof(CatalogBaseService<>));
+        services.AddScoped<IUserAccountService, UserAccountService>();
+        services.AddScoped<TokenHelper>();
         services.AddHttpContextAccessor();
 
         // Add AutoValidator

@@ -3,14 +3,12 @@ using Microsoft.Extensions.Configuration;
 using AW.Common.Interfaces.Repositories;
 using AW.Domain.Entities;
 using AW.Domain.Interfaces;
-// using AW.Domain.Interfaces.Repositories;
-
-// using Res.Domain.Interfaces.Repositories;
+using AW.Domain.Interfaces.Repositories;
 using AW.Infrastructure.Data;
 
 namespace AW.Infrastructure.Repositories;
 
-public class UnirOfWork : IUnitOfWork
+public class UnitOfWork : IUnitOfWork
 {
     protected readonly AWDbContext _dbContext;
 
@@ -48,7 +46,7 @@ public class UnirOfWork : IUnitOfWork
 
     protected ICrudRepository<Ticket> _ticketRepository;
 
-    protected ICrudRepository<UserAccount> _userAccountRepository;
+    protected IUserAccountRepository _userAccountRepository;
 
     protected IRetrieveRepository<ActiveUserAccountAdministrator> _activeUserAccountAdministratorRepository;
 
@@ -58,7 +56,7 @@ public class UnirOfWork : IUnitOfWork
 
     private bool disposed;
 
-    public UnirOfWork(AWDbContext dbContext, IConfiguration configuration)
+    public UnitOfWork(AWDbContext dbContext, IConfiguration configuration)
     {
         _dbContext = dbContext;
 
@@ -98,7 +96,7 @@ public class UnirOfWork : IUnitOfWork
 
         _ticketRepository = new CrudRepository<Ticket>(_dbContext);
 
-        _userAccountRepository = new CrudRepository<UserAccount>(_dbContext);
+        _userAccountRepository = new UserAccountRepository(_dbContext);
 
         _activeUserAccountAdministratorRepository = new RetrieveRepository<ActiveUserAccountAdministrator>(_dbContext);
 
@@ -139,7 +137,7 @@ public class UnirOfWork : IUnitOfWork
 
     public ICrudRepository<Ticket> TicketRepository => _ticketRepository;
 
-    public ICrudRepository<UserAccount> UserAccountRepository => _userAccountRepository;
+    public IUserAccountRepository UserAccountRepository => _userAccountRepository;
 
     public IRetrieveRepository<ActiveUserAccountAdministrator> ActiveUserAccountAdministratorRepository => _activeUserAccountAdministratorRepository;
 

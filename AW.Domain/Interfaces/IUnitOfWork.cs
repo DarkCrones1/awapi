@@ -1,5 +1,6 @@
 using AW.Common.Interfaces.Repositories;
 using AW.Domain.Entities;
+using AW.Domain.Interfaces.Repositories;
 // using AW.Domain.Interfaces.Repositories;
 
 namespace AW.Domain.Interfaces;
@@ -38,7 +39,7 @@ public interface IUnitOfWork : IDisposable
 
     ICrudRepository<Ticket> TicketRepository { get; }
 
-    ICrudRepository<UserAccount> UserAccountRepository { get; }
+    IUserAccountRepository UserAccountRepository { get; }
 
     IRetrieveRepository<ActiveUserAccountAdministrator> ActiveUserAccountAdministratorRepository { get; }
 

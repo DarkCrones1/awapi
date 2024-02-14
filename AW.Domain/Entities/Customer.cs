@@ -12,13 +12,11 @@ public partial class Customer : BaseRemovableAuditablePaginationEntity
 
     public string LastName { get; set; } = null!;
 
-    public string? Phone { get; set; }
-
     public string CellPhone { get; set; } = null!;
 
-    public int? CustomerTypeId { get; set; }
+    public string? Phone { get; set; }
 
-    public short Status { get; set; }
+    public int? CustomerTypeId { get; set; }
 
     public short? Gender { get; set; }
 

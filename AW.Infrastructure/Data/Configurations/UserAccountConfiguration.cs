@@ -28,7 +28,7 @@ public class UserAccountConfiguration : IEntityTypeConfiguration<UserAccount>
                 l => l.HasOne<UserAccount>().WithMany()
                     .HasForeignKey("UserAccountId")
                     .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasForeignKey("FK_UserAccountAdministrator_UserAccount"),
+                    .HasConstraintName("FK_UserAccountAdministrator_UserAccount"),
                 j =>
                 {
                     j.HasKey("UserAccountId", "AdministratorId");
