@@ -44,12 +44,19 @@ public class UserAccountController : ControllerBase
     [ProducesResponseType((int)HttpStatusCode.OK, Type = typeof(ApiResponse<UserAccountCraftmanResponseDto>))]
     public async Task<IActionResult> CreateUserAccountCraftmant([FromBody] UserAccountCraftmanCreateRequestDto requestDto)
     {
-        Expression<Func<UserAccount, bool>> filter = x => !x.IsDeleted!.Value && x.Email == requestDto.Email;
+        Expression<Func<UserAccount, bool>> filterUserName = x => !x.IsDeleted!.Value && x.UserName == requestDto.UserName;
 
-        var existUser = await _service.Exist(filter);
+        var existUser = await _service.Exist(filterUserName);
 
         if (existUser)
             return BadRequest("Ya existe un usuario con este correo electrónico");
+
+        Expression<Func<UserAccount, bool>> filterEmail = x => !x.IsDeleted!.Value && x.Email == requestDto.Email;
+
+        var existEmail = await _service.Exist(filterEmail);
+
+        if (existUser)
+            return BadRequest("Ya existe un usuario con este nombre de usuario");
 
         var entity = await PopulateUserAccountCraftman(requestDto);
         entity.Password = MD5Encrypt.GetMD5(requestDto.Password);
@@ -66,12 +73,19 @@ public class UserAccountController : ControllerBase
     [ProducesResponseType((int)HttpStatusCode.OK, Type = typeof(ApiResponse<UserAccountCustomerResponseDto>))]
     public async Task<IActionResult> CreateUserAccountCustomer([FromBody] UserAccountCustomerCreateRequestDto requestDto)
     {
-        Expression<Func<UserAccount, bool>> filter = x => !x.IsDeleted!.Value && x.Email == requestDto.Email;
+        Expression<Func<UserAccount, bool>> filterUserName = x => !x.IsDeleted!.Value && x.UserName == requestDto.UserName;
 
-        var existUser = await _service.Exist(filter);
+        var existUser = await _service.Exist(filterUserName);
 
         if (existUser)
             return BadRequest("Ya existe un usuario con este correo electrónico");
+
+        Expression<Func<UserAccount, bool>> filterEmail = x => !x.IsDeleted!.Value && x.Email == requestDto.Email;
+
+        var existEmail = await _service.Exist(filterEmail);
+
+        if (existUser)
+            return BadRequest("Ya existe un usuario con este nombre de usuario");
 
         var entity = await PopulateUserAccountCustomer(requestDto);
         entity.Password = MD5Encrypt.GetMD5(requestDto.Password);

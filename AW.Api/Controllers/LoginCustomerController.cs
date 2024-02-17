@@ -50,15 +50,23 @@ public class LoginCustomerController : ControllerBase
     [Route("Customer")]
     public async Task<IActionResult> SignInCustomer([FromBody] LoginRequestDto requestDto)
     {
-        var result = await _service.IsValidUser(requestDto.UserNameOrEmail!, MD5Encrypt.GetMD5(requestDto.Password!));
-
-        if (!result)
-            return NotFound("El Usuario no es válido, revise que el Usuario/Email o la Contraseña sean correctos");
-
-        _user = await GetCustomer(requestDto);
-
-        var token = await GenerateToken();
-        return Ok(new { token });
+        try
+        {
+            var result = await _service.IsValidUser(requestDto.UserNameOrEmail!, MD5Encrypt.GetMD5(requestDto.Password!));
+    
+            if (!result)
+                return NotFound("El Usuario no es válido, revise que el Usuario/Email o la Contraseña sean correctos");
+    
+            _user = await GetCustomer(requestDto);
+    
+            var token = await GenerateToken();
+            return Ok(new { token });
+        }
+        catch (Exception)
+        {
+            
+            throw new LogicBusinessException("Esta Cuenta de Usuario debe de iniciar como Artesano");
+        }
     }
 
     private async Task<string> GenerateToken()

@@ -48,17 +48,25 @@ public class LoginCraftmanController : ControllerBase
 
     [HttpPost]
     [Route("Craftman")]
-    public async Task<IActionResult> SignInCustomer([FromBody] LoginRequestDto requestDto)
+    public async Task<IActionResult> SignInCraftman([FromBody] LoginRequestDto requestDto)
     {
-        var result = await _service.IsValidUser(requestDto.UserNameOrEmail!, MD5Encrypt.GetMD5(requestDto.Password!));
-
-        if (!result)
-            return NotFound("El Usuario no es válido, revise que el Usuario/Email o la Contraseña sean correctos");
-
-        _user = await GetCraftman(requestDto);
-
-        var token = await GenerateToken();
-        return Ok(new { token });
+        try
+        {
+            var result = await _service.IsValidUser(requestDto.UserNameOrEmail!, MD5Encrypt.GetMD5(requestDto.Password!));
+    
+            if (!result)
+                return NotFound("El Usuario no es válido, revise que el Usuario/Email o la Contraseña sean correctos");
+    
+            _user = await GetCraftman(requestDto);
+    
+            var token = await GenerateToken();
+            return Ok(new { token });
+        }
+        catch (Exception)
+        {
+            
+            throw new LogicBusinessException("Esta Cuenta de Usuario debe de iniciar como Cliente");
+        }
     }
 
     private async Task<string> GenerateToken()
