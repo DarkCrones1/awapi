@@ -60,4 +60,22 @@ public class UserAccountRepository : CrudRepository<UserAccount>, IUserAccountRe
 
         return entity ?? new ActiveUserAccountCustomer();
     }
+
+    public async Task<ActiveUserAccountCraftman> GetUserAccountCraftman(int id)
+    {
+        Expression<Func<ActiveUserAccountCraftman, bool>> filter = x => x.Id == id;
+        var entity = await GetUserAccountCraftmanToLogin(filter);
+
+        return entity ?? new ActiveUserAccountCraftman();
+    }
+
+    public async Task<ActiveUserAccountCraftman> GetUserAccountCraftmanToLogin(Expression<Func<ActiveUserAccountCraftman, bool>> filters)
+    {
+        var entity = await _dbContext.ActiveUserAccountCraftman
+        .Where(filters)
+        .AsNoTracking()
+        .FirstOrDefaultAsync();
+
+        return entity ?? new ActiveUserAccountCraftman();
+    }
 }

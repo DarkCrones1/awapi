@@ -9,5 +9,11 @@ namespace AW.Domain.Interfaces.Services;
 public interface IUserAccountService : ICrudService<UserAccount>
 {
     Task<int> CreateUser(UserAccount user);
+    Task<ActiveUserAccountCustomer> GetUserAccountCustomer(int id);
+    Task<ActiveUserAccountCustomer> GetUserAccountCustomerToLogin(Expression<Func<ActiveUserAccountCustomer, bool>> filters);
+
+    Task<ActiveUserAccountCraftman> GetUserAccountCraftman(int id);
+    Task<ActiveUserAccountCraftman> GetUserAccountCraftmanToLogin(Expression<Func<ActiveUserAccountCraftman, bool>> filters);
+
     Task<PagedList<UserAccount>> GetPaged(UserAccountQueryFilter filter);
 }

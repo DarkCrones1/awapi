@@ -29,6 +29,30 @@ public class UserAccountService : CrudService<UserAccount>, IUserAccountService
         return user.Id;
     }
 
+    public async Task<ActiveUserAccountCustomer> GetUserAccountCustomer(int id)
+    {
+        var entity = await _unitOfWork.UserAccountRepository.GetUserAccountCustomer(id);
+        return entity;
+    }
+
+    public async Task<ActiveUserAccountCustomer> GetUserAccountCustomerToLogin(Expression<Func<ActiveUserAccountCustomer, bool>> filters)
+    {
+        var entity = await _unitOfWork.UserAccountRepository.GetUserAccountCustomerToLogin(filters);
+        return entity;
+    }
+
+    public async Task<ActiveUserAccountCraftman> GetUserAccountCraftman(int id)
+    {
+        var entity = await _unitOfWork.UserAccountRepository.GetUserAccountCraftman(id);
+        return entity;
+    }
+
+    public async Task<ActiveUserAccountCraftman> GetUserAccountCraftmanToLogin(Expression<Func<ActiveUserAccountCraftman, bool>> filters)
+    {
+        var entity = await _unitOfWork.UserAccountRepository.GetUserAccountCraftmanToLogin(filters);
+        return entity;
+    }
+
     public async Task<PagedList<UserAccount>> GetPaged(UserAccountQueryFilter filter)
     {
         var result = await _unitOfWork.UserAccountRepository.GetPaged(filter);

@@ -10,4 +10,7 @@ public interface IUserAccountRepository : IQueryPagedRepository<ActiveUserAccoun
 {
     Task<ActiveUserAccountCustomer> GetUserAccountCustomer(int id);
     Task<ActiveUserAccountCustomer> GetUserAccountCustomerToLogin(Expression<Func<ActiveUserAccountCustomer, bool>> filters);
+
+    Task<ActiveUserAccountCraftman> GetUserAccountCraftman(int id);
+    Task<ActiveUserAccountCraftman> GetUserAccountCraftmanToLogin(Expression<Func<ActiveUserAccountCraftman, bool>> filters);
 }

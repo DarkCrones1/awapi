@@ -18,7 +18,7 @@ using AW.Domain.Dto.QueryFilters;
 using AW.Domain.Interfaces.Services;
 using AW.Common.Functions;
 
-namespace Aw.Api.Controllers;
+namespace AW.Api.Controllers;
 
 [ApiController]
 [Route("api/[controller]")]
@@ -37,6 +37,27 @@ public class UserAccountController : ControllerBase
         this._service = service;
         this._rolService = rolService;
         this._tokenHelper = tokenHelper;
+    }
+    [HttpPost]
+    [Route("Craftman")]
+    [AllowAnonymous]
+    [ProducesResponseType((int)HttpStatusCode.OK, Type = typeof(ApiResponse<UserAccountCraftmanResponseDto>))]
+    public async Task<IActionResult> CreateUserAccountCraftmant([FromBody] UserAccountCraftmanCreateRequestDto requestDto)
+    {
+        Expression<Func<UserAccount, bool>> filter = x => !x.IsDeleted!.Value && x.Email == requestDto.Email;
+
+        var existUser = await _service.Exist(filter);
+
+        if (existUser)
+            return BadRequest("Ya existe un usuario con este correo electrónico");
+
+        var entity = await PopulateUserAccountCraftman(requestDto);
+        entity.Password = MD5Encrypt.GetMD5(requestDto.Password);
+        await _service.CreateUser(entity);
+
+        var result = _mapper.Map<UserAccountCraftmanResponseDto>(entity);
+        var response = new ApiResponse<UserAccountCraftmanResponseDto>(result);
+        return Ok(response);
     }
 
     [HttpPost]
@@ -60,6 +81,23 @@ public class UserAccountController : ControllerBase
         var response = new ApiResponse<UserAccountCustomerResponseDto>(result);
         return Ok(response);
     }
+
+    private async Task<UserAccount> PopulateUserAccountCraftman(UserAccountCraftmanCreateRequestDto requestDto)
+    {
+        Expression<Func<UserAccount, bool>> filter = x => !x.IsDeleted!.Value && x.Email == requestDto.Email;
+
+        var existUser = await _service.Exist(filter);
+
+        var userAccount = _mapper.Map<UserAccount>(requestDto);
+
+        var craftman = _mapper.Map<Craftman>(requestDto);
+        craftman.UserAccount.Add(userAccount);
+
+        userAccount.Craftman.Add(craftman);
+
+        return userAccount;
+    }
+
 
     private async Task<UserAccount> PopulateUserAccountCustomer(UserAccountCustomerCreateRequestDto requestDto)
     {

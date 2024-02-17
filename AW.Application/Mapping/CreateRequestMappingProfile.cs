@@ -39,8 +39,37 @@ public class CreateRequestMappingProfile : Profile
                 dest.IsDeleted = ValuesStatusPropertyEntity.IsNotDeleted;
                 dest.CreatedDate = DateTime.Now;
                 dest.CustomerTypeId = 1;
-                // dest.Gender = (short)Gender.Other;
-                // dest.CreatedBy = "Admin";
+            }
+        );
+
+        CreateMap<UserAccountCraftmanCreateRequestDto, UserAccount>()
+        .ForMember(
+            dest => dest.IsDeleted,
+            opt => opt.MapFrom(src => ValuesStatusPropertyEntity.IsNotDeleted)
+        ).ForMember(
+            dest => dest.IsActive,
+            opt => opt.MapFrom(src => true)
+        ).ForMember(
+            dest => dest.IsAuthorized,
+            opt => opt.MapFrom(src => true)
+        ).ForMember(
+            dest => dest.CreatedDate,
+            opt => opt.MapFrom(src => DateTime.Now)
+        ).ForMember(
+            dest => dest.AccountType,
+            opt => opt.MapFrom(src => (short)UserAccountType.Craftman)
+        ).ForMember(
+            dest => dest.Email,
+            opt => opt.MapFrom(src => src.Email)
+        );
+
+        CreateMap<UserAccountCraftmanCreateRequestDto, Craftman>()
+        .AfterMap(
+            (src, dest) => 
+            {
+                dest.Code = Guid.NewGuid();
+                dest.IsDeleted = ValuesStatusPropertyEntity.IsNotDeleted;
+                dest.CreatedDate = DateTime.Now;
             }
         );
     }

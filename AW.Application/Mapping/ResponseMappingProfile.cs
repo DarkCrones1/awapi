@@ -33,5 +33,26 @@ public class ResponseMappingProfile : Profile
                 dest.UserAccountTypeName = EnumHelper.GetDescription<UserAccountType>((UserAccountType)src.AccountType);
             }
         );
+
+        CreateMap<UserAccount, UserAccountCraftmanResponseDto>()
+        .ForMember(
+            dest => dest.UserName,
+            opt => opt.MapFrom(src => src.UserName)
+        ).ForMember(
+            dest => dest.IsDeleted,
+            opt => opt.MapFrom(src => src.IsDeleted)
+        ).AfterMap(
+            (src, dest) => 
+            {
+                var craftman = src.Craftman.FirstOrDefault() ?? new Craftman();
+                dest.CraftmanId = craftman.Id;
+                dest.FullName = craftman.FullName;
+                dest.Phone = craftman!.Phone!;
+                dest.CellPhone = craftman.CellPhone;
+
+                dest.UserAccountType = src.AccountType;
+                dest.UserAccountTypeName = EnumHelper.GetDescription<UserAccountType>((UserAccountType)src.AccountType);
+            }
+        );
     }
 }
