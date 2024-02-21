@@ -38,6 +38,7 @@ public class UserAccountController : ControllerBase
         this._rolService = rolService;
         this._tokenHelper = tokenHelper;
     }
+    
     [HttpPost]
     [Route("Craftman")]
     [AllowAnonymous]
