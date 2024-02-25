@@ -11,6 +11,12 @@ public class ResponseMappingProfile : Profile
 {
     public ResponseMappingProfile()
     {
+        CreateMap<Category, CategoryResponseDto>()
+        .ForMember(
+            dest => dest.Status,
+            opt => opt.MapFrom(src => StatusDeletedHelper.GetStatusDeletedEntity(src.IsDeleted))
+        );
+
         CreateMap<UserAccount, UserAccountCustomerResponseDto>()
         .ForMember(
             dest => dest.UserName,
