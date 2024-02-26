@@ -46,6 +46,12 @@ public class LoginCraftmanController : ControllerBase
         SettingConfigurationFile.Initialize(_configuration);
     }
 
+    /// <summary>
+    /// Inicio de sesión para cuentas de Artesanos
+    /// </summary>
+    /// <param name="requestDto"></param>
+    /// <returns></returns>
+    /// <exception cref="LogicBusinessException"></exception>
     [HttpPost]
     [Route("Craftman")]
     public async Task<IActionResult> SignInCraftman([FromBody] LoginRequestDto requestDto)

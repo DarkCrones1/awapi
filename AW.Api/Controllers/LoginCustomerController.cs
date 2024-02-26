@@ -46,6 +46,12 @@ public class LoginCustomerController : ControllerBase
         SettingConfigurationFile.Initialize(_configuration);
     }
 
+    /// <summary>
+    /// Inicio de sesión para cuentas de Clientes
+    /// </summary>
+    /// <param name="requestDto"></param>
+    /// <returns></returns>
+    /// <exception cref="LogicBusinessException"></exception>
     [HttpPost]
     [Route("Customer")]
     public async Task<IActionResult> SignInCustomer([FromBody] LoginRequestDto requestDto)
@@ -53,18 +59,18 @@ public class LoginCustomerController : ControllerBase
         try
         {
             var result = await _service.IsValidUser(requestDto.UserNameOrEmail!, MD5Encrypt.GetMD5(requestDto.Password!));
-    
+
             if (!result)
                 return NotFound("El Usuario no es válido, revise que el Usuario/Email o la Contraseña sean correctos");
-    
+
             _user = await GetCustomer(requestDto);
-    
+
             var token = await GenerateToken();
             return Ok(new { token });
         }
         catch (Exception)
         {
-            
+
             throw new LogicBusinessException("Esta Cuenta de Usuario debe de iniciar como Artesano");
         }
     }

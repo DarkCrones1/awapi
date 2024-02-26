@@ -39,6 +39,11 @@ public class UserAccountController : ControllerBase
         this._tokenHelper = tokenHelper;
     }
     
+    /// <summary>
+    /// Crea Cuentas de usuario para Artesanos
+    /// </summary>
+    /// <param name="requestDto"></param>
+    /// <returns></returns>
     [HttpPost]
     [Route("Craftman")]
     [AllowAnonymous]
@@ -68,6 +73,11 @@ public class UserAccountController : ControllerBase
         return Ok(response);
     }
 
+    /// <summary>
+    /// Crea cuentas de usiario para Clientes
+    /// </summary>
+    /// <param name="requestDto"></param>
+    /// <returns></returns>
     [HttpPost]
     [Route("Customer")]
     [AllowAnonymous]
