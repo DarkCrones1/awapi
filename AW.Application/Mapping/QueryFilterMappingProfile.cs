@@ -8,5 +8,10 @@ namespace AW.Application.Mapping;
 
 public class QueryFilterMappingProfile : Profile
 {
-    
+    public QueryFilterMappingProfile()
+    {
+        CreateMap<BaseCatalogQueryFilter, Category>();
+
+        CreateMap<CategoryQueryFilter, Category>();
+    }
 }

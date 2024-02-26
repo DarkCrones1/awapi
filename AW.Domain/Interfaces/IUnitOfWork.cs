@@ -13,7 +13,7 @@ public interface IUnitOfWork : IDisposable
 
     ICrudRepository<Cart> CartRepository { get; }
 
-    ICatalogBaseRepository<Category> CategoryRepository { get; }
+    ICategoryRepository CategoryRepository { get; }
 
     ICrudRepository<City> CityRepository { get; }
 

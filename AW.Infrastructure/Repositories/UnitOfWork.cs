@@ -20,7 +20,7 @@ public class UnitOfWork : IUnitOfWork
 
     protected ICrudRepository<Cart> _cartRepository;
 
-    protected ICatalogBaseRepository<Category> _categoryRepository;
+    protected ICategoryRepository _categoryRepository;
 
     protected ICrudRepository<City> _cityRepository;
 
@@ -70,7 +70,7 @@ public class UnitOfWork : IUnitOfWork
 
         _cartRepository = new CrudRepository<Cart>(_dbContext);
 
-        _categoryRepository = new CatalogBaseRepository<Category>(_dbContext);
+        _categoryRepository = new CategoryRepository(_dbContext);
 
         _cityRepository = new CrudRepository<City>(_dbContext);
 
@@ -111,7 +111,7 @@ public class UnitOfWork : IUnitOfWork
 
     public ICrudRepository<Cart> CartRepository => _cartRepository;
 
-    public ICatalogBaseRepository<Category> CategoryRepository => _categoryRepository;
+    public ICategoryRepository CategoryRepository => _categoryRepository;
 
     public ICrudRepository<City> CityRepository => _cityRepository;
 
