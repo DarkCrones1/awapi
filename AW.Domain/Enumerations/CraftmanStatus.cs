@@ -10,7 +10,7 @@ public enum CraftmanStatus
     [Description("Aprobado")]
     Aproved = 2,
 
-    [Description("Recazado")]
+    [Description("Rechazado")]
     Rejected = 3,
     
     [Description("Baja")]

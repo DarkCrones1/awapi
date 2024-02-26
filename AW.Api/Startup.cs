@@ -115,6 +115,7 @@ public class Startup
         services.AddScoped(typeof(ICatalogBaseService<>), typeof(CatalogBaseService<>));
         services.AddScoped<IAuthenticationService, AuthenticationService>();
         services.AddScoped<ICategoryService, CategoryService>();
+        services.AddScoped<IMiscellaneousService, MiscellaneousService>();
         services.AddScoped<IUserAccountService, UserAccountService>();
         services.AddScoped<TokenHelper>();
         services.AddHttpContextAccessor();
