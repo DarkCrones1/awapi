@@ -10,7 +10,7 @@ using AW.Domain.Dto.Response;
 using AW.Domain.Entities;
 using AW.Api.Responses;
 using AW.Domain.Dto.Request.Create;
-// using AW.Domain.Dto.Request.Update;
+using AW.Domain.Dto.Request.Update;
 using AW.Common.Exceptions;
 using AW.Common.Helpers;
 using Microsoft.AspNetCore.Authorization;
@@ -18,7 +18,7 @@ using AW.Domain.Dto.QueryFilters;
 using AW.Domain.Interfaces.Services;
 using AW.Common.Functions;
 
-namespace Aw.Api.Controllers;
+namespace AW.Api.Controllers;
 
 [ApiController]
 [Route("api/[controller]")]

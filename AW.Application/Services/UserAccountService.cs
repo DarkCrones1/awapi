@@ -53,9 +53,16 @@ public class UserAccountService : CrudService<UserAccount>, IUserAccountService
         return entity;
     }
 
-    public async Task<PagedList<UserAccount>> GetPaged(UserAccountQueryFilter filter)
+    public async Task<PagedList<UserAccount>> GetPagedCraftman(UserAccountQueryFilter filter)
     {
-        var result = await _unitOfWork.UserAccountRepository.GetPaged(filter);
+        var result = await _unitOfWork.UserAccountRepository.GetPagedCraftman(filter);
+        var pagedItems = PagedList<UserAccount>.Create(result, filter.PageNumber, filter.PageSize);
+        return pagedItems;
+    }
+
+    public async Task<PagedList<UserAccount>> GetPagedCustomer(UserAccountQueryFilter filter)
+    {
+        var result = await _unitOfWork.UserAccountRepository.GetPagedCustomer(filter);
         var pagedItems = PagedList<UserAccount>.Create(result, filter.PageNumber, filter.PageSize);
         return pagedItems;
     }

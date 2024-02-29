@@ -13,5 +13,11 @@ public class QueryFilterMappingProfile : Profile
         CreateMap<BaseCatalogQueryFilter, Category>();
 
         CreateMap<CategoryQueryFilter, Category>();
+
+        CreateMap<CountryQueryFilter, Country>();
+
+        CreateMap<CraftmanQueryFilter, Craftman>();
+
+        CreateMap<UserAccountQueryFilter, UserAccount>();
     }
 }

@@ -21,7 +21,7 @@ public interface IUnitOfWork : IDisposable
 
     ICatalogBaseRepository<Craft> CraftRepository { get; }
 
-    ICrudRepository<Craftman> CraftmanRepository { get; }
+    ICraftmantRepository CraftmanRepository { get; }
 
     ICatalogBaseRepository<Culture> CultureRepository { get; }
 

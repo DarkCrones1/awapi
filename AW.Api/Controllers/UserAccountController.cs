@@ -38,6 +38,53 @@ public class UserAccountController : ControllerBase
         this._rolService = rolService;
         this._tokenHelper = tokenHelper;
     }
+
+    /// <summary>
+    /// Devuelve los Artesanos mediante filtros y paginado
+    /// </summary>
+    /// <param name="filter"></param>
+    /// <returns></returns>
+    [HttpGet]
+    [Route("Craftman")]
+    [ProducesResponseType((int)HttpStatusCode.OK, Type = typeof(ApiResponse<IEnumerable<UserAccountCraftmanResponseDto>>))]
+    [ProducesResponseType((int)HttpStatusCode.BadRequest, Type = typeof(ApiResponse<IEnumerable<UserAccountCraftmanResponseDto>>))]
+    [ProducesResponseType((int)HttpStatusCode.NotFound, Type = typeof(ApiResponse<IEnumerable<UserAccountCraftmanResponseDto>>))]
+    public async Task<IActionResult> GetUserCraftman([FromQuery] UserAccountQueryFilter filter)
+    {
+        var entities = await _service.GetPagedCraftman(filter);
+        var dtos = _mapper.Map<IEnumerable<UserAccountCraftmanResponseDto>>(entities);
+        var metaDataResponse = new MetaDataResponse(
+            entities.TotalCount,
+            entities.CurrentPage,
+            entities.PageSize
+        );
+        var response = new ApiResponse<IEnumerable<UserAccountCraftmanResponseDto>>(data: dtos, meta: metaDataResponse);
+        return Ok(response);
+    }
+
+    /// <summary>
+    /// Devuelve los Clientes mediante filtros y paginado
+    /// </summary>
+    /// <param name="filter"></param>
+    /// <returns></returns>
+    [HttpGet]
+    [Route("Customer")]
+    [ProducesResponseType((int)HttpStatusCode.OK, Type = typeof(ApiResponse<IEnumerable<UserAccountCustomerResponseDto>>))]
+    [ProducesResponseType((int)HttpStatusCode.BadRequest, Type = typeof(ApiResponse<IEnumerable<UserAccountCustomerResponseDto>>))]
+    [ProducesResponseType((int)HttpStatusCode.NotFound, Type = typeof(ApiResponse<IEnumerable<UserAccountCustomerResponseDto>>))]
+    public async Task<IActionResult> GetUserCustomer([FromQuery] UserAccountQueryFilter filter)
+    {
+        var entities = await _service.GetPagedCustomer(filter);
+        var dtos = _mapper.Map<IEnumerable<UserAccountCustomerResponseDto>>(entities);
+
+        var metaDataResponse = new MetaDataResponse(
+            entities.TotalCount,
+            entities.CurrentPage,
+            entities.PageSize
+        );
+        var response = new ApiResponse<IEnumerable<UserAccountCustomerResponseDto>>(data: dtos, meta: metaDataResponse);
+        return Ok(response);
+    }
     
     /// <summary>
     /// Crea Cuentas de usuario para Artesanos

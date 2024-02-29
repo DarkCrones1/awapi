@@ -79,6 +79,16 @@ public class CreateRequestMappingProfile : Profile
                 dest.Code = Guid.NewGuid();
                 dest.IsDeleted = ValuesStatusPropertyEntity.IsNotDeleted;
                 dest.CreatedDate = DateTime.Now;
+                dest.Status = (short)CraftmanStatus.Aproved;
+                var address = new Address{
+                    Address1 = "Asignar",
+                    Address2 = "Asignar",
+                    Street = "Asignar",
+                    ExternalNumber = "Asignar",
+                    InternalNumber = "Asignar",
+                    ZipCode = "Asignar",
+                };
+                dest.Address.Add(address);
             }
         );
     }

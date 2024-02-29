@@ -11,10 +11,22 @@ public class ResponseMappingProfile : Profile
 {
     public ResponseMappingProfile()
     {
+        
         CreateMap<Category, CategoryResponseDto>()
         .ForMember(
             dest => dest.Status,
             opt => opt.MapFrom(src => StatusDeletedHelper.GetStatusDeletedEntity(src.IsDeleted))
+        );
+
+        CreateMap<Country, CountryResponseDto>();
+
+        CreateMap<Craftman, CraftmanResponseDto>()
+        .ForMember(
+            dest => dest.StatusName,
+            opt => opt.MapFrom(src => EnumHelper.GetDescription<CraftmanStatus>((CraftmanStatus)src.Status))
+        ).ForMember(
+            dest => dest.GenderName,
+            opt => opt.MapFrom(src => EnumHelper.GetDescription<Gender>((Gender)src.Gender!))
         );
 
         CreateMap<UserAccount, UserAccountCustomerResponseDto>()

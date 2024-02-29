@@ -3,7 +3,7 @@ using AW.Common.QueryFilters;
 
 namespace AW.Domain.Dto.QueryFilters;
 
-public class UserAccountQueryFilter : PaginationControlRequestFilter
+public class UserAccountQueryFilter : PaginationControlRequestFilter, IBaseQueryFilter
 {
     public int Id { get; set; }
 

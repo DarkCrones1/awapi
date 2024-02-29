@@ -36,5 +36,21 @@ public class CraftmanConfiguration : IEntityTypeConfiguration<Craftman>
         builder.Property(e => e.Phone)
             .HasMaxLength(50)
             .IsUnicode(false);
+
+        builder.HasMany(d => d.Address).WithMany(p => p.Craftman)
+            .UsingEntity<Dictionary<string, object>>(
+                "CraftmanAddress",
+                r => r.HasOne<Address>().WithMany()
+                    .HasForeignKey("AddressId")
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("FK_CraftmanAddress_Address"),
+                l => l.HasOne<Craftman>().WithMany()
+                    .HasForeignKey("CraftmanId")
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("FK_CraftmanAddress_Craftman"),
+                j =>
+                {
+                    j.HasKey("CraftmanId", "AddressId");
+                });
     }
 }

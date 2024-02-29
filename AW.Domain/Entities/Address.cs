@@ -7,7 +7,8 @@ public partial class Address : BaseEntity
 
     public string FullAddress
     {
-        get{
+        get
+        {
             var address = string.Empty;
             var internalNumber = string.IsNullOrEmpty(InternalNumber) ? string.Empty : $"Num. Int. {InternalNumber}";
 
@@ -27,9 +28,9 @@ public partial class Address : BaseEntity
 
     public string? InternalNumber { get; set; }
 
-    public string City { get; set; } = null!;
-
     public string ZipCode { get; set; } = null!;
+
+    public virtual ICollection<Craftman> Craftman { get; } = new List<Craftman>();
 
     public virtual ICollection<CustomerAddress> CustomerAddress { get; } = new List<CustomerAddress>();
 }

@@ -13,4 +13,7 @@ public interface IUserAccountRepository : IQueryPagedRepository<ActiveUserAccoun
 
     Task<ActiveUserAccountCraftman> GetUserAccountCraftman(int id);
     Task<ActiveUserAccountCraftman> GetUserAccountCraftmanToLogin(Expression<Func<ActiveUserAccountCraftman, bool>> filters);
+
+    Task<IEnumerable<UserAccount>> GetPagedCraftman(UserAccountQueryFilter entity);
+    Task<IEnumerable<UserAccount>> GetPagedCustomer(UserAccountQueryFilter entity);
 }

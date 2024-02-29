@@ -107,6 +107,7 @@ public class Startup
         services.AddScoped(typeof(IRetrieveRepository<>), typeof(RetrieveRepository<>));
         services.AddScoped(typeof(ICatalogBaseRepository<>), typeof(CatalogBaseRepository<>));
         services.AddScoped<ICategoryRepository, CategoryRepository>();
+        services.AddScoped<ICraftmantRepository, CraftmanRepository>();
         services.AddScoped<IUnitOfWork, UnitOfWork>();
         services.AddScoped<IUserAccountRepository, UserAccountRepository>();
 
@@ -115,6 +116,7 @@ public class Startup
         services.AddScoped(typeof(ICatalogBaseService<>), typeof(CatalogBaseService<>));
         services.AddScoped<IAuthenticationService, AuthenticationService>();
         services.AddScoped<ICategoryService, CategoryService>();
+        services.AddScoped<ICraftmantService, CraftmanService>();
         services.AddScoped<IMiscellaneousService, MiscellaneousService>();
         services.AddScoped<IUserAccountService, UserAccountService>();
         services.AddScoped<TokenHelper>();

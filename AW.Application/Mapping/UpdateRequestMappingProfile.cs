@@ -11,5 +11,22 @@ public class UpdateRequestMappingProfile : Profile
     public UpdateRequestMappingProfile()
     {
         CreateMap<CategoryUpdateRequestDto, Category>();
+
+        CreateMap<CraftmanUpdateRequestDto, Craftman>()
+        .AfterMap(
+            (src, dest) => 
+            {
+                var address = new Address{
+                    Address1 = src.Address1,
+                    Address2 = src.Address2,
+                    Street = src.Street,
+                    ExternalNumber = src.ExternalNumber,
+                    InternalNumber = src.InternalNumber,
+                    ZipCode = src.ZipCode
+                };
+                dest.CityId = src.CityId!;
+                dest.Address.Add(address);
+            }
+        );
     }
 }

@@ -15,5 +15,6 @@ public interface IUserAccountService : ICrudService<UserAccount>
     Task<ActiveUserAccountCraftman> GetUserAccountCraftman(int id);
     Task<ActiveUserAccountCraftman> GetUserAccountCraftmanToLogin(Expression<Func<ActiveUserAccountCraftman, bool>> filters);
 
-    Task<PagedList<UserAccount>> GetPaged(UserAccountQueryFilter filter);
+    Task<PagedList<UserAccount>> GetPagedCraftman(UserAccountQueryFilter filter);
+    Task<PagedList<UserAccount>> GetPagedCustomer(UserAccountQueryFilter filter);
 }

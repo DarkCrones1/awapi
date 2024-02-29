@@ -88,9 +88,9 @@ public class LoginCustomerController : ControllerBase
                 new Claim(ClaimTypes.Email, _user.Email),
                 new Claim(ClaimTypes.Sid, $"{_user.Id}"),
                 new Claim(ClaimTypes.DateOfBirth, DateTime.Now.ToString()),
-                //TODO: obtener todas las sucursales donde trabaja el usuario de momento obtenemos y asignamos la primera
-                new Claim("UserAccountType", $"{_user.AccountType}")
                 //new Claim("", "") //TODO: agregar valores personalizados
+                new Claim("UserAccountType", $"{_user.AccountType}"),
+                new Claim("CustomerId", $"{_user.CustomerId}")
             };
 
         // Payload

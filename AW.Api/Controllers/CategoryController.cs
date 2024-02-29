@@ -18,12 +18,11 @@ using AW.Domain.Dto.QueryFilters;
 using AW.Domain.Interfaces.Services;
 using AW.Common.Functions;
 
-namespace Aw.Api.Controllers;
+namespace AW.Api.Controllers;
 
 [ApiController]
 [Route("api/[controller]")]
 [Produces("application/json")]
-[Authorize]
 public class CategoryController : ControllerBase
 {
     private readonly IMapper _mapper;
@@ -37,6 +36,11 @@ public class CategoryController : ControllerBase
         this._tokenHelper = tokenHelper;
     }
 
+    /// <summary>
+    /// Devuelve categorias mediante filtros y paginado
+    /// </summary>
+    /// <param name="filter"></param>
+    /// <returns></returns>
     [HttpGet]
     [Route("")]
     [ProducesResponseType((int)HttpStatusCode.OK, Type = typeof(ApiResponse<IEnumerable<CategoryResponseDto>>))]
@@ -55,6 +59,11 @@ public class CategoryController : ControllerBase
         return Ok(response);
     }
 
+    /// <summary>
+    /// Busca una categoria mediante su Id, te devuelve información detallada
+    /// </summary>
+    /// <param name="id"></param>
+    /// <returns></returns>
     [HttpGet]
     [Route("{id:int}")]
     [ProducesResponseType((int)HttpStatusCode.OK, Type = typeof(ApiResponse<IEnumerable<CategoryResponseDto>>))]
@@ -75,8 +84,11 @@ public class CategoryController : ControllerBase
     }
 
     /// <summary>
-    /// Crea una nueva categoría.
+    /// Crear Categorias
     /// </summary>
+    /// <param name="requestDto"></param>
+    /// <returns></returns>
+    /// <exception cref="LogicBusinessException"></exception>
     [HttpPost]
     [Authorize]
     [ProducesResponseType((int)HttpStatusCode.OK, Type = typeof(ApiResponse<CategoryResponseDto>))]
@@ -97,6 +109,13 @@ public class CategoryController : ControllerBase
         }
     }
 
+    /// <summary>
+    /// Actualiza una categoria
+    /// </summary>
+    /// <param name="id"></param>
+    /// <param name="requestDto"></param>
+    /// <returns></returns>
+    /// <exception cref="LogicBusinessException"></exception>
     [HttpPut]
     [Route("{id:int}")]
     [Authorize]
@@ -126,6 +145,12 @@ public class CategoryController : ControllerBase
         }
     }
 
+    /// <summary>
+    /// "Elimina" de manera lógica una categoria
+    /// </summary>
+    /// <param name="id"></param>
+    /// <returns></returns>
+    /// <exception cref="LogicBusinessException"></exception>
     [HttpDelete]
     [Route("{id:int}")]
     [Authorize]

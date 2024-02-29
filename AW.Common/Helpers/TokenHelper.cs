@@ -12,7 +12,7 @@ public class TokenHelper
         this._httpContextAccessor = httpContextAccessor;
     }
 
-    public string GetName()
+    public string GetFullName()
     {
         var identity = _httpContextAccessor.HttpContext!.User.Identity as ClaimsIdentity;
         var userName = identity!.FindFirst(ClaimTypes.Name);
@@ -26,14 +26,37 @@ public class TokenHelper
         var nameIdentifier = identity!.FindFirst(ClaimTypes.NameIdentifier);
         
         return nameIdentifier!.Value;
+    }
 
-        // if (nameIdentifier != null)
-        // {
-        //     return nameIdentifier.Value;
-        // }
-        // else
-        // {
-        //     return "Admin";
-        // }
+    public string GetAccountId()
+    {
+        var identity = _httpContextAccessor.HttpContext!.User.Identity as ClaimsIdentity;
+        var accountId = identity!.FindFirst(ClaimTypes.Sid);
+
+        return accountId!.Value;
+    }
+
+    public string GetUserAccountType()
+    {
+        var identity = _httpContextAccessor.HttpContext!.User.Identity as ClaimsIdentity;
+        var accountType = identity!.FindFirst("UserAccountType");
+
+        return accountType!.Value;
+    }
+
+    public string GetCustomerId()
+    {
+        var identity = _httpContextAccessor.HttpContext!.User.Identity as ClaimsIdentity;
+        var customerId = identity!.FindFirst("CustomerId");
+
+        return customerId!.Value;
+    }
+
+    public string GetCraftmanId()
+    {
+        var identity = _httpContextAccessor.HttpContext!.User.Identity as ClaimsIdentity;
+        var craftmanId = identity!.FindFirst("CraftmanId");
+
+        return craftmanId!.Value;
     }
 }

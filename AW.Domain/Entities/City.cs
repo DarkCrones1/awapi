@@ -10,7 +10,9 @@ public partial class City : BaseRemovableAuditablePaginationEntity
 
     public string? PhoneCode { get; set; }
 
-    public int CountryId { get; set; }
+    public int? CountryId { get; set; }
+
+    public virtual Country Country { get; set; } = null!;
 
     public virtual ICollection<Craft> Craft { get; } = new List<Craft>();
 

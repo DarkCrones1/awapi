@@ -14,7 +14,6 @@ public class AddressConfiguration : IEntityTypeConfiguration<Address>
 
         builder.Property(e => e.Address1).HasMaxLength(150);
         builder.Property(e => e.Address2).HasMaxLength(150);
-        builder.Property(e => e.City).HasMaxLength(100);
         builder.Property(e => e.ExternalNumber).HasMaxLength(10);
         builder.Property(e => e.InternalNumber).HasMaxLength(10);
         builder.Property(e => e.Street).HasMaxLength(50);
