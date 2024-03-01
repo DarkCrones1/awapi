@@ -1,0 +1,17 @@
+VW_ActiveUserAccountCraftman
+
+SELECT        dbo.UserAccountCraftman.UserAccountId, dbo.UserAccountCraftman.CraftmanId, dbo.UserAccount.UserName, dbo.UserAccount.Email, dbo.Craftman.FirstName, dbo.Craftman.MiddleName, dbo.Craftman.LastName, 
+                         dbo.Craftman.Phone, dbo.Craftman.CellPhone, dbo.Craftman.FirstName + ' ' + ISNULL(dbo.Craftman.MiddleName, '') + ' ' + dbo.Craftman.LastName AS Name, dbo.UserAccount.AccountType
+FROM            dbo.Craftman INNER JOIN
+                         dbo.UserAccountCraftman ON dbo.Craftman.Id = dbo.UserAccountCraftman.CraftmanId INNER JOIN
+                         dbo.UserAccount ON dbo.UserAccountCraftman.UserAccountId = dbo.UserAccount.Id
+
+
+VW_ActiveUserAccountCustomer
+
+SELECT        dbo.UserAccountCustomer.UserAccountId, dbo.UserAccountCustomer.CustomerId, dbo.UserAccount.UserName, dbo.UserAccount.Email, dbo.Customer.FirstName, dbo.Customer.MiddleName, dbo.Customer.LastName, 
+                         dbo.Customer.Phone, dbo.Customer.CellPhone, dbo.Customer.FirstName + ' ' + ISNULL(dbo.Customer.MiddleName, '') + ' ' + dbo.Customer.LastName AS Name, dbo.UserAccount.AccountType
+FROM            dbo.Customer INNER JOIN
+                         dbo.UserAccountCustomer ON dbo.Customer.Id = dbo.UserAccountCustomer.CustomerId INNER JOIN
+                         dbo.UserAccount ON dbo.UserAccountCustomer.UserAccountId = dbo.UserAccount.Id
+
