@@ -496,7 +496,7 @@ AW.Infrastructure/obj/*
 **/*.cache
 **/*.editorconfig
 **/*.pdb
-# **/*.txt
+**/*.txt
 **/*.nuget
 
 # ignore migrations
