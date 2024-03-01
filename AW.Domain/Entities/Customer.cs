@@ -22,6 +22,8 @@ public partial class Customer : BaseRemovableAuditablePaginationEntity
 
     public DateTime? BirthDate { get; set; }
 
+    public string? ProfilePictureUrl { get; set; }
+
     public string FullName { get => $"{FirstName} {MiddleName} {LastName}".Trim(); }
 
     public virtual ICollection<Cart> Cart { get; } = new List<Cart>();

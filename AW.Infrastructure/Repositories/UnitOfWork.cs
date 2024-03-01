@@ -54,6 +54,8 @@ public class UnitOfWork : IUnitOfWork
 
     protected IRetrieveRepository<ActiveUserAccountCustomer> _activeUserAccountCustomerRepository;
 
+    protected IAzureBlobStorageRepository? _azureBlobStorageRepository;
+
     private bool disposed;
 
     public UnitOfWork(AWDbContext dbContext, IConfiguration configuration)
@@ -103,6 +105,8 @@ public class UnitOfWork : IUnitOfWork
         _activeUserAccountCraftmanRepository = new RetrieveRepository<ActiveUserAccountCraftman>(_dbContext);
 
         _activeUserAccountCustomerRepository = new RetrieveRepository<ActiveUserAccountCustomer>(_dbContext);
+
+        _azureBlobStorageRepository = new AzureBlobStorageRepository(_configuration);
     }
 
     public ICrudRepository<Address> AddressRepository => _addressRepository;
@@ -144,6 +148,8 @@ public class UnitOfWork : IUnitOfWork
     public IRetrieveRepository<ActiveUserAccountCraftman> ActiveUserAccountCraftmanRepository => _activeUserAccountCraftmanRepository;
 
     public IRetrieveRepository<ActiveUserAccountCustomer> ActiveUserAccountCustomerRepository => _activeUserAccountCustomerRepository;
+
+    public IAzureBlobStorageRepository AzureBlobStorageRepository => _azureBlobStorageRepository ??= new AzureBlobStorageRepository(_configuration);
 
     protected virtual void Dispose(bool disposing)
     {

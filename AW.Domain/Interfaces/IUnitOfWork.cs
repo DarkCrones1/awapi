@@ -47,6 +47,8 @@ public interface IUnitOfWork : IDisposable
 
     IRetrieveRepository<ActiveUserAccountCustomer> ActiveUserAccountCustomerRepository { get; }
 
+    IAzureBlobStorageRepository AzureBlobStorageRepository { get; }
+
     void SaveChanges();
 
     Task SaveChangesAsync();

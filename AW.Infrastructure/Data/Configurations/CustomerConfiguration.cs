@@ -38,5 +38,6 @@ public class CustomerConfiguration : IEntityTypeConfiguration<Customer>
         builder.Property(e => e.Phone)
             .HasMaxLength(50)
             .IsUnicode(false);
+        builder.Property(e => e.ProfilePictureUrl).HasMaxLength(250);
     }
 }

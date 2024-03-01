@@ -24,6 +24,8 @@ public partial class Craftman : BaseRemovableAuditablePaginationEntity
 
     public int? CityId { get; set; }
 
+    public string? ProfilePictureUrl { get; set; }
+
     public string FullName { get => $"{FirstName} {MiddleName} {LastName}".Trim(); }
 
     public virtual ICollection<Address> Address { get; } = new List<Address>();
