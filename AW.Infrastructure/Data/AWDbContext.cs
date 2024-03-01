@@ -18,6 +18,8 @@ public partial class AWDbContext : DbContext
 
     public virtual DbSet<Administrator> Administrator { get; set; }
 
+    public virtual DbSet<AWDocument> AWDocument { get; set; }
+
     public virtual DbSet<Cart> Cart { get; set; }
 
     public virtual DbSet<Category> Category { get; set; }
@@ -29,10 +31,14 @@ public partial class AWDbContext : DbContext
     public virtual DbSet<Craft> Craft { get; set; }
 
     public virtual DbSet<Craftman> Craftman { get; set; }
+    
+    public virtual DbSet<CraftmanDocument> CraftmanDocument { get; set; }
 
     public virtual DbSet<Culture> Culture { get; set; }
 
     public virtual DbSet<Customer> Customer { get; set; }
+
+    public virtual DbSet<CustomerDocument> CustomerDocument { get; set; }
 
     public virtual DbSet<CustomerAddress> CustomerAddress { get; set; }
 

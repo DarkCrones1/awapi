@@ -30,6 +30,8 @@ public partial class Customer : BaseRemovableAuditablePaginationEntity
 
     public virtual ICollection<CustomerAddress> CustomerAddress { get; } = new List<CustomerAddress>();
 
+    public virtual ICollection<CustomerDocument> CustomerDocument { get; } = new List<CustomerDocument>();
+
     public virtual CustomerType CustomerType { get; set; } = null!;
 
     public virtual ICollection<Ticket> Ticket { get; } = new List<Ticket>();
