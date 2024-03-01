@@ -35,11 +35,7 @@ public class SettingConfigurationFile
     public string UrlBlobCustomerProfAddress => _configuration.GetValue<string>("DefaultValues:customerProofAddressAzureStorageBaseURL") ?? string.Empty;
     public string UrlBlobCustomerProfile => _configuration.GetValue<string>("DefaultValues:imageProfileAzureStorageBaseURL") ?? string.Empty;
     public string UrlBlobCustomerDocuments => _configuration.GetValue<string>("DefaultValues:customerDocuments") ?? string.Empty;
-    public string UrlBlobEmployeeDocuments => _configuration.GetValue<string>("DefaultValues:employeeDocuments") ?? string.Empty;
+    public string UrlBlobCraftmanDocuments => _configuration.GetValue<string>("DefaultValues:craftmanDocuments") ?? string.Empty;
     public int SysAdminRol => int.Parse(_configuration.GetValue<string>("DefaultValues:sysAdminRol")!);
     public int AdministratorRolId => int.Parse(_configuration.GetValue<string>("DefaultValues:administratorRolId")!);
-    public int CashierRolId => int.Parse(_configuration.GetValue<string>("DefaultValues:cashierRolId")!);
-    public int AppraiserRolId => int.Parse(_configuration.GetValue<string>("DefaultValues:appraiserRolId")!);
-    public int ManagerGeographicalZone => int.Parse(_configuration.GetValue<string>("DefaultValues:managerGeographicalZone")!);
-    public int ManagerBranchStoreRolId => int.Parse(_configuration.GetValue<string>("DefaultValues:managerBranchStoreRolId")!);
 }

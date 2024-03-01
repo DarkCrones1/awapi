@@ -26,5 +26,7 @@ public class CraftmanResponseDto
 
     public DateTime? BirthDate { get; set; }
 
+    public string? ProfilePictureUrl { get; set; }
+
     public string FullName { get => $"{FirstName} {MiddleName} {LastName}".Trim(); }
 }
