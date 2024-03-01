@@ -19,6 +19,15 @@ public class CreateRequestMappingProfile : Profile
             opt => opt.MapFrom(src => ValuesStatusPropertyEntity.IsNotDeleted)
         );
 
+        CreateMap<TechniqueTypeCreateRequestDto, TechniqueType>()
+        .ForMember(
+            dest => dest.CreatedDate,
+            opt => opt.MapFrom(src => DateTime.Now)
+        ).ForMember(
+            dest => dest.IsDeleted,
+            opt => opt.MapFrom(src => ValuesStatusPropertyEntity.IsNotDeleted)
+        );
+
         CreateMap<UserAccountCustomerCreateRequestDto, UserAccount>()
         .ForMember(
             dest => dest.IsDeleted,

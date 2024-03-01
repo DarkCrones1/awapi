@@ -42,7 +42,7 @@ public class UnitOfWork : IUnitOfWork
 
     protected ICrudRepository<Sale> _saleRepository;
 
-    protected ICatalogBaseRepository<TechniqueType> _techniqueTypeRepository;
+    protected ITechniqueTypeRepository _techniqueTypeRepository;
 
     protected ICrudRepository<Ticket> _ticketRepository;
 
@@ -92,7 +92,7 @@ public class UnitOfWork : IUnitOfWork
 
         _saleRepository = new CrudRepository<Sale>(_dbContext);
 
-        _techniqueTypeRepository = new CatalogBaseRepository<TechniqueType>(_dbContext);
+        _techniqueTypeRepository = new TechniqueTypeRepository(_dbContext);
 
         _ticketRepository = new CrudRepository<Ticket>(_dbContext);
 
@@ -133,7 +133,7 @@ public class UnitOfWork : IUnitOfWork
 
     public ICrudRepository<Sale> SaleRepository => _saleRepository;
 
-    public ICatalogBaseRepository<TechniqueType> TechniqueTypeRepository => _techniqueTypeRepository;
+    public ITechniqueTypeRepository TechniqueTypeRepository => _techniqueTypeRepository;
 
     public ICrudRepository<Ticket> TicketRepository => _ticketRepository;
 

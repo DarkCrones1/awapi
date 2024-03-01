@@ -146,7 +146,7 @@ public class CategoryController : ControllerBase
     }
 
     /// <summary>
-    /// "Elimina" de manera lógica una categoria
+    /// Elimina de manera lógica una categoria
     /// </summary>
     /// <param name="id"></param>
     /// <returns></returns>

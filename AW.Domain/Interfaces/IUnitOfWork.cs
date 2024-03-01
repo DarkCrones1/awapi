@@ -35,7 +35,7 @@ public interface IUnitOfWork : IDisposable
 
     ICrudRepository<Sale> SaleRepository { get; }
 
-    ICatalogBaseRepository<TechniqueType> TechniqueTypeRepository { get; }
+    ITechniqueTypeRepository TechniqueTypeRepository { get; }
 
     ICrudRepository<Ticket> TicketRepository { get; }
 

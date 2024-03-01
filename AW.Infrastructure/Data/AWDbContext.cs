@@ -42,6 +42,8 @@ public partial class AWDbContext : DbContext
 
     public virtual DbSet<Sale> Sale { get; set; }
 
+    public virtual DbSet<TechniqueType> TechniqueType { get; set; }
+
     public virtual DbSet<Ticket> Ticket { get; set; }
 
     public virtual DbSet<UserAccount> UserAccount { get; set; }

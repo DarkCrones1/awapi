@@ -14,9 +14,10 @@ public class UpdateRequestMappingProfile : Profile
 
         CreateMap<CraftmanUpdateRequestDto, Craftman>()
         .AfterMap(
-            (src, dest) => 
+            (src, dest) =>
             {
-                var address = new Address{
+                var address = new Address
+                {
                     Address1 = src.Address1,
                     Address2 = src.Address2,
                     Street = src.Street,
@@ -27,6 +28,17 @@ public class UpdateRequestMappingProfile : Profile
                 dest.CityId = src.CityId!;
                 dest.Address.Add(address);
             }
+        );
+
+        CreateMap<TechniqueTypeUpdateRequestDto, TechniqueType>();
+
+        CreateMap<UserAccountUpdateRequestDto, UserAccount>()
+        .ForMember(
+            dest => dest.UserName,
+            opt => opt.MapFrom(src => src.UserName)
+        ).ForMember(
+            dest => dest.Email,
+            opt => opt.MapFrom(src => src.Email)
         );
     }
 }

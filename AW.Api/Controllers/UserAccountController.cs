@@ -10,7 +10,7 @@ using AW.Domain.Dto.Response;
 using AW.Domain.Entities;
 using AW.Api.Responses;
 using AW.Domain.Dto.Request.Create;
-// using AW.Domain.Dto.Request.Update;
+using AW.Domain.Dto.Request.Update;
 using AW.Common.Exceptions;
 using AW.Common.Helpers;
 using Microsoft.AspNetCore.Authorization;
@@ -201,6 +201,64 @@ public class UserAccountController : ControllerBase
         userAccount.Customer.Add(customer);
 
         return userAccount;
+    }
+
+    /// <summary>
+    /// Actualiza los datos de inicio de sesión
+    /// </summary>
+    /// <param name="id"></param>
+    /// <param name="requestDto"></param>
+    /// <returns></returns>
+    [HttpPut]
+    [Route("{id:int}")]
+    public async Task<IActionResult> Update([FromRoute] int id, UserAccountUpdateRequestDto requestDto)
+    {
+        Expression<Func<UserAccount, bool>> filter = x => x.Id == id;
+
+        var existUser = await _service.Exist(filter);
+
+        if (!existUser)
+            return BadRequest("No se encontró el usuario con esas características");
+
+        var entity = await _service.GetById(id);
+        entity.Id = id;
+        entity.Password = MD5Encrypt.GetMD5(requestDto.Password);
+        entity.IsDeleted = false;
+
+        await _service.Update(entity);
+        return Ok(true);
+    }
+
+    /// <summary>
+    /// Borra de manera lógica una cuenta de usuario
+    /// </summary>
+    /// <param name="id"></param>
+    /// <returns></returns>
+    /// <exception cref="LogicBusinessException"></exception>
+    [HttpDelete]
+    [Route("{id:int}")]
+    public async Task<IActionResult> Delete([FromRoute] int id)
+    {
+        try
+        {
+            Expression<Func<UserAccount, bool>> filter = x => x.Id == id;
+
+            var existUserAccount = await _service.Exist(filter);
+
+            if (!existUserAccount)
+                return BadRequest("No existe el usuario que intenta eliminar");
+
+            var newEntity = await _service.GetById(id);
+            newEntity.IsDeleted = true;
+            newEntity.IsActive = false;
+            await _service.Update(newEntity);
+            return Ok(true);
+        }
+        catch (Exception ex)
+        {
+
+            throw new LogicBusinessException(ex);
+        }
     }
 
 }
