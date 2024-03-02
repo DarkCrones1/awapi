@@ -9,7 +9,7 @@ public class CustomerAddressConfiguration : IEntityTypeConfiguration<CustomerAdd
 {
     public void Configure(EntityTypeBuilder<CustomerAddress> builder)
     {
-        builder.HasKey(e => e.Id).HasName("PK__Customer__3214EC07A20A3AD6");
+        builder.HasKey(e => e.Id).HasName("PK__CustomerAddress__3214EC07A20A3AD6");
 
         builder.Property(e => e.RegisterDate)
             .HasDefaultValueSql("(getdate())")

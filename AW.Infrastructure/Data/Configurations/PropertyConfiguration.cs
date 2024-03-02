@@ -9,7 +9,7 @@ public class PropertyConfiguration : IEntityTypeConfiguration<Property>
 {
     public void Configure(EntityTypeBuilder<Property> builder)
     {
-        builder.HasKey(e => e.Id).HasName("PK__Customer__3214EC07584D3D08");
+        builder.HasKey(e => e.Id).HasName("PK__Property__3847RC07584D3D08");
         builder.Property(e => e.CreatedBy)
             .HasMaxLength(50)
             .HasDefaultValueSql("(N'Admin')");

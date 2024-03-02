@@ -9,13 +9,13 @@ public class TechniqueTypePropertyConfiguration : IEntityTypeConfiguration<Techn
 {
     public void Configure(EntityTypeBuilder<TechniqueTypeProperty> builder)
     {
-        builder.HasKey(e => e.Id).HasName("PK__TechniqueType__324I3T076D873AD6");
+        builder.HasKey(e => e.Id).HasName("PK__TechniqueTypeProperty__324I3T076D873AD6");
 
         builder.Property(e => e.CreatedDate)
             .HasDefaultValueSql("(getdate())")
             .HasColumnType("datetime");
 
-        builder.HasOne(d => d.Property).WithMany(p => p.TechniqueTypePropertyc)
+        builder.HasOne(d => d.Property).WithMany(p => p.TechniqueTypeProperty)
             .HasForeignKey(d => d.PropertyId)
             .OnDelete(DeleteBehavior.ClientSetNull)
             .HasConstraintName("FK_TechniqueTypeProperty_Property");

@@ -9,7 +9,7 @@ public class CraftPropertyConfiguration : IEntityTypeConfiguration<CraftProperty
 {
     public void Configure(EntityTypeBuilder<CraftProperty> builder)
     {
-        builder.HasKey(e => e.Id).HasName("PK__Craft__3214EC076D873AD6");
+        builder.HasKey(e => e.Id).HasName("PK__CraftProperty__3214EC076D873AD6");
 
         builder.Property(e => e.CreatedDate)
             .HasDefaultValueSql("(getdate())")
