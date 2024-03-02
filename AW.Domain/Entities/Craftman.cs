@@ -18,15 +18,11 @@ public partial class Craftman : BaseRemovableAuditablePaginationEntity
 
     public short Status { get; set; }
 
-    public int? CityId { get; set; }
-
     public virtual ICollection<Address> Address { get; } = new List<Address>();
 
     public virtual ICollection<Craft> Craft { get; } = new List<Craft>();
 
     public virtual ICollection<CraftmanDocument> CraftmanDocument { get; } = new List<CraftmanDocument>();
-
-    public virtual City City { get; set; } = null!;
 
     public virtual ICollection<Sale> Sale { get; } = new List<Sale>();
 

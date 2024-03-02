@@ -85,7 +85,8 @@ public class CraftmanController : ControllerBase
             2 => AzureContainer.Customer_Proof_Address,
             3 => AzureContainer.Image_Profile,
             4 => AzureContainer.Customer_Other_Documents,
-            _ => AzureContainer.Craftman_Documents
+            5 => AzureContainer.Craftman_Other_Documents,
+            _ => AzureContainer.Image_Craft
         };
     }
 

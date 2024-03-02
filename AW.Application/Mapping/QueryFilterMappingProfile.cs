@@ -18,6 +18,8 @@ public class QueryFilterMappingProfile : Profile
 
         CreateMap<CraftmanQueryFilter, Craftman>();
 
+        CreateMap<CustomerQueryFilter, Customer>();
+
         CreateMap<TechniqueQueryFilter, TechniqueType>();
 
         CreateMap<UserAccountQueryFilter, UserAccount>();

@@ -15,12 +15,12 @@ public class TechniqueTypePropertyConfiguration : IEntityTypeConfiguration<Techn
             .HasDefaultValueSql("(getdate())")
             .HasColumnType("datetime");
 
-        builder.HasOne(d => d.Property).WithMany(p => p.TechniqueTypeProperty)
+        builder.HasOne(d => d.Property).WithMany(p => p.TechniqueType)
             .HasForeignKey(d => d.PropertyId)
             .OnDelete(DeleteBehavior.ClientSetNull)
             .HasConstraintName("FK_TechniqueTypeProperty_Property");
 
-        builder.HasOne(d => d.TechniqueType).WithMany(p => p.TechniqueTypeProperty)
+        builder.HasOne(d => d.TechniqueType).WithMany(p => p.Property)
             .HasForeignKey(d => d.TechniqueTypeId)
             .OnDelete(DeleteBehavior.ClientSetNull)
             .HasConstraintName("FK_TechniqueTypeProperty_TechniqueType");

@@ -24,8 +24,6 @@ public partial class AWDbContext : DbContext
 
     public virtual DbSet<Category> Category { get; set; }
 
-    public virtual DbSet<Property> Property { get; set; }
-
     public virtual DbSet<City> City { get; set; }
 
     public virtual DbSet<Country> Country { get; set; }
@@ -47,6 +45,8 @@ public partial class AWDbContext : DbContext
     public virtual DbSet<CustomerAddress> CustomerAddress { get; set; }
 
     public virtual DbSet<CustomerType> CustomerType { get; set; }
+
+    public virtual DbSet<Property> Property { get; set; }
 
     public virtual DbSet<Rol> Rol { get; set; }
 

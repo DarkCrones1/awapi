@@ -8,5 +8,5 @@ public partial class TechniqueType : CatalogBaseAuditablePaginationEntity
 
     public virtual ICollection<Craft> Craft { get; } = new List<Craft>();
 
-    public virtual ICollection<TechniqueTypeProperty> TechniqueTypeProperty { get; } = new List<TechniqueTypeProperty>();
+    public virtual ICollection<TechniqueTypeProperty> Property { get; } = new List<TechniqueTypeProperty>();
 }

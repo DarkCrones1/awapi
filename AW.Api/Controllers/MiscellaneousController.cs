@@ -34,6 +34,19 @@ public class MiscellaneousController : ControllerBase
     }
 
     [HttpGet]
+    [Route("CraftmanDocumentType")]
+    [ProducesResponseType((int)HttpStatusCode.OK, Type = typeof(ApiResponse<IEnumerable<EnumValueResponseDto>>))]
+    [ProducesResponseType((int)HttpStatusCode.BadRequest, Type = typeof(ApiResponse<IEnumerable<EnumValueResponseDto>>))]
+    [ProducesResponseType((int)HttpStatusCode.NotFound, Type = typeof(ApiResponse<IEnumerable<EnumValueResponseDto>>))]
+    [ResponseCache(Duration = 300)]
+    public async Task<IActionResult> GetCraftmanDocumentType()
+    {
+        var lstItem = await _service.GetCraftmanDocumentType();
+        var response = new ApiResponse<IEnumerable<EnumValueResponseDto>>(lstItem);
+        return Ok(response);
+    }
+
+    [HttpGet]
     [Route("CraftmanStatus")]
     [ProducesResponseType((int)HttpStatusCode.OK, Type = typeof(ApiResponse<IEnumerable<EnumValueResponseDto>>))]
     [ProducesResponseType((int)HttpStatusCode.BadRequest, Type = typeof(ApiResponse<IEnumerable<EnumValueResponseDto>>))]
@@ -47,6 +60,32 @@ public class MiscellaneousController : ControllerBase
     }
 
     [HttpGet]
+    [Route("CraftStatus")]
+    [ProducesResponseType((int)HttpStatusCode.OK, Type = typeof(ApiResponse<IEnumerable<EnumValueResponseDto>>))]
+    [ProducesResponseType((int)HttpStatusCode.BadRequest, Type = typeof(ApiResponse<IEnumerable<EnumValueResponseDto>>))]
+    [ProducesResponseType((int)HttpStatusCode.NotFound, Type = typeof(ApiResponse<IEnumerable<EnumValueResponseDto>>))]
+    [ResponseCache(Duration = 300)]
+    public async Task<IActionResult> GetCraftStatus()
+    {
+        var lstItem = await _service.GetCraftStatus();
+        var response = new ApiResponse<IEnumerable<EnumValueResponseDto>>(lstItem);
+        return Ok(response);
+    }
+
+    [HttpGet]
+    [Route("CustomerDocumentType")]
+    [ProducesResponseType((int)HttpStatusCode.OK, Type = typeof(ApiResponse<IEnumerable<EnumValueResponseDto>>))]
+    [ProducesResponseType((int)HttpStatusCode.BadRequest, Type = typeof(ApiResponse<IEnumerable<EnumValueResponseDto>>))]
+    [ProducesResponseType((int)HttpStatusCode.NotFound, Type = typeof(ApiResponse<IEnumerable<EnumValueResponseDto>>))]
+    [ResponseCache(Duration = 300)]
+    public async Task<IActionResult> GetCustomerDocumentType()
+    {
+        var lstItem = await _service.GetCustomerDocumentType();
+        var response = new ApiResponse<IEnumerable<EnumValueResponseDto>>(lstItem);
+        return Ok(response);
+    }
+
+    [HttpGet]
     [Route("Gender")]
     [ProducesResponseType((int)HttpStatusCode.OK, Type = typeof(ApiResponse<IEnumerable<EnumValueResponseDto>>))]
     [ProducesResponseType((int)HttpStatusCode.BadRequest, Type = typeof(ApiResponse<IEnumerable<EnumValueResponseDto>>))]
@@ -55,6 +94,32 @@ public class MiscellaneousController : ControllerBase
     public async Task<IActionResult> GetGender()
     {
         var lstItem = await _service.GetGender();
+        var response = new ApiResponse<IEnumerable<EnumValueResponseDto>>(lstItem);
+        return Ok(response);
+    }
+
+    [HttpGet]
+    [Route("PaymentStatus")]
+    [ProducesResponseType((int)HttpStatusCode.OK, Type = typeof(ApiResponse<IEnumerable<EnumValueResponseDto>>))]
+    [ProducesResponseType((int)HttpStatusCode.BadRequest, Type = typeof(ApiResponse<IEnumerable<EnumValueResponseDto>>))]
+    [ProducesResponseType((int)HttpStatusCode.NotFound, Type = typeof(ApiResponse<IEnumerable<EnumValueResponseDto>>))]
+    [ResponseCache(Duration = 300)]
+    public async Task<IActionResult> GetPaymentStatus()
+    {
+        var lstItem = await _service.GetPaymentStatus();
+        var response = new ApiResponse<IEnumerable<EnumValueResponseDto>>(lstItem);
+        return Ok(response);
+    }
+
+    [HttpGet]
+    [Route("PropertyType")]
+    [ProducesResponseType((int)HttpStatusCode.OK, Type = typeof(ApiResponse<IEnumerable<EnumValueResponseDto>>))]
+    [ProducesResponseType((int)HttpStatusCode.BadRequest, Type = typeof(ApiResponse<IEnumerable<EnumValueResponseDto>>))]
+    [ProducesResponseType((int)HttpStatusCode.NotFound, Type = typeof(ApiResponse<IEnumerable<EnumValueResponseDto>>))]
+    [ResponseCache(Duration = 300)]
+    public async Task<IActionResult> GetPropertyType()
+    {
+        var lstItem = await _service.GetPropertyType();
         var response = new ApiResponse<IEnumerable<EnumValueResponseDto>>(lstItem);
         return Ok(response);
     }

@@ -30,6 +30,10 @@ public partial class Address : BaseEntity
 
     public string ZipCode { get; set; } = null!;
 
+    public int? CityId { get; set; }
+
+    public virtual City City { get; set; } = null!;
+
     public virtual ICollection<Craftman> Craftman { get; } = new List<Craftman>();
 
     public virtual ICollection<CustomerAddress> CustomerAddress { get; } = new List<CustomerAddress>();

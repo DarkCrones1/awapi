@@ -9,7 +9,7 @@ public class CustomerTypeConfiguration : IEntityTypeConfiguration<CustomerType>
 {
     public void Configure(EntityTypeBuilder<CustomerType> builder)
     {
-        builder.HasKey(e => e.Id).HasName("PK__Customer__3214EC0756D118DC");
+        builder.HasKey(e => e.Id).HasName("PK__CustomerType__3214EC0756D118DC");
 
         builder.Property(e => e.CreatedBy)
             .HasMaxLength(20)

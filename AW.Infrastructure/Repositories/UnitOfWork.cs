@@ -36,11 +36,13 @@ public class UnitOfWork : IUnitOfWork
 
     protected ICatalogBaseRepository<Culture> _cultureRepository;
 
-    protected ICrudRepository<Customer> _customerRepository;
+    protected ICustomerRepository _customerRepository;
 
     protected ICrudRepository<CustomerAddress> _customerAddressRepository;
 
     protected ICatalogBaseRepository<CustomerType> _customerTypeRepository;
+
+    protected ICrudRepository<Payment> _paymentRepository;
 
     protected ICatalogBaseRepository<Rol> _rolRepository;
 
@@ -94,11 +96,13 @@ public class UnitOfWork : IUnitOfWork
 
         _cultureRepository = new CatalogBaseRepository<Culture>(_dbContext);
 
-        _customerRepository = new CrudRepository<Customer>(_dbContext);
+        _customerRepository = new CustomerRepository(_dbContext);
 
         _customerAddressRepository = new CrudRepository<CustomerAddress>(_dbContext);
 
         _customerTypeRepository = new CatalogBaseRepository<CustomerType>(_dbContext);
+
+        _paymentRepository = new CrudRepository<Payment>(_dbContext);
 
         _rolRepository = new CatalogBaseRepository<Rol>(_dbContext);
 
@@ -143,11 +147,13 @@ public class UnitOfWork : IUnitOfWork
 
     public ICatalogBaseRepository<Culture> CultureRepository => _cultureRepository;
 
-    public ICrudRepository<Customer> CustomerRepository => _customerRepository;
+    public ICustomerRepository CustomerRepository => _customerRepository;
 
     public ICrudRepository<CustomerAddress> CustomerAddressRepository => _customerAddressRepository;
 
     public ICatalogBaseRepository<CustomerType> CustomerTypeRepository => _customerTypeRepository;
+
+    public ICrudRepository<Payment> PaymentRepository => _paymentRepository;
 
     public ICatalogBaseRepository<Rol> RolRepository => _rolRepository;
 

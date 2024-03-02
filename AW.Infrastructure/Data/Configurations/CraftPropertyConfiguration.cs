@@ -15,12 +15,12 @@ public class CraftPropertyConfiguration : IEntityTypeConfiguration<CraftProperty
             .HasDefaultValueSql("(getdate())")
             .HasColumnType("datetime");
 
-        builder.HasOne(d => d.Property).WithMany(p => p.CraftProperty)
+        builder.HasOne(d => d.Property).WithMany(p => p.Craft)
             .HasForeignKey(d => d.PropertyId)
             .OnDelete(DeleteBehavior.ClientSetNull)
             .HasConstraintName("FK_CraftProperty_Property");
 
-        builder.HasOne(d => d.Craft).WithMany(p => p.CraftProperty)
+        builder.HasOne(d => d.Craft).WithMany(p => p.Property)
             .HasForeignKey(d => d.CraftId)
             .OnDelete(DeleteBehavior.ClientSetNull)
             .HasConstraintName("FK_CraftProperty_Craft");

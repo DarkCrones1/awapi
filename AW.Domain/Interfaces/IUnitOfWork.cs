@@ -29,11 +29,13 @@ public interface IUnitOfWork : IDisposable
 
     ICatalogBaseRepository<Culture> CultureRepository { get; }
 
-    ICrudRepository<Customer> CustomerRepository { get; }
+    ICustomerRepository CustomerRepository { get; }
 
     ICrudRepository<CustomerAddress> CustomerAddressRepository { get; }
 
     ICatalogBaseRepository<CustomerType> CustomerTypeRepository { get; }
+
+    ICrudRepository<Payment> PaymentRepository { get; }
 
     ICatalogBaseRepository<Rol> RolRepository { get; }
 

@@ -29,6 +29,8 @@ public class ResponseMappingProfile : Profile
             opt => opt.MapFrom(src => EnumHelper.GetDescription<Gender>((Gender)src.Gender!))
         );
 
+        CreateMap<Customer, CustomerResponseDto>();
+
         CreateMap<UserAccount, UserAccountCustomerResponseDto>()
         .ForMember(
             dest => dest.UserName,

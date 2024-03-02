@@ -12,8 +12,8 @@ public enum AzureContainer
     Image_Profile = 3,
     [Description("Otros documentos de cliente")]
     Customer_Other_Documents = 4,
-    [Description("Documentos de Artesanos")]
-    Craftman_Documents = 5,
+    [Description("Otros documentos de drtesanos")]
+    Craftman_Other_Documents = 5,
     [Description("Imagenes de Artesanias")]
-    Craft_Image = 6
+    Image_Craft = 6
 }

@@ -53,11 +53,28 @@ public class CreateRequestMappingProfile : Profile
 
         CreateMap<UserAccountCustomerCreateRequestDto, Customer>()
         .AfterMap(
-            (src, dest) => 
+            (src, dest) =>
             {
                 dest.Code = Guid.NewGuid();
                 dest.IsDeleted = ValuesStatusPropertyEntity.IsNotDeleted;
                 dest.CreatedDate = DateTime.Now;
+
+                var customerAddress = new CustomerAddress
+                {
+                    RegisterDate = DateTime.Now,
+                    IsDefault = true,
+                    Status = 1,
+                    Address = new Address
+                    {
+                        Address1 = "Asignar",
+                        Address2 = "Asignar",
+                        Street = "Asignar",
+                        ExternalNumber = "Asignar",
+                        InternalNumber = "Asignar",
+                        ZipCode = "Asignar",
+                    }
+                };
+                dest.CustomerAddress.Add(customerAddress);
             }
         );
 
@@ -84,13 +101,14 @@ public class CreateRequestMappingProfile : Profile
 
         CreateMap<UserAccountCraftmanCreateRequestDto, Craftman>()
         .AfterMap(
-            (src, dest) => 
+            (src, dest) =>
             {
                 dest.Code = Guid.NewGuid();
                 dest.IsDeleted = ValuesStatusPropertyEntity.IsNotDeleted;
                 dest.CreatedDate = DateTime.Now;
                 dest.Status = (short)CraftmanStatus.Aproved;
-                var address = new Address{
+                var address = new Address
+                {
                     Address1 = "Asignar",
                     Address2 = "Asignar",
                     Street = "Asignar",

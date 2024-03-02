@@ -33,6 +33,7 @@ public class CraftmanService : CrudService<Craftman>, ICraftmantService
         address.ExternalNumber = newAddress.ExternalNumber;
         address.InternalNumber = newAddress.InternalNumber;
         address.ZipCode = newAddress.ZipCode;
+        address.CityId = newAddress.CityId;
 
         _unitOfWork.AddressRepository.Update(address);
         

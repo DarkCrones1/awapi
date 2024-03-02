@@ -23,12 +23,32 @@ public class UpdateRequestMappingProfile : Profile
                     Street = src.Street,
                     ExternalNumber = src.ExternalNumber,
                     InternalNumber = src.InternalNumber,
-                    ZipCode = src.ZipCode
+                    ZipCode = src.ZipCode,
+                    CityId = src.CityId
                 };
-                dest.CityId = src.CityId!;
                 dest.Address.Add(address);
             }
         );
+
+        CreateMap<CustomerUpdateRequestDto, CustomerAddress>()
+        .AfterMap(
+            (src, dest) =>
+            {
+                dest.Address = new Address
+                {
+                    Address1 = src.Address1,
+                    Address2 = src.Address2,
+                    Street = src.Street,
+                    ExternalNumber = src.ExternalNumber,
+                    InternalNumber = src.InternalNumber,
+                    CityId = src.CityId,
+                    ZipCode = src.ZipCode
+                };
+                dest.RegisterDate = DateTime.Now;
+            }
+        );
+
+        CreateMap<CustomerUpdateRequestDto, Customer>();
 
         CreateMap<TechniqueTypeUpdateRequestDto, TechniqueType>();
 
