@@ -58,7 +58,6 @@ public class CreateRequestMappingProfile : Profile
                 dest.Code = Guid.NewGuid();
                 dest.IsDeleted = ValuesStatusPropertyEntity.IsNotDeleted;
                 dest.CreatedDate = DateTime.Now;
-                dest.CustomerTypeId = 1;
             }
         );
 
