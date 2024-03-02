@@ -20,8 +20,6 @@ public class UserAccountCustomerCreateRequestDto
 
     public string? Phone { get; set; }
 
-    public int? CustomerTypeId { get; set; }
-
     public short? Gender { get; set; }
 
     public DateTime? BirthDate { get; set; }
