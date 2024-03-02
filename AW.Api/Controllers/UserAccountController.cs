@@ -129,7 +129,7 @@ public class UserAccountController : ControllerBase
     }
 
     /// <summary>
-    /// Crea cuentas de usiario para Clientes
+    /// Crea cuentas de usuario para Clientes
     /// </summary>
     /// <param name="requestDto"></param>
     /// <returns></returns>
