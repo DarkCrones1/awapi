@@ -44,6 +44,9 @@ public class CrudService<T> : ICrudService<T> where T : BaseEntity
         if (typeRep == typeof(Country))
             return (ICrudRepository<T>)this._unitOfWork.CountryRepository;
 
+        if (typeRep == typeof(CraftProperty))
+            return (ICrudRepository<T>)this._unitOfWork.CraftPropertyRepository;
+
         if (typeRep == typeof(Craftman))
             return (ICrudRepository<T>)this._unitOfWork.CraftmanRepository;
 
@@ -55,6 +58,9 @@ public class CrudService<T> : ICrudService<T> where T : BaseEntity
 
         if (typeRep == typeof(Sale))
             return (ICrudRepository<T>)this._unitOfWork.SaleRepository;
+
+        if (typeRep == typeof(TechniqueTypeProperty))
+            return (ICrudRepository<T>)this._unitOfWork.TechniqueTypePropertyRepository;
 
         if (typeRep == typeof(UserAccount))
             return (ICrudRepository<T>)this._unitOfWork.UserAccountRepository;

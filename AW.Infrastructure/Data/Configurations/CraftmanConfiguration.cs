@@ -36,6 +36,8 @@ public class CraftmanConfiguration : IEntityTypeConfiguration<Craftman>
         builder.Property(e => e.Phone)
             .HasMaxLength(50)
             .IsUnicode(false);
+        builder.Property(e => e.ProfilePictureUrl).HasMaxLength(250);
+        builder.Property(e => e.History).HasMaxLength(10000);
 
         builder.HasMany(d => d.Address).WithMany(p => p.Craftman)
             .UsingEntity<Dictionary<string, object>>(

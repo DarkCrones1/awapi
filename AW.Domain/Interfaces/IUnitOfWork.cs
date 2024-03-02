@@ -15,11 +15,15 @@ public interface IUnitOfWork : IDisposable
 
     ICategoryRepository CategoryRepository { get; }
 
+    ICatalogBaseRepository<Property> PropertyRepository { get; }
+
     ICrudRepository<City> CityRepository { get; }
 
     ICrudRepository<Country> CountryRepository { get; }
 
     ICatalogBaseRepository<Craft> CraftRepository { get; }
+
+    ICrudRepository<CraftProperty> CraftPropertyRepository { get; }
 
     ICraftmantRepository CraftmanRepository { get; }
 
@@ -36,6 +40,8 @@ public interface IUnitOfWork : IDisposable
     ICrudRepository<Sale> SaleRepository { get; }
 
     ITechniqueTypeRepository TechniqueTypeRepository { get; }
+
+    ICrudRepository<TechniqueTypeProperty> TechniqueTypePropertyRepository { get; }
 
     ICrudRepository<Ticket> TicketRepository { get; }
 

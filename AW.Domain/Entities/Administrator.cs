@@ -4,8 +4,6 @@ namespace AW.Domain.Entities;
 
 public partial class Administrator : BaseRemovableAuditablePaginationEntity
 {
-    public int JobId { get; set; }
-
     public string FirstName { get; set; } = null!;
 
     public string LastName { get; set; } = null!;

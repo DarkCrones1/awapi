@@ -22,5 +22,9 @@ public partial class ActiveUserAccountAdministrator : BaseQueryable
 
     public short AccountType { get; set; }
 
+    public int RolId { get; set; }
+
+    public string? RolName { get; set; }
+
     public string Name => $"{this.FirstName} {this.MiddleName} {this.LastName}".Trim();
 }

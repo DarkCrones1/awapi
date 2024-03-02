@@ -12,9 +12,15 @@ public partial class Craft : CatalogBaseAuditablePaginationEntity
 
     public DateTime? PublicationDate { get; set; }
 
+    public string? History { get; set; }
+
+    public string? CraftPictureUrl { get; set; }
+
     public virtual ICollection<Category> Category { get; } = new List<Category>();
 
     public virtual ICollection<Cart> Cart { get; } = new List<Cart>();
+
+    public virtual ICollection<CraftProperty> CraftProperty { get; } = new List<CraftProperty>();
 
     public virtual ICollection<TechniqueType> TechniqueType { get; } = new List<TechniqueType>();
 

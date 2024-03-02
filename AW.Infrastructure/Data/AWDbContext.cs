@@ -24,14 +24,18 @@ public partial class AWDbContext : DbContext
 
     public virtual DbSet<Category> Category { get; set; }
 
+    public virtual DbSet<Property> Property { get; set; }
+
     public virtual DbSet<City> City { get; set; }
 
     public virtual DbSet<Country> Country { get; set; }
 
     public virtual DbSet<Craft> Craft { get; set; }
 
+    public virtual DbSet<CraftProperty> CraftProperty { get; set; }
+
     public virtual DbSet<Craftman> Craftman { get; set; }
-    
+
     public virtual DbSet<CraftmanDocument> CraftmanDocument { get; set; }
 
     public virtual DbSet<Culture> Culture { get; set; }
@@ -49,6 +53,8 @@ public partial class AWDbContext : DbContext
     public virtual DbSet<Sale> Sale { get; set; }
 
     public virtual DbSet<TechniqueType> TechniqueType { get; set; }
+
+    public virtual DbSet<TechniqueTypeProperty> TechniqueTypeProperty { get; set; }
 
     public virtual DbSet<Ticket> Ticket { get; set; }
 

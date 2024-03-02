@@ -1,6 +1,3 @@
-CREATE PROCEDURE InsertCountryData
-AS
-BEGIN   
 
     INSERT INTO Country (Name, Code, CreatedDate, CreatedBy, LastModifiedDate, LastModifiedBy, IsDeleted)
     VALUES 
@@ -35,12 +32,9 @@ BEGIN
     ('Veracruz', 'VER', GETDATE(), 'Admin', NULL, NULL, 0),
     ('Yucatán', 'YUC', GETDATE(), 'Admin', NULL, NULL, 0),
     ('Zacatecas', 'ZAC', GETDATE(), 'Admin', NULL, NULL, 0);
-END;
 GO
 
-Create Procedure InsertCityDAta
-AS
-Begin
+
 	-- Aguascalientes
 INSERT INTO City (Name, ZipCode, PhoneCode, CountryId, CreatedDate, CreatedBy, LastModifiedDate, LastModifiedBy, IsDeleted)
 VALUES 
@@ -1724,6 +1718,3 @@ VALUES
 ('Valparaíso', '99780', '437', 31, GETDATE(), 'Admin', NULL, NULL, 0),
 ('Valparaíso', '99780', '437', 31, GETDATE(), 'Admin', NULL, NULL, 0),
 ('Fresnillo', '99010', '493', 31, GETDATE(), 'Admin', NULL, NULL, 0);
-
-End
-go

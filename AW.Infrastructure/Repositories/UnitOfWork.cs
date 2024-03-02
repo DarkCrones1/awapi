@@ -22,11 +22,15 @@ public class UnitOfWork : IUnitOfWork
 
     protected ICategoryRepository _categoryRepository;
 
+    protected ICatalogBaseRepository<Property> _propertyRepository;
+
     protected ICrudRepository<City> _cityRepository;
 
     protected ICrudRepository<Country> _countryRepository;
 
     protected ICatalogBaseRepository<Craft> _craftRepository;
+
+    protected ICrudRepository<CraftProperty> _craftPropertyRepository;
 
     protected ICraftmantRepository _craftmanRepository;
 
@@ -43,6 +47,8 @@ public class UnitOfWork : IUnitOfWork
     protected ICrudRepository<Sale> _saleRepository;
 
     protected ITechniqueTypeRepository _techniqueTypeRepository;
+
+    protected ICrudRepository<TechniqueTypeProperty> _techniqueTypePropertyRepository;
 
     protected ICrudRepository<Ticket> _ticketRepository;
 
@@ -74,6 +80,8 @@ public class UnitOfWork : IUnitOfWork
 
         _categoryRepository = new CategoryRepository(_dbContext);
 
+        _propertyRepository = new CatalogBaseRepository<Property>(_dbContext);
+
         _cityRepository = new CrudRepository<City>(_dbContext);
 
         _countryRepository = new CrudRepository<Country>(_dbContext);
@@ -81,6 +89,8 @@ public class UnitOfWork : IUnitOfWork
         _craftRepository = new CatalogBaseRepository<Craft>(_dbContext);
 
         _craftmanRepository = new CraftmanRepository(_dbContext);
+
+        _craftPropertyRepository = new CrudRepository<CraftProperty>(_dbContext);
 
         _cultureRepository = new CatalogBaseRepository<Culture>(_dbContext);
 
@@ -95,6 +105,8 @@ public class UnitOfWork : IUnitOfWork
         _saleRepository = new CrudRepository<Sale>(_dbContext);
 
         _techniqueTypeRepository = new TechniqueTypeRepository(_dbContext);
+
+        _techniqueTypePropertyRepository = new CrudRepository<TechniqueTypeProperty>(_dbContext);
 
         _ticketRepository = new CrudRepository<Ticket>(_dbContext);
 
@@ -117,11 +129,15 @@ public class UnitOfWork : IUnitOfWork
 
     public ICategoryRepository CategoryRepository => _categoryRepository;
 
+    public ICatalogBaseRepository<Property> PropertyRepository => _propertyRepository;
+
     public ICrudRepository<City> CityRepository => _cityRepository;
 
     public ICrudRepository<Country> CountryRepository => _countryRepository;
 
     public ICatalogBaseRepository<Craft> CraftRepository => _craftRepository;
+
+    public ICrudRepository<CraftProperty> CraftPropertyRepository => _craftPropertyRepository;
 
     public ICraftmantRepository CraftmanRepository => _craftmanRepository;
 
@@ -138,6 +154,8 @@ public class UnitOfWork : IUnitOfWork
     public ICrudRepository<Sale> SaleRepository => _saleRepository;
 
     public ITechniqueTypeRepository TechniqueTypeRepository => _techniqueTypeRepository;
+
+    public ICrudRepository<TechniqueTypeProperty> TechniqueTypePropertyRepository => _techniqueTypePropertyRepository;
 
     public ICrudRepository<Ticket> TicketRepository => _ticketRepository;
 

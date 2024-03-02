@@ -5,13 +5,14 @@ using AW.Domain.Entities;
 
 namespace AW.Infrastructure.Data.Configurations;
 
-public class CategoryConfiguration : IEntityTypeConfiguration<Category>
+public class PropertyConfiguration : IEntityTypeConfiguration<Property>
 {
-    public void Configure(EntityTypeBuilder<Category> builder)
+    public void Configure(EntityTypeBuilder<Property> builder)
     {
+        builder.HasKey(e => e.Id).HasName("PK__Customer__3214EC07584D3D08");
         builder.Property(e => e.CreatedBy)
-                .HasMaxLength(50)
-                .HasDefaultValueSql("(N'Admin')");
+            .HasMaxLength(50)
+            .HasDefaultValueSql("(N'Admin')");
         builder.Property(e => e.CreatedDate)
             .HasDefaultValueSql("(getdate())")
             .HasColumnType("datetime");
@@ -19,6 +20,5 @@ public class CategoryConfiguration : IEntityTypeConfiguration<Category>
         builder.Property(e => e.LastModifiedBy).HasMaxLength(50);
         builder.Property(e => e.LastModifiedDate).HasColumnType("datetime");
         builder.Property(e => e.Name).HasMaxLength(50);
-        builder.Property(e => e.CategoryPictureUrl).HasMaxLength(250);
     }
 }

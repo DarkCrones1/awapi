@@ -1,3 +1,14 @@
+VW_ActiveUserAccountAdministrator
+
+SELECT        dbo.UserAccountAdministrator.UserAccountId, dbo.UserAccountAdministrator.AdministratorId, dbo.UserAccount.UserName, dbo.UserAccount.Email, dbo.Administrator.FirstName, dbo.Administrator.MiddleName, 
+                         dbo.Administrator.LastName, dbo.Administrator.Phone, dbo.Administrator.CellPhone, dbo.Administrator.FirstName + ' ' + ISNULL(dbo.Administrator.MiddleName, '') + ' ' + dbo.Administrator.LastName AS Name, 
+                         dbo.UserAccount.AccountType, dbo.UserRol.RolId, dbo.Rol.Name AS RolName
+FROM            dbo.Administrator INNER JOIN
+                         dbo.UserAccountAdministrator ON dbo.Administrator.Id = dbo.UserAccountAdministrator.AdministratorId INNER JOIN
+                         dbo.UserAccount ON dbo.UserAccountAdministrator.UserAccountId = dbo.UserAccount.Id INNER JOIN
+                         dbo.UserRol ON dbo.UserAccount.Id = dbo.UserRol.UserAccountId INNER JOIN
+                         dbo.Rol ON dbo.UserRol.RolId = dbo.Rol.Id
+
 VW_ActiveUserAccountCraftman
 
 SELECT        dbo.UserAccountCraftman.UserAccountId, dbo.UserAccountCraftman.CraftmanId, dbo.UserAccount.UserName, dbo.UserAccount.Email, dbo.Craftman.FirstName, dbo.Craftman.MiddleName, dbo.Craftman.LastName, 

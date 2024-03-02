@@ -22,6 +22,9 @@ public class CatalogBaseService<T> : CrudService<T>, ICatalogBaseService<T> wher
         if (typeRep == typeof(Category))
             return (ICatalogBaseRepository<T>)this._unitOfWork.CategoryRepository;
 
+        if (typeRep == typeof(Property))
+            return (ICatalogBaseRepository<T>)this._unitOfWork.PropertyRepository;
+
         if (typeRep == typeof(Craft))
             return (ICatalogBaseRepository<T>)this._unitOfWork.CraftmanRepository;
 

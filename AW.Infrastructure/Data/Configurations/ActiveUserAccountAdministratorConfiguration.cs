@@ -20,6 +20,7 @@ public class ActiveUserAccountAdministratorConfiguration : IEntityTypeConfigurat
         builder.Property(e => e.MiddleName).HasMaxLength(150);
         builder.Property(e => e.Phone).HasMaxLength(20);
         builder.Property(e => e.UserName).HasMaxLength(150);
+        builder.Property(e => e.RolName).HasMaxLength(150);
 
         // Configure id don't delete
         builder.Property(e => e.Id).HasColumnName("UserAccountId");
