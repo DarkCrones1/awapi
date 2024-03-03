@@ -24,7 +24,7 @@ public class CustomerService : CrudService<Customer>, ICustomerService
     {
         var oldEntity = await _unitOfWork.CustomerRepository.GetById(entity.Id);
         var customerAddress = oldEntity.CustomerAddress.FirstOrDefault()!;
-        var adress = customerAddress.Address ?? new Address();
+        var address = customerAddress.Address ?? new Address();
 
         var newCustomerAddress = entity.CustomerAddress.FirstOrDefault()!;
         var newAddress = newCustomerAddress.Address ?? new Address();
@@ -36,17 +36,17 @@ public class CustomerService : CrudService<Customer>, ICustomerService
         customerAddress.RegisterDate = DateTime.Now;
         customerAddress.Id = customerAddress.Id;
 
-        adress.Id = adress.Id;
-        adress.Address1 = newAddress.Address1;
-        adress.Address2 = newAddress.Address2;
-        adress.Street = newAddress.Street;
-        adress.ExternalNumber = newAddress.ExternalNumber;
-        adress.InternalNumber = newAddress.InternalNumber;
-        adress.ZipCode = newAddress.ZipCode;
-        adress.CityId = newAddress.CityId;
+        address.Id = address.Id;
+        address.Address1 = newAddress.Address1;
+        address.Address2 = newAddress.Address2;
+        address.Street = newAddress.Street;
+        address.ExternalNumber = newAddress.ExternalNumber;
+        address.InternalNumber = newAddress.InternalNumber;
+        address.ZipCode = newAddress.ZipCode;
+        address.CityId = newAddress.CityId;
 
         _unitOfWork.CustomerAddressRepository.Update(customerAddress);
-        _unitOfWork.AddressRepository.Update(adress);
+        _unitOfWork.AddressRepository.Update(address);
 
         entity.Code = oldEntity.Code;
         entity.ProfilePictureUrl = oldEntity.ProfilePictureUrl;

@@ -37,6 +37,49 @@ public class CustomerController : ControllerBase
         this._tokenHelper = tokenHelper;
     }
 
+    [HttpGet]
+    [Route("")]
+    [ActionName("GetCustomers")]
+    [ProducesResponseType((int)HttpStatusCode.OK, Type = typeof(ApiResponse<IEnumerable<CustomerResponseDto>>))]
+    [ProducesResponseType((int)HttpStatusCode.BadRequest, Type = typeof(ApiResponse<IEnumerable<CustomerResponseDto>>))]
+    [ProducesResponseType((int)HttpStatusCode.NotFound, Type = typeof(ApiResponse<IEnumerable<CustomerResponseDto>>))]
+
+    public async Task<IActionResult> GetCustomers([FromQuery] CustomerQueryFilter filter)
+    {
+        var entities = await _service.GetPaged(filter);
+
+        var dtos = _mapper.Map<IEnumerable<CustomerResponseDto>>(entities);
+
+        var metaDataResponse = new MetaDataResponse(
+            entities.TotalCount,
+            entities.CurrentPage,
+            entities.PageSize
+        );
+
+        var response = new ApiResponse<IEnumerable<CustomerResponseDto>>(data: dtos, meta: metaDataResponse);
+        return Ok(response);
+    }
+
+    /// <summary>
+    /// Lista los detalles del cliente
+    /// </summary>
+    [HttpGet]
+    [Route("{id:int}")]
+    [ProducesResponseType((int)HttpStatusCode.OK, Type = typeof(ApiResponse<CustomerResponseDto>))]
+    [ProducesResponseType((int)HttpStatusCode.BadRequest, Type = typeof(ApiResponse<CustomerResponseDto>))]
+    [ProducesResponseType((int)HttpStatusCode.NotFound, Type = typeof(ApiResponse<CustomerResponseDto>))]
+    public async Task<IActionResult> GetCustomerDetail([FromRoute] int id)
+    {
+        var entity = await _service.GetById(id);
+
+        if (entity.Id <= 0)
+            return NotFound();
+
+        var dto = _mapper.Map<CustomerResponseDto>(entity);
+        var response = new ApiResponse<CustomerResponseDto>(data: dto);
+        return Ok(response);
+    }
+
     /// <summary>
     /// Actualiza la información de un cliente
     /// </summary>
@@ -52,10 +95,10 @@ public class CustomerController : ControllerBase
         {
             Expression<Func<Customer, bool>> filter = x => x.Id == id;
             var existCustomer = await _service.Exist(filter);
-    
+
             if (!existCustomer)
                 return BadRequest("No existe ningun empleado con esa información");
-    
+
             var newEntity = _mapper.Map<Customer>(requestDto);
             newEntity.IsDeleted = false;
             newEntity.Id = id;
@@ -67,16 +110,16 @@ public class CustomerController : ControllerBase
             customerAddress.IsDefault = true;
             customerAddress.Status = 1;
             newEntity.CustomerAddress.Add(customerAddress);
-    
+
             await _service.Update(newEntity);
-    
+
             var dto = _mapper.Map<CustomerResponseDto>(newEntity);
             var response = new ApiResponse<CustomerResponseDto>(data: dto);
             return Ok(response);
         }
         catch (Exception ex)
         {
-            
+
             throw new LogicBusinessException(ex);
         }
     }

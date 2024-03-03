@@ -11,7 +11,7 @@ public class ResponseMappingProfile : Profile
 {
     public ResponseMappingProfile()
     {
-        
+
         CreateMap<Category, CategoryResponseDto>()
         .ForMember(
             dest => dest.Status,
@@ -29,7 +29,23 @@ public class ResponseMappingProfile : Profile
             opt => opt.MapFrom(src => EnumHelper.GetDescription<Gender>((Gender)src.Gender!))
         );
 
-        CreateMap<Customer, CustomerResponseDto>();
+        CreateMap<Customer, CustomerResponseDto>()
+        .ForMember(
+            dest => dest.GenderName,
+            opt => opt.MapFrom(src => EnumHelper.GetDescription<Gender>((Gender)src.Gender!))
+        );
+
+        CreateMap<Customer, CustomerDetailResponseDto>()
+        .ForMember(
+            dest => dest.GenderName,
+            opt => opt.MapFrom(src => EnumHelper.GetDescription<Gender>((Gender)src.Gender!))
+        )
+        .AfterMap(
+            (src, dest) =>
+            {
+                
+            }
+        );
 
         CreateMap<UserAccount, UserAccountCustomerResponseDto>()
         .ForMember(
@@ -62,7 +78,7 @@ public class ResponseMappingProfile : Profile
             dest => dest.IsDeleted,
             opt => opt.MapFrom(src => src.IsDeleted)
         ).AfterMap(
-            (src, dest) => 
+            (src, dest) =>
             {
                 var craftman = src.Craftman.FirstOrDefault() ?? new Craftman();
                 dest.CraftmanId = craftman.Id;
