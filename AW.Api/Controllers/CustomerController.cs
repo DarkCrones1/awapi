@@ -27,14 +27,18 @@ namespace AW.Api.Controllers;
 public class CustomerController : ControllerBase
 {
     private readonly IMapper _mapper;
+    private readonly IConfiguration _configuration;
     private readonly ICustomerService _service;
     private readonly TokenHelper _tokenHelper;
+    private readonly ILocalStorageService _localService;
 
-    public CustomerController(IMapper mapper, ICustomerService service, TokenHelper tokenHelper)
+    public CustomerController(IMapper mapper, IConfiguration configuration,ICustomerService service, TokenHelper tokenHelper, ILocalStorageService localService)
     {
         this._mapper = mapper;
+        this._configuration = configuration;
         this._service = service;
         this._tokenHelper = tokenHelper;
+        this._localService = localService;
     }
 
     [HttpGet]
@@ -78,6 +82,58 @@ public class CustomerController : ControllerBase
         var dto = _mapper.Map<CustomerResponseDto>(entity);
         var response = new ApiResponse<CustomerResponseDto>(data: dto);
         return Ok(response);
+    }
+
+    private string GetUrlBaseLocal(int type)
+    {
+        var url = type switch
+        {
+            1 => _configuration.GetValue<string>("DefaultValues:craftImageLocalStorageBaseUrl"),
+            2 => _configuration.GetValue<string>("DefaultValues:ImageProfileLocalStorageBaseUrl"),
+            3 => _configuration.GetValue<string>("DefaultValues:categoryImageLocalStorageBaseUrl"),
+            4 => _configuration.GetValue<string>("DefaultValues:customerDocuments"),
+            _ => _configuration.GetValue<string>("DefaultValues:craftmanDocuments"),
+        };
+        return url!;
+    }
+
+    private static LocalContainer GetLocalContainer(int value)
+    {
+        return value switch
+        {
+            1 => LocalContainer.Image_Craft,
+            2 => LocalContainer.Image_Profile,
+            3 => LocalContainer.Image_Category,
+            4 => LocalContainer.Customer_Other_Documents,
+            _ => LocalContainer.Craftman_Other_Documents
+        };
+    }
+
+    /// <summary>
+    /// Sirve para subir una imagen de usuario
+    /// </summary>
+    /// <param name="requestDto"></param>
+    /// <returns></returns>
+    /// <exception cref="LogicBusinessException"></exception>
+    [HttpPost]
+    [Route("uploadImageProfileLocal")]
+    public async Task<IActionResult> UploadImageProfileLocal([FromForm] ImageProfileCreateRequestDto requestDto)
+    {
+        try
+        {
+            var urlFile = await _localService.UploadAsync(requestDto.File, LocalContainer.Image_Profile, Guid.NewGuid().ToString());
+    
+            string url = $"{GetUrlBaseLocal((short)LocalContainer.Image_Profile)}{urlFile}";
+    
+            await _service.UpdateProfile(requestDto.CraftmanId, url, _tokenHelper.GetUserName());
+    
+            return Ok();
+        }
+        catch (Exception ex)
+        {
+            
+            throw new LogicBusinessException(ex);
+        }
     }
 
     /// <summary>

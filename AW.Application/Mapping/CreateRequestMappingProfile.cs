@@ -10,7 +10,7 @@ public class CreateRequestMappingProfile : Profile
 {
     public CreateRequestMappingProfile()
     {
-        CreateMap<CraftmanImageProfileCreateRequestDto, AWDocument>();
+        CreateMap<ImageProfileCreateRequestDto, AWDocument>();
 
         CreateMap<CategoryCreateRequestDto, Category>()
         .ForMember(

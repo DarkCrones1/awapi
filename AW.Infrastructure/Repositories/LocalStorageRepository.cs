@@ -47,12 +47,7 @@ public class LocalStorageRepository : ILocalStorageRepository
             Directory.CreateDirectory(folder);
         }
 
-        // // Si el nombre del archivo va vacio, se crea uno nuevo
-        // if (string.IsNullOrEmpty(localFileName))
-        // {
-        //     localFileName = $"{Guid.NewGuid()}{Path.GetExtension(file.Name)}";
-        // }
-
+        // Agrega al nombre de archivo una extensión
         localFileName = $"{Guid.NewGuid()}{Path.GetExtension(file.FileName)}";
 
         // Ruta de la iamgen
@@ -63,7 +58,7 @@ public class LocalStorageRepository : ILocalStorageRepository
             await file.CopyToAsync(memoryStream);
             await File.WriteAllBytesAsync(filePath, memoryStream.ToArray());
         }
-        // await File.WriteAllBytesAsync(uploadPath, );
+        
         var urlActually = $"{_httpContextAccessor.HttpContext!.Request.Scheme}://{_httpContextAccessor.HttpContext.Request.Host}";
 
         var urlDB = Path.Combine(urlActually, containerName, localFileName).Replace("\\", "/");

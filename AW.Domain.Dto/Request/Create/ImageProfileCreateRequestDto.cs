@@ -2,7 +2,7 @@ using Microsoft.AspNetCore.Http;
 
 namespace AW.Domain.Dto.Request.Create;
 
-public class CraftmanImageProfileCreateRequestDto
+public class ImageProfileCreateRequestDto
 {
     public int CraftmanId { get; set; }
 

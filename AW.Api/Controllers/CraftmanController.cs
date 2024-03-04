@@ -30,16 +30,14 @@ public class CraftmanController : ControllerBase
     private readonly IConfiguration _configuration;
     private readonly ICraftmantService _service;
     private readonly TokenHelper _tokenHelper;
-    private readonly IAzureBlobStorageService _fileService;
     private readonly ILocalStorageService _localService;
 
-    public CraftmanController(IMapper mapper, IConfiguration configuration, ICraftmantService service, TokenHelper tokenHelper, IAzureBlobStorageService fileService, ILocalStorageService localService)
+    public CraftmanController(IMapper mapper, IConfiguration configuration, ICraftmantService service, TokenHelper tokenHelper, ILocalStorageService localService)
     {
         this._mapper = mapper;
         this._configuration = configuration;
         this._service = service;
         this._tokenHelper = tokenHelper;
-        this._fileService = fileService;
         this._localService = localService;
     }
 
@@ -91,9 +89,16 @@ public class CraftmanController : ControllerBase
         };
     }
 
+    /// <summary>
+    /// Sirve para subir una imagen de usuario
+    /// </summary>
+    /// <param name="requestDto"></param>
+    /// <returns></returns>
+    /// <exception cref="LogicBusinessException"></exception>
     [HttpPost]
     [Route("uploadImageProfileLocal")]
-    public async Task<IActionResult> UploadImageProfileLocal([FromForm] CraftmanImageProfileCreateRequestDto requestDto)
+    [Authorize]
+    public async Task<IActionResult> UploadImageProfileLocal([FromForm] ImageProfileCreateRequestDto requestDto)
     {
         try
         {
@@ -101,7 +106,7 @@ public class CraftmanController : ControllerBase
     
             string url = $"{GetUrlBaseLocal((short)LocalContainer.Image_Profile)}{urlFile}";
     
-            await _service.UpdateProfile(requestDto.CraftmanId, url);
+            await _service.UpdateProfile(requestDto.CraftmanId, url, _tokenHelper.GetUserName());
     
             return Ok();
         }

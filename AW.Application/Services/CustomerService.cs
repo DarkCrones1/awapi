@@ -54,4 +54,16 @@ public class CustomerService : CrudService<Customer>, ICustomerService
         await base.Update(entity);
         await _unitOfWork.SaveChangesAsync();
     }
+
+    public async Task UpdateProfile(int CustomerId, string urlProfile, string userName)
+    {
+        var lastEntity = await _unitOfWork.CustomerRepository.GetById(CustomerId);
+
+        lastEntity.ProfilePictureUrl = urlProfile;
+        lastEntity.LastModifiedDate = DateTime.Now;
+        lastEntity.LastModifiedBy = userName;
+
+        await base.Update(lastEntity);
+        await _unitOfWork.SaveChangesAsync();
+    }
 }

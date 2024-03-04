@@ -8,5 +8,5 @@ namespace AW.Domain.Interfaces.Services;
 public interface ICustomerService : ICrudService<Customer>
 {
     Task<PagedList<Customer>> GetPaged(CustomerQueryFilter filter);
-    // Task Update(int customerId, Customer entity);
+    Task UpdateProfile(int customerId, string urlProfile, string userName);
 }

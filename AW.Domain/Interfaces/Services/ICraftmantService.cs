@@ -8,5 +8,5 @@ namespace AW.Domain.Interfaces.Services;
 public interface ICraftmantService : ICrudService<Craftman>
 {
     Task<PagedList<Craftman>> GetPaged(CraftmanQueryFilter filter);
-    Task UpdateProfile(int craftmanId, string urlProfile);
+    Task UpdateProfile(int craftmanId, string urlProfile, string userName);
 }

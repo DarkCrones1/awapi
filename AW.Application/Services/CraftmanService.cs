@@ -43,14 +43,13 @@ public class CraftmanService : CrudService<Craftman>, ICraftmantService
         await _unitOfWork.SaveChangesAsync();
     }
 
-    public async Task UpdateProfile(int craftmanId, string urlProfile)
+    public async Task UpdateProfile(int craftmanId, string urlProfile, string userName)
     {
         var lastEntity = await _unitOfWork.CraftmanRepository.GetById(craftmanId);
-
         lastEntity.ProfilePictureUrl = urlProfile;
         lastEntity.LastModifiedDate = DateTime.Now;
+        lastEntity.LastModifiedBy = userName;
 
-        // _unitOfWork.CraftmanRepository.Update(lastEntity);
         await base.Update(lastEntity);
         await _unitOfWork.SaveChangesAsync();
     }
