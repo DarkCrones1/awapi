@@ -18,6 +18,8 @@ public class ResponseMappingProfile : Profile
             opt => opt.MapFrom(src => StatusDeletedHelper.GetStatusDeletedEntity(src.IsDeleted))
         );
 
+        CreateMap<City, CityResponseDto>();
+
         CreateMap<Country, CountryResponseDto>();
 
         CreateMap<Craftman, CraftmanResponseDto>()

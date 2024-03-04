@@ -40,12 +40,13 @@ public class LocalStorageRepository : ILocalStorageRepository
         return Task.FromResult("Archivo Eliminado");
     }
 
-    public Task<string> EditFileAsync(IFormFile file, LocalContainer container)
+    public async Task<string> EditFileAsync(IFormFile file, LocalContainer container, string route)
     {
-        throw new NotImplementedException();
+        await DeteleAsync(container, route);
+        return await UploadAsync(file, container, route);
     }
 
-    public async Task<string> UploadAsync(IFormFile file, LocalContainer container, string localFileName)
+    public async Task<string> UploadAsync(IFormFile file, LocalContainer container, string route)
     {
         if (file.Length == 0) return null!;
 
@@ -63,10 +64,10 @@ public class LocalStorageRepository : ILocalStorageRepository
         }
 
         // Agrega al nombre de archivo una extensión
-        localFileName = $"{Guid.NewGuid()}{Path.GetExtension(file.FileName)}";
+        route = $"{Guid.NewGuid()}{Path.GetExtension(file.FileName)}";
 
         // Ruta de la iamgen
-        var filePath = Path.Combine(folder, localFileName);
+        var filePath = Path.Combine(folder, route);
 
         using (var memoryStream = new MemoryStream())
         {
@@ -76,7 +77,7 @@ public class LocalStorageRepository : ILocalStorageRepository
 
         var urlActually = $"{_httpContextAccessor.HttpContext!.Request.Scheme}://{_httpContextAccessor.HttpContext.Request.Host}";
 
-        var urlDB = Path.Combine(urlActually, containerName, localFileName).Replace("\\", "/");
+        var urlDB = Path.Combine(urlActually, containerName, route).Replace("\\", "/");
         return urlDB;
     }
 }

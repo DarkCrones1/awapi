@@ -14,6 +14,8 @@ public class QueryFilterMappingProfile : Profile
 
         CreateMap<CategoryQueryFilter, Category>();
 
+        CreateMap<CityQueryFilter, City>();
+
         CreateMap<CountryQueryFilter, Country>();
 
         CreateMap<CraftmanQueryFilter, Craftman>();

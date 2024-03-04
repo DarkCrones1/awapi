@@ -120,7 +120,7 @@ public class CustomerController : ControllerBase
     /// <returns></returns>
     /// <exception cref="LogicBusinessException"></exception>
     [HttpPost]
-    [Route("UploadImageProfileLocal")]
+    [Route("UploadImageProfile")]
     [Authorize]
     public async Task<IActionResult> UploadImageProfileLocal([FromForm] ImageProfileCreateRequestDto requestDto)
     {
@@ -152,7 +152,7 @@ public class CustomerController : ControllerBase
     [Route("{id:int}")]
     [Authorize]
     [ProducesResponseType((int)HttpStatusCode.OK, Type = typeof(ApiResponse<CustomerResponseDto>))]
-    public async Task<IActionResult> Update([FromRoute] int id, [FromBody] CustomerUpdateRequestDto requestDto)
+    public async Task<IActionResult> UpdateCustomer([FromRoute] int id, [FromBody] CustomerUpdateRequestDto requestDto)
     {
         try
         {
@@ -160,7 +160,7 @@ public class CustomerController : ControllerBase
             var existCustomer = await _service.Exist(filter);
 
             if (!existCustomer)
-                return BadRequest("No existe ningun empleado con esa información");
+                return BadRequest("No se encontro ningun Cliente");
 
             var newEntity = _mapper.Map<Customer>(requestDto);
             newEntity.IsDeleted = false;
@@ -188,6 +188,42 @@ public class CustomerController : ControllerBase
     }
 
     /// <summary>
+    /// Actualiza la foto de perfil del Usuario
+    /// </summary>
+    /// <param name="requestDto"></param>
+    /// <returns></returns>
+    /// <exception cref="LogicBusinessException"></exception>
+    [HttpPut]
+    [Route("UpdateImageProfile")]
+    [Authorize]
+    public async Task<IActionResult> UpdateImageProfileLocal([FromForm] ImageProfileCreateRequestDto requestDto)
+    {
+        try
+        {
+            Expression<Func<Customer, bool>> filter = x => x.Id == requestDto.ProfileId;
+            var existCraftman = await _service.Exist(filter);
+
+            if (!existCraftman)
+                return BadRequest("No se encontrp ningun Cliente");
+
+            var entity = await _service.GetById(requestDto.ProfileId);
+
+            var urlFile = await _localService.EditFileAsync(requestDto.File, LocalContainer.Image_Profile, entity.ProfilePictureUrl!);
+
+            string url = $"{GetUrlBaseLocal((short)LocalContainer.Image_Profile)}{urlFile}";
+
+            await _service.UpdateProfile(requestDto.ProfileId, url, _tokenHelper.GetUserName());
+
+            return Ok();
+        }
+        catch (Exception ex)
+        {
+
+            throw new LogicBusinessException(ex);
+        }
+    }
+
+    /// <summary>
     /// Elimina de manera lógica un Cliente y deshabilita su cuenta de usuario
     /// </summary>
     /// <param name="id"></param>
@@ -204,7 +240,7 @@ public class CustomerController : ControllerBase
             var existCustomer = await _service.Exist(filter);
 
             if (!existCustomer)
-                return BadRequest("No se encontró ningun Artesano");
+                return BadRequest("No se encontro ningun Cliente");
 
             var entity = await _service.GetById(id);
             entity.LastModifiedBy = _tokenHelper.GetUserName();
@@ -229,7 +265,7 @@ public class CustomerController : ControllerBase
     /// <returns></returns>
     /// <exception cref="LogicBusinessException"></exception>
     [HttpDelete]
-    [Route("{id:int}/ImageProfileLocal")]
+    [Route("{id:int}/DeleteImageProfile")]
     [Authorize]
     public async Task<IActionResult> DeleteImageProfile([FromRoute] int id)
     {
@@ -239,7 +275,7 @@ public class CustomerController : ControllerBase
             var existCustomer = await _service.Exist(filter);
 
             if (!existCustomer)
-                return BadRequest("No se encontró ningun Artesano");
+                return BadRequest("No se encontro ningun Cliente");
 
             var entity = await _service.GetById(id);
 

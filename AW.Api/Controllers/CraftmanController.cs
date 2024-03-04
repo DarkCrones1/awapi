@@ -65,6 +65,26 @@ public class CraftmanController : ControllerBase
         return Ok(response);
     }
 
+    /// <summary>
+    /// Lista los detalles del Artesano
+    /// </summary>
+    [HttpGet]
+    [Route("{id:int}")]
+    [ProducesResponseType((int)HttpStatusCode.OK, Type = typeof(ApiResponse<CraftResponseDto>))]
+    [ProducesResponseType((int)HttpStatusCode.BadRequest, Type = typeof(ApiResponse<CraftResponseDto>))]
+    [ProducesResponseType((int)HttpStatusCode.NotFound, Type = typeof(ApiResponse<CraftResponseDto>))]
+    public async Task<IActionResult> GetCustomerDetail([FromRoute] int id)
+    {
+        var entity = await _service.GetById(id);
+
+        if (entity.Id <= 0)
+            return NotFound();
+
+        var dto = _mapper.Map<CraftResponseDto>(entity);
+        var response = new ApiResponse<CraftResponseDto>(data: dto);
+        return Ok(response);
+    }
+
     private string GetUrlBaseLocal(int type)
     {
         var url = type switch
@@ -97,23 +117,23 @@ public class CraftmanController : ControllerBase
     /// <returns></returns>
     /// <exception cref="LogicBusinessException"></exception>
     [HttpPost]
-    [Route("UploadImageProfileLocal")]
+    [Route("UploadImageProfile")]
     [Authorize]
     public async Task<IActionResult> UploadImageProfileLocal([FromForm] ImageProfileCreateRequestDto requestDto)
     {
         try
         {
             var urlFile = await _localService.UploadAsync(requestDto.File, LocalContainer.Image_Profile, Guid.NewGuid().ToString());
-    
+
             string url = $"{GetUrlBaseLocal((short)LocalContainer.Image_Profile)}{urlFile}";
-    
+
             await _service.UpdateProfile(requestDto.ProfileId, url, _tokenHelper.GetUserName());
-    
+
             return Ok();
         }
         catch (Exception ex)
         {
-            
+
             throw new LogicBusinessException(ex);
         }
     }
@@ -145,7 +165,46 @@ public class CraftmanController : ControllerBase
             newEntity.LastModifiedDate = DateTime.Now;
             newEntity.Id = id;
             await _service.Update(newEntity);
-            return Ok(requestDto);
+
+            var dto = _mapper.Map<CraftmanResponseDto>(newEntity);
+            var response = new ApiResponse<CraftmanResponseDto>(data: dto);
+            return Ok(response);
+        }
+        catch (Exception ex)
+        {
+
+            throw new LogicBusinessException(ex);
+        }
+    }
+
+    /// <summary>
+    /// Actualiza la foto de perfil del Usuario
+    /// </summary>
+    /// <param name="requestDto"></param>
+    /// <returns></returns>
+    /// <exception cref="LogicBusinessException"></exception>
+    [HttpPut]
+    [Route("UpdateImageProfile")]
+    [Authorize]
+    public async Task<IActionResult> UpdateImageProfileLocal([FromForm] ImageProfileCreateRequestDto requestDto)
+    {
+        try
+        {
+            Expression<Func<Craftman, bool>> filter = x => x.Id == requestDto.ProfileId;
+            var existCraftman = await _service.Exist(filter);
+
+            if (!existCraftman)
+                return BadRequest("No se encontró ningun Artesano");
+
+            var entity = await _service.GetById(requestDto.ProfileId);
+
+            var urlFile = await _localService.EditFileAsync(requestDto.File, LocalContainer.Image_Profile, entity.ProfilePictureUrl!);
+
+            string url = $"{GetUrlBaseLocal((short)LocalContainer.Image_Profile)}{urlFile}";
+
+            await _service.UpdateProfile(requestDto.ProfileId, url, _tokenHelper.GetUserName());
+
+            return Ok();
         }
         catch (Exception ex)
         {
@@ -179,7 +238,7 @@ public class CraftmanController : ControllerBase
             entity.IsDeleted = true;
             entity.Id = id;
             entity.Status = (short)CraftmanStatus.Downed;
-            
+
             await _service.DownedProfile(entity);
             return Ok(true);
         }
@@ -197,7 +256,7 @@ public class CraftmanController : ControllerBase
     /// <returns></returns>
     /// <exception cref="LogicBusinessException"></exception>
     [HttpDelete]
-    [Route("{id:int}/ImageProfileLocal")]
+    [Route("{id:int}/DeleteImageProfile")]
     [Authorize]
     public async Task<IActionResult> DeleteImageProfile([FromRoute] int id)
     {

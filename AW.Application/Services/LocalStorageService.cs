@@ -19,13 +19,13 @@ public class LocalStorageService : ILocalStorageService
         await _unitOfWork.LocalStorageRepository.DeteleAsync(container, route);
     }
 
-    public async Task<string> EditFileAsync(IFormFile file, LocalContainer container)
+    public async Task<string> EditFileAsync(IFormFile file, LocalContainer container, string route)
     {
-        return await _unitOfWork.LocalStorageRepository.EditFileAsync(file, container);
+        return await _unitOfWork.LocalStorageRepository.EditFileAsync(file, container, route);
     }
 
-    public async Task<string> UploadAsync(IFormFile file, LocalContainer container, string localFileName)
+    public async Task<string> UploadAsync(IFormFile file, LocalContainer container, string route)
     {
-        return await _unitOfWork.LocalStorageRepository.UploadAsync(file, container, localFileName);
+        return await _unitOfWork.LocalStorageRepository.UploadAsync(file, container, route);
     }
 }
