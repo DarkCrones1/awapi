@@ -22,6 +22,7 @@ using AW.Domain.Interfaces;
 using AW.Common.Helpers;
 using AW.Domain.Interfaces.Repositories;
 using AW.Domain.Interfaces.Services;
+using gem.application.Services;
 
 namespace AW.Api;
 
@@ -106,9 +107,11 @@ public class Startup
         services.AddScoped(typeof(ICrudRepository<>), typeof(CrudRepository<>));
         services.AddScoped(typeof(IRetrieveRepository<>), typeof(RetrieveRepository<>));
         services.AddScoped(typeof(ICatalogBaseRepository<>), typeof(CatalogBaseRepository<>));
+        services.AddScoped<IAzureBlobStorageRepository, AzureBlobStorageRepository>();
         services.AddScoped<ICategoryRepository, CategoryRepository>();
         services.AddScoped<ICraftmantRepository, CraftmanRepository>();
         services.AddScoped<ICustomerRepository, CustomerRepository>();
+        services.AddScoped<ILocalStorageRepository, LocalStorageRepository>();
         services.AddScoped<ITechniqueTypeRepository, TechniqueTypeRepository>();
         services.AddScoped<IUnitOfWork, UnitOfWork>();
         services.AddScoped<IUserAccountRepository, UserAccountRepository>();
@@ -117,10 +120,12 @@ public class Startup
         services.AddScoped(typeof(ICrudService<>), typeof(CrudService<>));
         services.AddScoped(typeof(ICatalogBaseService<>), typeof(CatalogBaseService<>));
         services.AddScoped<IAuthenticationService, AuthenticationService>();
+        services.AddScoped<IAzureBlobStorageService, AzureBlobStorageService>();
         services.AddScoped<ICategoryService, CategoryService>();
         services.AddScoped<ICraftmantService, CraftmanService>();
         services.AddScoped<ICustomerService, CustomerService>();
         services.AddScoped<IMiscellaneousService, MiscellaneousService>();
+        services.AddScoped<ILocalStorageService, LocalStorageService>();
         services.AddScoped<ITechniqueService, TechniqueService>();
         services.AddScoped<IUserAccountService, UserAccountService>();
         services.AddScoped<TokenHelper>();
@@ -172,6 +177,7 @@ public class Startup
         {
             app.UseDeveloperExceptionPage();
         }
+        app.UseStaticFiles();
         app.UseSwagger();
         app.UseSwaggerUI(options =>
         {

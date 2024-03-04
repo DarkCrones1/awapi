@@ -31,14 +31,16 @@ public class CraftmanController : ControllerBase
     private readonly ICraftmantService _service;
     private readonly TokenHelper _tokenHelper;
     private readonly IAzureBlobStorageService _fileService;
+    private readonly ILocalStorageService _localService;
 
-    public CraftmanController(IMapper mapper, IConfiguration configuration, ICraftmantService service, TokenHelper tokenHelper, IAzureBlobStorageService fileService)
+    public CraftmanController(IMapper mapper, IConfiguration configuration, ICraftmantService service, TokenHelper tokenHelper, IAzureBlobStorageService fileService, ILocalStorageService localService)
     {
         this._mapper = mapper;
         this._configuration = configuration;
         this._service = service;
         this._tokenHelper = tokenHelper;
         this._fileService = fileService;
+        this._localService = localService;
     }
 
     /// <summary>
@@ -64,48 +66,50 @@ public class CraftmanController : ControllerBase
         return Ok(response);
     }
 
-    private string GetUrlBase(int type)
+    private string GetUrlBaseLocal(int type)
     {
         var url = type switch
         {
-            1 => _configuration.GetValue<string>("DefaultValues:customerIdentificationAzureStorageBaseURL"),
-            2 => _configuration.GetValue<string>("DefaultValues:customerProofAddressAzureStorageBaseURL"),
-            3 => _configuration.GetValue<string>("DefaultValues:imageProfileAzureStorageBaseURL"),
+            1 => _configuration.GetValue<string>("DefaultValues:craftImageLocalStorageBaseUrl"),
+            2 => _configuration.GetValue<string>("DefaultValues:ImageProfileLocalStorageBaseUrl"),
+            3 => _configuration.GetValue<string>("DefaultValues:categoryImageLocalStorageBaseUrl"),
             4 => _configuration.GetValue<string>("DefaultValues:customerDocuments"),
-            _ => _configuration.GetValue<string>("DefaultValues:craftmanDocuments")
+            _ => _configuration.GetValue<string>("DefaultValues:craftmanDocuments"),
         };
         return url!;
     }
 
-    private AzureContainer GetAzureContainer(int value)
+    private static LocalContainer GetLocalContainer(int value)
     {
         return value switch
         {
-            1 => AzureContainer.Customer_Identification,
-            2 => AzureContainer.Customer_Proof_Address,
-            3 => AzureContainer.Image_Profile,
-            4 => AzureContainer.Customer_Other_Documents,
-            5 => AzureContainer.Craftman_Other_Documents,
-            _ => AzureContainer.Image_Craft
+            1 => LocalContainer.Image_Craft,
+            2 => LocalContainer.Image_Profile,
+            3 => LocalContainer.Image_Category,
+            4 => LocalContainer.Customer_Other_Documents,
+            _ => LocalContainer.Craftman_Other_Documents
         };
     }
 
     [HttpPost]
-    [Route("uploadImageProfile")]
-    public async Task<IActionResult> UploadImageProfile([FromForm] CraftmanImageProfileCreateRequestDto requestDto)
+    [Route("uploadImageProfileLocal")]
+    public async Task<IActionResult> UploadImageProfileLocal([FromForm] CraftmanImageProfileCreateRequestDto requestDto)
     {
-        var entity = _mapper.Map<AWDocument>(requestDto);
-
-        // Upload File
-        var urlFile = await _fileService.UploadAsync(requestDto.File!, AzureContainer.Image_Profile, Guid.NewGuid().ToString());
-
-        // Register File
-        entity.UrlDocument = $"{GetUrlBase((short)AzureContainer.Image_Profile)}{urlFile}";
-
-        // Update Craftman information
-        await _service.UpdateProfile(requestDto.CraftmanId, entity.UrlDocument);
-
-        return Ok(entity.Id);
+        try
+        {
+            var urlFile = await _localService.UploadAsync(requestDto.File, LocalContainer.Image_Profile, Guid.NewGuid().ToString());
+    
+            string url = $"{GetUrlBaseLocal((short)LocalContainer.Image_Profile)}{urlFile}";
+    
+            await _service.UpdateProfile(requestDto.CraftmanId, url);
+    
+            return Ok();
+        }
+        catch (Exception ex)
+        {
+            
+            throw new LogicBusinessException(ex);
+        }
     }
 
     /// <summary>

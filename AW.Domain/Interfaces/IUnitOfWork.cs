@@ -57,6 +57,8 @@ public interface IUnitOfWork : IDisposable
 
     IAzureBlobStorageRepository AzureBlobStorageRepository { get; }
 
+    ILocalStorageRepository LocalStorageRepository { get; }
+
     void SaveChanges();
 
     Task SaveChangesAsync();

@@ -50,7 +50,8 @@ public class CraftmanService : CrudService<Craftman>, ICraftmantService
         lastEntity.ProfilePictureUrl = urlProfile;
         lastEntity.LastModifiedDate = DateTime.Now;
 
-        _unitOfWork.CraftmanRepository.Update(lastEntity);
+        // _unitOfWork.CraftmanRepository.Update(lastEntity);
+        await base.Update(lastEntity);
         await _unitOfWork.SaveChangesAsync();
     }
 }

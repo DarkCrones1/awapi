@@ -28,11 +28,13 @@ public class CraftController : ControllerBase
 {
     private readonly IMapper _mapper;
     private readonly ICatalogBaseService<Craft> _service;
+    private readonly TokenHelper _tokenHelper;
 
-    public CraftController(IMapper mapper, ICatalogBaseService<Craft> service)
+    public CraftController(IMapper mapper, ICatalogBaseService<Craft> service, TokenHelper tokenHelper)
     {
         this._mapper = mapper;
         this._service = service;
+        this._tokenHelper = tokenHelper;
     }
 
     [HttpPost]
@@ -43,6 +45,7 @@ public class CraftController : ControllerBase
         try
         {
             var entity = _mapper.Map<Craft>(requestDto);
+            entity.CreatedBy = _tokenHelper.GetUserName();
             await _service.Create(entity);
 
             var result = _mapper.Map<CraftResponseDto>(entity);

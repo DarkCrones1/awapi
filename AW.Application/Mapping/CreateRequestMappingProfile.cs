@@ -21,6 +21,24 @@ public class CreateRequestMappingProfile : Profile
             opt => opt.MapFrom(src => ValuesStatusPropertyEntity.IsNotDeleted)
         );
 
+        CreateMap<CraftCreateRequestDto, Craft>()
+        .ForMember(
+            dest => dest.SerialId,
+            opt => opt.MapFrom(src => Guid.NewGuid())
+        ).ForMember(
+            dest => dest.CreatedDate, 
+            opt => opt.MapFrom(src => DateTime.Now)
+        ).ForMember(
+            dest => dest.PublicationDate,
+            opt => opt.MapFrom(src => DateTime.Now)
+        ).ForMember(
+            dest => dest.Status,
+            opt => opt.MapFrom(src => CraftStatus.Stock)
+        ).ForMember(
+            dest => dest.Price,
+            opt => opt.MapFrom(src => src.Price)
+        );
+
         CreateMap<TechniqueTypeCreateRequestDto, TechniqueType>()
         .ForMember(
             dest => dest.CreatedDate,

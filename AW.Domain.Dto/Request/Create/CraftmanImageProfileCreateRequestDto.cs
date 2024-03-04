@@ -6,5 +6,5 @@ public class CraftmanImageProfileCreateRequestDto
 {
     public int CraftmanId { get; set; }
 
-    public IFormFile? File { get; set; }
+    public IFormFile File { get; set; } = null!;
 }

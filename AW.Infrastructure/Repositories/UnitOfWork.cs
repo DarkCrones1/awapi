@@ -5,6 +5,8 @@ using AW.Domain.Entities;
 using AW.Domain.Interfaces;
 using AW.Domain.Interfaces.Repositories;
 using AW.Infrastructure.Data;
+using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Http;
 
 namespace AW.Infrastructure.Repositories;
 
@@ -13,6 +15,10 @@ public class UnitOfWork : IUnitOfWork
     protected readonly AWDbContext _dbContext;
 
     private readonly IConfiguration _configuration;
+
+    private readonly IWebHostEnvironment _env;
+
+    private readonly IHttpContextAccessor _httpContextAccessor;
 
     protected ICrudRepository<Address> _addressRepository;
 
@@ -62,15 +68,21 @@ public class UnitOfWork : IUnitOfWork
 
     protected IRetrieveRepository<ActiveUserAccountCustomer> _activeUserAccountCustomerRepository;
 
-    protected IAzureBlobStorageRepository? _azureBlobStorageRepository;
+    protected IAzureBlobStorageRepository _azureBlobStorageRepository;
+
+    protected ILocalStorageRepository _localStorageRepository;
 
     private bool disposed;
 
-    public UnitOfWork(AWDbContext dbContext, IConfiguration configuration)
+    public UnitOfWork(AWDbContext dbContext, IConfiguration configuration, IWebHostEnvironment env, IHttpContextAccessor httpContextAccessor)
     {
         _dbContext = dbContext;
 
         this._configuration = configuration;
+
+        this._env = env;
+
+        this._httpContextAccessor = httpContextAccessor;
 
         disposed = false;
 
@@ -123,6 +135,8 @@ public class UnitOfWork : IUnitOfWork
         _activeUserAccountCustomerRepository = new RetrieveRepository<ActiveUserAccountCustomer>(_dbContext);
 
         _azureBlobStorageRepository = new AzureBlobStorageRepository(_configuration);
+
+        _localStorageRepository = new LocalStorageRepository(_configuration, _env, _httpContextAccessor);
     }
 
     public ICrudRepository<Address> AddressRepository => _addressRepository;
@@ -173,7 +187,9 @@ public class UnitOfWork : IUnitOfWork
 
     public IRetrieveRepository<ActiveUserAccountCustomer> ActiveUserAccountCustomerRepository => _activeUserAccountCustomerRepository;
 
-    public IAzureBlobStorageRepository AzureBlobStorageRepository => _azureBlobStorageRepository ??= new AzureBlobStorageRepository(_configuration);
+    public IAzureBlobStorageRepository AzureBlobStorageRepository => _azureBlobStorageRepository;
+
+    public ILocalStorageRepository LocalStorageRepository => _localStorageRepository;
 
     protected virtual void Dispose(bool disposing)
     {

@@ -1,6 +1,18 @@
 namespace AW.Domain.Dto.Response;
 
-public class CraftResponseDto
+public class CraftResponseDto : BaseCatalogResponseDto
 {
-    
+    public Guid SerialId { get; set; }
+
+    public int CraftmanId { get; set; }
+
+    public short CraftStatus { get; set; }
+
+    public DateTime? PublicationDate { get; set; }
+
+    public decimal? Price { get; set; }
+
+    public string? History { get; set; }
+
+    public string? CraftPictureUrl { get; set; }
 }
