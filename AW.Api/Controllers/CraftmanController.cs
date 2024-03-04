@@ -18,6 +18,7 @@ using AW.Domain.Dto.QueryFilters;
 using AW.Domain.Interfaces.Services;
 using AW.Common.Functions;
 using AW.Common.Enumerations;
+using AW.Domain.Enumerations;
 
 namespace AW.Api.Controllers;
 
@@ -96,7 +97,7 @@ public class CraftmanController : ControllerBase
     /// <returns></returns>
     /// <exception cref="LogicBusinessException"></exception>
     [HttpPost]
-    [Route("uploadImageProfileLocal")]
+    [Route("UploadImageProfileLocal")]
     [Authorize]
     public async Task<IActionResult> UploadImageProfileLocal([FromForm] ImageProfileCreateRequestDto requestDto)
     {
@@ -106,7 +107,7 @@ public class CraftmanController : ControllerBase
     
             string url = $"{GetUrlBaseLocal((short)LocalContainer.Image_Profile)}{urlFile}";
     
-            await _service.UpdateProfile(requestDto.CraftmanId, url, _tokenHelper.GetUserName());
+            await _service.UpdateProfile(requestDto.ProfileId, url, _tokenHelper.GetUserName());
     
             return Ok();
         }
@@ -145,6 +146,74 @@ public class CraftmanController : ControllerBase
             newEntity.Id = id;
             await _service.Update(newEntity);
             return Ok(requestDto);
+        }
+        catch (Exception ex)
+        {
+
+            throw new LogicBusinessException(ex);
+        }
+    }
+
+    /// <summary>
+    /// Elimina de manera lógica un Artesano y deshabilita su cuenta de usuario
+    /// </summary>
+    /// <param name="id"></param>
+    /// <returns></returns>
+    /// <exception cref="LogicBusinessException"></exception>
+    [HttpDelete]
+    [Route("{id:int}")]
+    [Authorize]
+    public async Task<IActionResult> Delete([FromRoute] int id)
+    {
+        try
+        {
+            Expression<Func<Craftman, bool>> filter = x => x.Id == id;
+            var existCraftman = await _service.Exist(filter);
+
+            if (!existCraftman)
+                return BadRequest("No se encontró ningun Artesano");
+
+            var entity = await _service.GetById(id);
+            entity.LastModifiedBy = _tokenHelper.GetUserName();
+            entity.LastModifiedDate = DateTime.Now;
+            entity.IsDeleted = true;
+            entity.Id = id;
+            entity.Status = (short)CraftmanStatus.Downed;
+            
+            await _service.DownedProfile(entity);
+            return Ok(true);
+        }
+        catch (Exception ex)
+        {
+
+            throw new LogicBusinessException(ex);
+        }
+    }
+
+    /// <summary>
+    /// Elimina la imagen de perfil del usuario
+    /// </summary>
+    /// <param name="id"></param>
+    /// <returns></returns>
+    /// <exception cref="LogicBusinessException"></exception>
+    [HttpDelete]
+    [Route("{id:int}/ImageProfileLocal")]
+    [Authorize]
+    public async Task<IActionResult> DeleteImageProfile([FromRoute] int id)
+    {
+        try
+        {
+            Expression<Func<Craftman, bool>> filter = x => x.Id == id;
+            var existCraftman = await _service.Exist(filter);
+
+            if (!existCraftman)
+                return BadRequest("No se encontró ningun Artesano");
+
+            var entity = await _service.GetById(id);
+
+            await _localService.DeteleAsync(LocalContainer.Image_Profile, entity.ProfilePictureUrl!);
+            await _service.UpdateProfile(id, null!, _tokenHelper.GetUserName());
+            return Ok(true);
         }
         catch (Exception ex)
         {

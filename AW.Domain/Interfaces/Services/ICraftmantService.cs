@@ -9,4 +9,5 @@ public interface ICraftmantService : ICrudService<Craftman>
 {
     Task<PagedList<Craftman>> GetPaged(CraftmanQueryFilter filter);
     Task UpdateProfile(int craftmanId, string urlProfile, string userName);
+    Task DownedProfile(Craftman entity);
 }

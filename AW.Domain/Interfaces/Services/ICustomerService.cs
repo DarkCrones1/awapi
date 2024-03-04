@@ -9,4 +9,5 @@ public interface ICustomerService : ICrudService<Customer>
 {
     Task<PagedList<Customer>> GetPaged(CustomerQueryFilter filter);
     Task UpdateProfile(int customerId, string urlProfile, string userName);
+    Task DownedProfile(Customer entity);
 }

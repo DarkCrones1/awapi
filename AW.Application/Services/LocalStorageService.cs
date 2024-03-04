@@ -14,14 +14,14 @@ public class LocalStorageService : ILocalStorageService
         this._unitOfWork = unitOfWork;
     }
 
-    public Task DeteleAsync(LocalContainer container, string localFileName)
+    public async Task DeteleAsync(LocalContainer container, string route)
     {
-        throw new NotImplementedException();
+        await _unitOfWork.LocalStorageRepository.DeteleAsync(container, route);
     }
 
-    public Task<string> EditFileAsync(IFormFile file, LocalContainer container)
+    public async Task<string> EditFileAsync(IFormFile file, LocalContainer container)
     {
-        throw new NotImplementedException();
+        return await _unitOfWork.LocalStorageRepository.EditFileAsync(file, container);
     }
 
     public async Task<string> UploadAsync(IFormFile file, LocalContainer container, string localFileName)

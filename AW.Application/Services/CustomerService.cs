@@ -66,4 +66,17 @@ public class CustomerService : CrudService<Customer>, ICustomerService
         await base.Update(lastEntity);
         await _unitOfWork.SaveChangesAsync();
     }
+
+    public async Task DownedProfile(Customer entity)
+    {
+        var craftman = await _unitOfWork.CustomerRepository.GetById(entity.Id);
+        var userAccount = craftman.UserAccount.FirstOrDefault()!;
+        userAccount.IsActive = false;
+        userAccount.IsDeleted = true;
+        userAccount.IsAuthorized = false;
+        
+        _unitOfWork.UserAccountRepository.Update(userAccount);
+        await base.Update(entity);
+        await _unitOfWork.SaveChangesAsync();
+    }
 }

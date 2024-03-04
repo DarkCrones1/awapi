@@ -4,6 +4,8 @@ using Microsoft.AspNetCore.Hosting;
 
 using AW.Common.Enumerations;
 using AW.Common.Interfaces.Repositories;
+using Microsoft.AspNetCore.Routing;
+using Microsoft.IdentityModel.Tokens;
 
 namespace AW.Infrastructure.Repositories;
 
@@ -20,9 +22,22 @@ public class LocalStorageRepository : ILocalStorageRepository
         this._httpContextAccessor = httpContextAccessor;
     }
 
-    public Task DeteleAsync(LocalContainer container, string localFileName)
+    public Task DeteleAsync(LocalContainer container, string route)
     {
-        throw new NotImplementedException();
+        var containerName = Enum.GetName(typeof(LocalContainer), container)!.ToLower();
+        containerName = containerName.Replace("_", "-");
+
+        if (route != null)
+        {
+            var fileName = Path.GetFileName(route);
+            string directory = Path.Combine(_env.WebRootPath, containerName, fileName);
+
+            if (File.Exists(directory))
+            {
+                File.Delete(directory);
+            }
+        }
+        return Task.FromResult("Archivo Eliminado");
     }
 
     public Task<string> EditFileAsync(IFormFile file, LocalContainer container)
@@ -58,7 +73,7 @@ public class LocalStorageRepository : ILocalStorageRepository
             await file.CopyToAsync(memoryStream);
             await File.WriteAllBytesAsync(filePath, memoryStream.ToArray());
         }
-        
+
         var urlActually = $"{_httpContextAccessor.HttpContext!.Request.Scheme}://{_httpContextAccessor.HttpContext.Request.Host}";
 
         var urlDB = Path.Combine(urlActually, containerName, localFileName).Replace("\\", "/");

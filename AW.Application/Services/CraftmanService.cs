@@ -53,4 +53,17 @@ public class CraftmanService : CrudService<Craftman>, ICraftmantService
         await base.Update(lastEntity);
         await _unitOfWork.SaveChangesAsync();
     }
+
+    public async Task DownedProfile(Craftman entity)
+    {
+        var craftman = await _unitOfWork.CraftmanRepository.GetById(entity.Id);
+        var userAccount = craftman.UserAccount.FirstOrDefault()!;
+        userAccount.IsActive = false;
+        userAccount.IsDeleted = true;
+        userAccount.IsAuthorized = false;
+        
+        _unitOfWork.UserAccountRepository.Update(userAccount);
+        await base.Update(entity);
+        await _unitOfWork.SaveChangesAsync();
+    }
 }
