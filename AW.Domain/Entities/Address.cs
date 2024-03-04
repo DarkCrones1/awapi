@@ -10,9 +10,9 @@ public partial class Address : BaseEntity
         get
         {
             var address = string.Empty;
-            var internalNumber = string.IsNullOrEmpty(InternalNumber) ? string.Empty : $"Num. Int. {InternalNumber}";
+            var internalNumber = string.IsNullOrEmpty(InternalNumber) ? string.Empty : $"Num.Int:{InternalNumber}";
 
-            address = $"Calle: {Street} Num. Ext. {ExternalNumber} {internalNumber} C.P. {ZipCode} {Address1}";
+            address = $"Calle: {Street} Num.Ext:{ExternalNumber} {internalNumber} C.P:{ZipCode}, {Address1} {Address2}";
 
             return address.Trim();
         }

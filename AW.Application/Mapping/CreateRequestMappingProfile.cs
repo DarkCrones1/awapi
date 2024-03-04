@@ -26,7 +26,7 @@ public class CreateRequestMappingProfile : Profile
             dest => dest.SerialId,
             opt => opt.MapFrom(src => Guid.NewGuid())
         ).ForMember(
-            dest => dest.CreatedDate, 
+            dest => dest.CreatedDate,
             opt => opt.MapFrom(src => DateTime.Now)
         ).ForMember(
             dest => dest.PublicationDate,
@@ -46,6 +46,40 @@ public class CreateRequestMappingProfile : Profile
         ).ForMember(
             dest => dest.IsDeleted,
             opt => opt.MapFrom(src => ValuesStatusPropertyEntity.IsNotDeleted)
+        ).AfterMap(
+            (src, dest) =>
+            {
+                foreach (var item in src.Propertys)
+                {
+                    var propertyTechnique = new TechniqueTypeProperty
+                    {
+                        CreatedDate = DateTime.Now,
+                        Property = new Property
+                        {
+                            Name = item.Name,
+                            Description = item.Description,
+                            PropertyType = (short)PropertyType.TechniqueProperty,
+                            IsDeleted = false,
+                            CreatedDate = DateTime.Now,
+                            CreatedBy = "Admin"
+                        }
+                    };
+                    dest.Property.Add(propertyTechnique);
+                }
+            }
+        );
+
+        CreateMap<PropertyTechniqueTypeCreateRequestDto, Property>()
+        .AfterMap(
+            (src, dest) =>
+            {
+                dest.Name = src.Name;
+                dest.Description = src.Description;
+                dest.CreatedDate = DateTime.Now;
+                dest.PropertyType = (short)PropertyType.TechniqueProperty;
+                dest.IsDeleted = false;
+                dest.CreatedBy = "Craftman";
+            }
         );
 
         CreateMap<UserAccountCustomerCreateRequestDto, UserAccount>()
@@ -90,6 +124,7 @@ public class CreateRequestMappingProfile : Profile
                         ExternalNumber = "Asignar",
                         InternalNumber = "Asignar",
                         ZipCode = "Asignar",
+                        CityId = null
                     }
                 };
                 dest.CustomerAddress.Add(customerAddress);
@@ -133,6 +168,7 @@ public class CreateRequestMappingProfile : Profile
                     ExternalNumber = "Asignar",
                     InternalNumber = "Asignar",
                     ZipCode = "Asignar",
+                    CityId = null
                 };
                 dest.Address.Add(address);
             }

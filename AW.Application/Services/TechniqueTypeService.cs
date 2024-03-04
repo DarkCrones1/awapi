@@ -6,9 +6,9 @@ using AW.Domain.Interfaces.Services;
 
 namespace AW.Application.Services;
 
-public class TechniqueService : CatalogBaseService<TechniqueType>, ITechniqueService
+public class TechniqueTypeService : CatalogBaseService<TechniqueType>, ITechniqueTypeService
 {
-    public TechniqueService(IUnitOfWork unitOfWork) : base(unitOfWork)
+    public TechniqueTypeService(IUnitOfWork unitOfWork) : base(unitOfWork)
     {
     }
 

@@ -70,18 +70,18 @@ public class CraftmanController : ControllerBase
     /// </summary>
     [HttpGet]
     [Route("{id:int}")]
-    [ProducesResponseType((int)HttpStatusCode.OK, Type = typeof(ApiResponse<CraftResponseDto>))]
-    [ProducesResponseType((int)HttpStatusCode.BadRequest, Type = typeof(ApiResponse<CraftResponseDto>))]
-    [ProducesResponseType((int)HttpStatusCode.NotFound, Type = typeof(ApiResponse<CraftResponseDto>))]
-    public async Task<IActionResult> GetCustomerDetail([FromRoute] int id)
+    [ProducesResponseType((int)HttpStatusCode.OK, Type = typeof(ApiResponse<CraftmanDetailResponseDto>))]
+    [ProducesResponseType((int)HttpStatusCode.BadRequest, Type = typeof(ApiResponse<CraftmanDetailResponseDto>))]
+    [ProducesResponseType((int)HttpStatusCode.NotFound, Type = typeof(ApiResponse<CraftmanDetailResponseDto>))]
+    public async Task<IActionResult> GetCraftmanDetail([FromRoute] int id)
     {
         var entity = await _service.GetById(id);
 
         if (entity.Id <= 0)
             return NotFound();
 
-        var dto = _mapper.Map<CraftResponseDto>(entity);
-        var response = new ApiResponse<CraftResponseDto>(data: dto);
+        var dto = _mapper.Map<CraftmanDetailResponseDto>(entity);
+        var response = new ApiResponse<CraftmanDetailResponseDto>(data: dto);
         return Ok(response);
     }
 

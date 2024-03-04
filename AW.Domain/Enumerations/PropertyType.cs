@@ -6,6 +6,6 @@ public enum PropertyType
 {
     [Description("Artesania")]
     CraftProperty = 1,
-    [Description("Tecnica Artesanal")]
+    [Description("Tipo de tecnica")]
     TechniqueProperty = 2
 }

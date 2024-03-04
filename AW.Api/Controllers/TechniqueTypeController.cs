@@ -26,14 +26,56 @@ namespace AW.Api.Controllers;
 public class TechniqueTypeController : ControllerBase
 {
     private readonly IMapper _mapper;
-    private readonly ICatalogBaseService<TechniqueType> _service;
+    private readonly ITechniqueTypeService _service;
     private readonly TokenHelper _tokenHelper;
 
-    public TechniqueTypeController(IMapper mapper, ICatalogBaseService<TechniqueType> service, TokenHelper tokenHelper)
+    public TechniqueTypeController(IMapper mapper, ITechniqueTypeService service, TokenHelper tokenHelper)
     {
         this._mapper = mapper;
         this._service = service;
         this._tokenHelper = tokenHelper;
+    }
+
+    /// <summary>
+    /// Devuelve tecnicas artesanales mediante filtros y paginado
+    /// </summary>
+    /// <param name="filter"></param>
+    /// <returns></returns>
+    [HttpGet]
+    [Route("")]
+    [ProducesResponseType((int)HttpStatusCode.OK, Type = typeof(ApiResponse<IEnumerable<TechniqueTypeResponseDto>>))]
+    [ProducesResponseType((int)HttpStatusCode.BadRequest, Type = typeof(ApiResponse<IEnumerable<TechniqueTypeResponseDto>>))]
+    [ProducesResponseType((int)HttpStatusCode.NotFound, Type = typeof(ApiResponse<IEnumerable<TechniqueTypeResponseDto>>))]
+    public async Task<IActionResult> GetAll([FromQuery] TechniqueQueryFilter filter)
+    {
+        var entities = await _service.GetPaged(filter);
+        var dtos = _mapper.Map<IEnumerable<TechniqueTypeResponseDto>>(entities);
+        var metaDataResponse = new MetaDataResponse(
+            entities.TotalCount,
+            entities.CurrentPage,
+            entities.PageSize
+        );
+        var response = new ApiResponse<IEnumerable<TechniqueTypeResponseDto>>(data: dtos, meta: metaDataResponse);
+        return Ok(response);
+    }
+
+    [HttpGet]
+    [Route("{id:int}")]
+    [ProducesResponseType((int)HttpStatusCode.OK, Type = typeof(ApiResponse<IEnumerable<TechniqueTypeDetailResponseDto>>))]
+    [ProducesResponseType((int)HttpStatusCode.BadRequest, Type = typeof(ApiResponse<IEnumerable<TechniqueTypeDetailResponseDto>>))]
+    [ProducesResponseType((int)HttpStatusCode.NotFound, Type = typeof(ApiResponse<IEnumerable<TechniqueTypeDetailResponseDto>>))]
+    public async Task<IActionResult> GetById([FromRoute] int id)
+    {
+        Expression<Func<TechniqueType, bool>> filter = x => x.Id == id;
+        var existTechnique = await _service.Exist(filter);
+
+        if (!existTechnique)
+            return BadRequest("No existen coincidencias");
+
+        var entity = await _service.GetById(id);
+        var dto = _mapper.Map<TechniqueTypeDetailResponseDto>(entity);
+        var response = new ApiResponse<TechniqueTypeDetailResponseDto>(data: dto);
+        return Ok(response);
     }
 
     /// <summary>
@@ -58,9 +100,9 @@ public class TechniqueTypeController : ControllerBase
         }
         catch (Exception ex)
         {
-
             throw new LogicBusinessException(ex);
         }
+
     }
 
     /// <summary>

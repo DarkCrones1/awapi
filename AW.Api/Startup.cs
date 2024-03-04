@@ -126,7 +126,7 @@ public class Startup
         services.AddScoped<ICustomerService, CustomerService>();
         services.AddScoped<IMiscellaneousService, MiscellaneousService>();
         services.AddScoped<ILocalStorageService, LocalStorageService>();
-        services.AddScoped<ITechniqueService, TechniqueService>();
+        services.AddScoped<ITechniqueTypeService, TechniqueTypeService>();
         services.AddScoped<IUserAccountService, UserAccountService>();
         services.AddScoped<TokenHelper>();
         services.AddHttpContextAccessor();

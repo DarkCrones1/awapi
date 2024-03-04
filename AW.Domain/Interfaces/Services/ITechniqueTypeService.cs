@@ -5,7 +5,7 @@ using AW.Domain.Entities;
 
 namespace AW.Domain.Interfaces.Services;
 
-public interface ITechniqueService : ICatalogBaseService<TechniqueType>
+public interface ITechniqueTypeService : ICatalogBaseService<TechniqueType>
 {
     Task<PagedList<TechniqueType>> GetPaged(TechniqueQueryFilter filter);
 }

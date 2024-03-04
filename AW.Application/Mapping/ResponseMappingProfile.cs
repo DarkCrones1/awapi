@@ -31,6 +31,31 @@ public class ResponseMappingProfile : Profile
             opt => opt.MapFrom(src => EnumHelper.GetDescription<Gender>((Gender)src.Gender!))
         );
 
+        CreateMap<Craftman, CraftmanDetailResponseDto>()
+        .ForMember(
+            dest => dest.StatusName,
+            opt => opt.MapFrom(src => EnumHelper.GetDescription<CraftmanStatus>((CraftmanStatus)src.Status))
+        ).ForMember(
+            dest => dest.GenderName,
+            opt => opt.MapFrom(src => EnumHelper.GetDescription<Gender>((Gender)src.Gender!))
+        ).AfterMap(
+            (src, dest) =>
+            {
+                var craftmanAddress = src.Address.FirstOrDefault() ?? new Address();
+                var craftmanCity = craftmanAddress.City ?? new City();
+
+                dest.Address1 = craftmanAddress.Address1;
+                dest.Address2 = craftmanAddress.Address2;
+                dest.Street = craftmanAddress.Street;
+                dest.ExternalNumber = craftmanAddress.ExternalNumber;
+                dest.InternalNumber = craftmanAddress.InternalNumber;
+                dest.ZipCode = craftmanAddress.ZipCode;
+                dest.CityId = craftmanAddress.CityId;
+                dest.CityName = craftmanCity.Name;
+                dest.FullAddress = craftmanAddress.FullAddress;
+            }
+        );
+
         CreateMap<Customer, CustomerResponseDto>()
         .ForMember(
             dest => dest.GenderName,
@@ -45,8 +70,56 @@ public class ResponseMappingProfile : Profile
         .AfterMap(
             (src, dest) =>
             {
-                
+
             }
+        );
+
+        CreateMap<Property, PropertyResponseDto>()
+        .ForMember(
+            dest => dest.PropertyTypeName,
+            opt => opt.MapFrom(src => EnumHelper.GetDescription<PropertyType>((PropertyType)src.PropertyType))
+        )
+        .ForMember(
+            dest => dest.Status,
+            opt => opt.MapFrom(src => StatusDeletedHelper.GetStatusDeletedEntity(src.IsDeleted))
+        ).ForMember(
+            dest => dest.IsActive,
+            opt => opt.MapFrom(src => !src.IsDeleted)
+        );
+
+        CreateMap<TechniqueTypeProperty, PropertyResponseDto>()
+        .AfterMap(
+            (src, dest) =>
+            {
+                var techniqueType = src.TechniqueType;
+                var property = src.Property;
+
+                dest.Id = src.Id;
+                dest.Name = property.Name;
+                dest.Description = property.Description;
+                dest.IsActive = !property.IsDeleted;
+                dest.Status = StatusDeletedHelper.GetStatusDeletedEntity(property.IsDeleted);
+                dest.PropertyType = property.PropertyType;
+                dest.PropertyTypeName = EnumHelper.GetDescription<PropertyType>((PropertyType)property.PropertyType);
+            }
+        );
+
+        CreateMap<TechniqueType, TechniqueTypeResponseDto>()
+        .ForMember(
+            dest => dest.Status,
+            opt => opt.MapFrom(src => StatusDeletedHelper.GetStatusDeletedEntity(!src.IsDeleted))
+        ).ForMember(
+            dest => dest.IsActive,
+            opt => opt.MapFrom(src => src.IsDeleted)
+        );
+
+        CreateMap<TechniqueType, TechniqueTypeDetailResponseDto>()
+        .ForMember(
+            dest => dest.Status,
+            opt => opt.MapFrom(src => StatusDeletedHelper.GetStatusDeletedEntity(src.IsDeleted))
+        ).ForMember(
+            dest => dest.IsActive,
+            opt => opt.MapFrom(src => !src.IsDeleted)
         );
 
         CreateMap<UserAccount, UserAccountCustomerResponseDto>()
