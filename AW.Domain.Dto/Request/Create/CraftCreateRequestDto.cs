@@ -17,9 +17,13 @@ public class CraftCreateRequestDto : BaseCatalogCreateRequestDto
 
     public string? CraftPictureUrl { get; set; }
 
+    public short CraftStatus { get; set; }
+
+    public int CultureId { get; set; }
+
     public int[]? CategoryIds { get; set; }
 
-    public int[]? TechniqueIds { get; set; }
+    public int[]? TechniqueTypeIds { get; set; }
 
     public IEnumerable<PropertyCraftCreateRequestDto> Propertys { get => _Propertys; set => _Propertys = value ?? new List<PropertyCraftCreateRequestDto>(); }
 }

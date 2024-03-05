@@ -27,10 +27,10 @@ namespace AW.Api.Controllers;
 public class CraftController : ControllerBase
 {
     private readonly IMapper _mapper;
-    private readonly ICatalogBaseService<Craft> _service;
+    private readonly ICraftService _service;
     private readonly TokenHelper _tokenHelper;
 
-    public CraftController(IMapper mapper, ICatalogBaseService<Craft> service, TokenHelper tokenHelper)
+    public CraftController(IMapper mapper, ICraftService service, TokenHelper tokenHelper)
     {
         this._mapper = mapper;
         this._service = service;
@@ -42,21 +42,28 @@ public class CraftController : ControllerBase
     [ProducesResponseType((int)HttpStatusCode.OK, Type = typeof(ApiResponse<CraftResponseDto>))]
     public async Task<IActionResult> CreateCraft([FromBody] CraftCreateRequestDto requestDto)
     {
-        try
-        {
-            var entity = _mapper.Map<Craft>(requestDto);
-            entity.CreatedBy = _tokenHelper.GetUserName();
-            await _service.Create(entity);
+        // try
+        // {
+        //     var entity = _mapper.Map<Craft>(requestDto);
+        //     entity.CreatedBy = _tokenHelper.GetUserName();
+        //     await _service.CreateCraft(entity, requestDto.CategoryIds!, requestDto.TechniqueTypeIds!);
 
-            var result = _mapper.Map<CraftResponseDto>(entity);
-            var response = new ApiResponse<CraftResponseDto>(result);
-            return Ok(response);
-        }
-        catch (Exception ex)
-        {
+        //     var result = _mapper.Map<CraftResponseDto>(entity);
+        //     var response = new ApiResponse<CraftResponseDto>(result);
+        //     return Ok(response);
+        // }
+        // catch (Exception ex)
+        // {
 
-            throw new LogicBusinessException(ex);
-        }
+        //     throw new LogicBusinessException(ex);
+        // }
+        var entity = _mapper.Map<Craft>(requestDto);
+        entity.CreatedBy = _tokenHelper.GetUserName();
+        await _service.CreateCraft(entity, requestDto.CategoryIds!, requestDto.TechniqueTypeIds!);
+
+        var result = _mapper.Map<CraftResponseDto>(entity);
+        var response = new ApiResponse<CraftResponseDto>(result);
+        return Ok(response);
     }
 
 }

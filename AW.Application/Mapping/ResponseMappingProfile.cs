@@ -22,6 +22,15 @@ public class ResponseMappingProfile : Profile
 
         CreateMap<Country, CountryResponseDto>();
 
+        CreateMap<Craft, CraftResponseDto>()
+        .ForMember(
+            dest => dest.IsActive,
+            opt => opt.MapFrom(src => !src.IsDeleted)
+        ).ForMember(
+            dest => dest.Status,
+            opt => opt.MapFrom(src => EnumHelper.GetDescription<CraftStatus>((CraftStatus)src.Status))
+        );
+
         CreateMap<Craftman, CraftmanResponseDto>()
         .ForMember(
             dest => dest.StatusName,

@@ -21,7 +21,7 @@ public interface IUnitOfWork : IDisposable
 
     ICrudRepository<Country> CountryRepository { get; }
 
-    ICatalogBaseRepository<Craft> CraftRepository { get; }
+    ICraftRepository CraftRepository { get; }
 
     ICrudRepository<CraftProperty> CraftPropertyRepository { get; }
 

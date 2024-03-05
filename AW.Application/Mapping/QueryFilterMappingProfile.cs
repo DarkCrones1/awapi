@@ -18,6 +18,8 @@ public class QueryFilterMappingProfile : Profile
 
         CreateMap<CountryQueryFilter, Country>();
 
+        CreateMap<CraftQueryFilter, Craft>();
+
         CreateMap<CraftmanQueryFilter, Craftman>();
 
         CreateMap<CustomerQueryFilter, Customer>();

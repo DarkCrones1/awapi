@@ -9,7 +9,6 @@ using Microsoft.OpenApi.Models;
 
 using AW.Infrastructure.Filters;
 using AW.Infrastructure.Data;
-using Microsoft.Extensions.Options;
 using Microsoft.AspNetCore.Localization;
 using System.Globalization;
 using AW.Application.Mapping;
@@ -109,6 +108,7 @@ public class Startup
         services.AddScoped(typeof(ICatalogBaseRepository<>), typeof(CatalogBaseRepository<>));
         services.AddScoped<IAzureBlobStorageRepository, AzureBlobStorageRepository>();
         services.AddScoped<ICategoryRepository, CategoryRepository>();
+        services.AddScoped<ICraftRepository, CraftRepository>();
         services.AddScoped<ICraftmantRepository, CraftmanRepository>();
         services.AddScoped<ICustomerRepository, CustomerRepository>();
         services.AddScoped<ILocalStorageRepository, LocalStorageRepository>();
@@ -122,6 +122,7 @@ public class Startup
         services.AddScoped<IAuthenticationService, AuthenticationService>();
         services.AddScoped<IAzureBlobStorageService, AzureBlobStorageService>();
         services.AddScoped<ICategoryService, CategoryService>();
+        services.AddScoped<ICraftService, CraftService>();
         services.AddScoped<ICraftmantService, CraftmanService>();
         services.AddScoped<ICustomerService, CustomerService>();
         services.AddScoped<IMiscellaneousService, MiscellaneousService>();

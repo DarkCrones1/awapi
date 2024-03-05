@@ -24,5 +24,15 @@ public class CraftConfiguration : IEntityTypeConfiguration<Craft>
             .HasColumnType("datetime");
         builder.Property(e => e.CraftPictureUrl).HasMaxLength(250);
         builder.Property(e => e.History).HasMaxLength(10000);
+
+        builder.HasOne(d => d.Craftman).WithMany(p => p.Craft)
+            .HasForeignKey(d => d.CraftmanId)
+            .OnDelete(DeleteBehavior.ClientSetNull)
+            .HasConstraintName("FK_Craft_Craftman");
+
+        builder.HasOne(d => d.Culture).WithMany(p => p.Craft)
+            .HasForeignKey(d => d.CultureId)
+            .OnDelete(DeleteBehavior.ClientSetNull)
+            .HasConstraintName("FK_Craft_Culture");
     }
 }

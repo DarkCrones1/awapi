@@ -8,6 +8,8 @@ public partial class Craft : CatalogBaseAuditablePaginationEntity
 
     public int CraftmanId { get; set; }
 
+    public int? CultureId { get; set; }
+
     public short Status { get; set; }
 
     public DateTime? PublicationDate { get; set; }
@@ -15,6 +17,10 @@ public partial class Craft : CatalogBaseAuditablePaginationEntity
     public virtual ICollection<Category> Category { get; } = new List<Category>();
 
     public virtual ICollection<Cart> Cart { get; } = new List<Cart>();
+
+    public virtual Craftman Craftman { get; set; } = null!;
+
+    public virtual Culture Culture { get; set; } = null!;
 
     public virtual ICollection<CraftProperty> Property { get; } = new List<CraftProperty>();
 

@@ -13,6 +13,4 @@ public partial class City : BaseRemovableAuditablePaginationEntity
     public int? CountryId { get; set; }
 
     public virtual Country Country { get; set; } = null!;
-
-    public virtual ICollection<Craft> Craft { get; } = new List<Craft>();
 }

@@ -33,10 +33,44 @@ public class CreateRequestMappingProfile : Profile
             opt => opt.MapFrom(src => DateTime.Now)
         ).ForMember(
             dest => dest.Status,
-            opt => opt.MapFrom(src => CraftStatus.Stock)
+            opt => opt.MapFrom(src => (short)CraftStatus.Stock)
         ).ForMember(
             dest => dest.Price,
             opt => opt.MapFrom(src => src.Price)
+        ).ForMember(
+            dest => dest.History,
+            opt => opt.MapFrom(src => src.History)
+        ).AfterMap(
+            (src, dest) => 
+            {
+                foreach (var item in src.Propertys)
+                {
+                    var propertyCraft = new CraftProperty{
+                        CreatedDate = DateTime.Now,
+                        Property = new Property{
+                            Name = item.Name,
+                            Description = item.Description,
+                            PropertyType = (short)PropertyType.CraftProperty,
+                            IsDeleted = false,
+                            CreatedDate = DateTime.Now,
+                            CreatedBy = "Craftman"
+                        }
+                    };
+                }
+            }
+        );
+
+        CreateMap<PropertyCraftCreateRequestDto, Property>()
+        .AfterMap(
+            (src, dest) => 
+            {
+                dest.Name = src.Name;
+                dest.Description = src.Description;
+                dest.CreatedDate = DateTime.Now;
+                dest.PropertyType = (short)PropertyType.CraftProperty;
+                dest.IsDeleted = false;
+                dest.CreatedBy = "Craftman";
+            }
         );
 
         CreateMap<TechniqueTypeCreateRequestDto, TechniqueType>()
@@ -61,7 +95,7 @@ public class CreateRequestMappingProfile : Profile
                             PropertyType = (short)PropertyType.TechniqueProperty,
                             IsDeleted = false,
                             CreatedDate = DateTime.Now,
-                            CreatedBy = "Admin"
+                            CreatedBy = "Craftman"
                         }
                     };
                     dest.Property.Add(propertyTechnique);
