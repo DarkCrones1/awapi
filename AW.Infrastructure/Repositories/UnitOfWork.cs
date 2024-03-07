@@ -40,7 +40,7 @@ public class UnitOfWork : IUnitOfWork
 
     protected ICraftmantRepository _craftmanRepository;
 
-    protected ICatalogBaseRepository<Culture> _cultureRepository;
+    protected ICultureRepository _cultureRepository;
 
     protected ICustomerRepository _customerRepository;
 
@@ -106,7 +106,7 @@ public class UnitOfWork : IUnitOfWork
 
         _craftPropertyRepository = new CrudRepository<CraftProperty>(_dbContext);
 
-        _cultureRepository = new CatalogBaseRepository<Culture>(_dbContext);
+        _cultureRepository = new CultureRepository(_dbContext);
 
         _customerRepository = new CustomerRepository(_dbContext);
 
@@ -159,7 +159,7 @@ public class UnitOfWork : IUnitOfWork
 
     public ICraftmantRepository CraftmanRepository => _craftmanRepository;
 
-    public ICatalogBaseRepository<Culture> CultureRepository => _cultureRepository;
+    public ICultureRepository CultureRepository => _cultureRepository;
 
     public ICustomerRepository CustomerRepository => _customerRepository;
 

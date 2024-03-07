@@ -29,6 +29,9 @@ public class CreateRequestMappingProfile : Profile
             dest => dest.CreatedDate,
             opt => opt.MapFrom(src => DateTime.Now)
         ).ForMember(
+            dest => dest.IsDeleted,
+            opt => opt.MapFrom(src => ValuesStatusPropertyEntity.IsNotDeleted)
+        ).ForMember(
             dest => dest.PublicationDate,
             opt => opt.MapFrom(src => DateTime.Now)
         ).ForMember(
@@ -40,14 +43,19 @@ public class CreateRequestMappingProfile : Profile
         ).ForMember(
             dest => dest.History,
             opt => opt.MapFrom(src => src.History)
+        ).ForMember(
+            dest => dest.CultureId,
+            opt => opt.MapFrom(src => src.CultureId)
         ).AfterMap(
-            (src, dest) => 
+            (src, dest) =>
             {
                 foreach (var item in src.Propertys)
                 {
-                    var propertyCraft = new CraftProperty{
+                    var propertyCraft = new CraftProperty
+                    {
                         CreatedDate = DateTime.Now,
-                        Property = new Property{
+                        Property = new Property
+                        {
                             Name = item.Name,
                             Description = item.Description,
                             PropertyType = (short)PropertyType.CraftProperty,
@@ -56,13 +64,14 @@ public class CreateRequestMappingProfile : Profile
                             CreatedBy = "Craftman"
                         }
                     };
+                    dest.Property.Add(propertyCraft);
                 }
             }
         );
 
         CreateMap<PropertyCraftCreateRequestDto, Property>()
         .AfterMap(
-            (src, dest) => 
+            (src, dest) =>
             {
                 dest.Name = src.Name;
                 dest.Description = src.Description;
@@ -71,6 +80,15 @@ public class CreateRequestMappingProfile : Profile
                 dest.IsDeleted = false;
                 dest.CreatedBy = "Craftman";
             }
+        );
+
+        CreateMap<CultureCreateRequestDto, Culture>()
+        .ForMember(
+            dest => dest.CreatedDate,
+            opt => opt.MapFrom(src => DateTime.Now)
+        ).ForMember(
+            dest => dest.IsDeleted,
+            opt => opt.MapFrom(src => ValuesStatusPropertyEntity.IsNotDeleted)
         );
 
         CreateMap<TechniqueTypeCreateRequestDto, TechniqueType>()

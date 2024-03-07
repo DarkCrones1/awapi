@@ -28,6 +28,12 @@ public class ResponseMappingProfile : Profile
             opt => opt.MapFrom(src => !src.IsDeleted)
         ).ForMember(
             dest => dest.Status,
+            opt => opt.MapFrom(src => StatusDeletedHelper.GetStatusDeletedEntity(src.IsDeleted))
+        ).ForMember(
+            dest => dest.CraftStatus,
+            opt => opt.MapFrom(src => src.Status)
+        ).ForMember(
+            dest => dest.CraftStatusName,
             opt => opt.MapFrom(src => EnumHelper.GetDescription<CraftStatus>((CraftStatus)src.Status))
         );
 
@@ -63,6 +69,12 @@ public class ResponseMappingProfile : Profile
                 dest.CityName = craftmanCity.Name;
                 dest.FullAddress = craftmanAddress.FullAddress;
             }
+        );
+
+        CreateMap<Culture, CultureResponseDto>()
+        .ForMember(
+            dest => dest.Status,
+            opt => opt.MapFrom(src => StatusDeletedHelper.GetStatusDeletedEntity(src.IsDeleted))
         );
 
         CreateMap<Customer, CustomerResponseDto>()

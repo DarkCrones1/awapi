@@ -17,8 +17,6 @@ public class CraftCreateRequestDto : BaseCatalogCreateRequestDto
 
     public string? CraftPictureUrl { get; set; }
 
-    public short CraftStatus { get; set; }
-
     public int CultureId { get; set; }
 
     public int[]? CategoryIds { get; set; }

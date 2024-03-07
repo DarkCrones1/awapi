@@ -59,6 +59,11 @@ public class TechniqueTypeController : ControllerBase
         return Ok(response);
     }
 
+    /// <summary>
+    /// Retorna información detallada de una tecnica artesanal
+    /// </summary>
+    /// <param name="id"></param>
+    /// <returns></returns>
     [HttpGet]
     [Route("{id:int}")]
     [ProducesResponseType((int)HttpStatusCode.OK, Type = typeof(ApiResponse<IEnumerable<TechniqueTypeDetailResponseDto>>))]

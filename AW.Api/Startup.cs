@@ -110,6 +110,7 @@ public class Startup
         services.AddScoped<ICategoryRepository, CategoryRepository>();
         services.AddScoped<ICraftRepository, CraftRepository>();
         services.AddScoped<ICraftmantRepository, CraftmanRepository>();
+        services.AddScoped<ICultureRepository, CultureRepository>();
         services.AddScoped<ICustomerRepository, CustomerRepository>();
         services.AddScoped<ILocalStorageRepository, LocalStorageRepository>();
         services.AddScoped<ITechniqueTypeRepository, TechniqueTypeRepository>();
@@ -124,6 +125,7 @@ public class Startup
         services.AddScoped<ICategoryService, CategoryService>();
         services.AddScoped<ICraftService, CraftService>();
         services.AddScoped<ICraftmantService, CraftmanService>();
+        services.AddScoped<ICultureService, CultureService>();
         services.AddScoped<ICustomerService, CustomerService>();
         services.AddScoped<IMiscellaneousService, MiscellaneousService>();
         services.AddScoped<ILocalStorageService, LocalStorageService>();

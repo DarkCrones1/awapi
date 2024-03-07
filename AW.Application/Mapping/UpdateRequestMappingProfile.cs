@@ -30,6 +30,8 @@ public class UpdateRequestMappingProfile : Profile
             }
         );
 
+        CreateMap<CultureUpdateRequestDto, Culture>();
+
         CreateMap<CustomerUpdateRequestDto, CustomerAddress>()
         .AfterMap(
             (src, dest) =>

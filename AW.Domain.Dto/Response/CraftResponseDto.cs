@@ -8,6 +8,8 @@ public class CraftResponseDto : BaseCatalogResponseDto
 
     public short CraftStatus { get; set; }
 
+    public string? CraftStatusName { get; set; }
+
     public DateTime? PublicationDate { get; set; }
 
     public decimal? Price { get; set; }

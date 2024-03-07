@@ -22,6 +22,8 @@ public class QueryFilterMappingProfile : Profile
 
         CreateMap<CraftmanQueryFilter, Craftman>();
 
+        CreateMap<CultureQueryFilter, Culture>();
+
         CreateMap<CustomerQueryFilter, Customer>();
 
         CreateMap<TechniqueQueryFilter, TechniqueType>();
