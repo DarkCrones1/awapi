@@ -6,6 +6,8 @@ public class CraftResponseDto : BaseCatalogResponseDto
 
     public int CraftmanId { get; set; }
 
+    public string? CraftmanFullName { get; set; }
+
     public short CraftStatus { get; set; }
 
     public string? CraftStatusName { get; set; }

@@ -11,6 +11,23 @@ public class ResponseMappingProfile : Profile
 {
     public ResponseMappingProfile()
     {
+        CreateMap<Cart, CartResponseDto>()
+        .ForMember(
+            dest => dest.StatusName,
+            opt => opt.MapFrom(src => EnumHelper.GetDescription<CartStatus>((CartStatus)src.Status))
+        );
+
+        CreateMap<Cart, CartDetailResponseDto>()
+        .ForMember(
+            dest => dest.Craft,
+            opt => opt.MapFrom(src => src.Craft)
+        ).ForMember(
+            dest => dest.Status,
+            opt => opt.MapFrom(src => src.Status)
+        ).ForMember(
+            dest => dest.StatusName,
+            opt => opt.MapFrom(src => EnumHelper.GetDescription<CartStatus>((CartStatus)src.Status))
+        );
 
         CreateMap<Category, CategoryResponseDto>()
         .ForMember(
@@ -23,6 +40,21 @@ public class ResponseMappingProfile : Profile
         CreateMap<Country, CountryResponseDto>();
 
         CreateMap<Craft, CraftResponseDto>()
+        .ForMember(
+            dest => dest.IsActive,
+            opt => opt.MapFrom(src => !src.IsDeleted)
+        ).ForMember(
+            dest => dest.Status,
+            opt => opt.MapFrom(src => StatusDeletedHelper.GetStatusDeletedEntity(src.IsDeleted))
+        ).ForMember(
+            dest => dest.CraftStatus,
+            opt => opt.MapFrom(src => src.Status)
+        ).ForMember(
+            dest => dest.CraftStatusName,
+            opt => opt.MapFrom(src => EnumHelper.GetDescription<CraftStatus>((CraftStatus)src.Status))
+        );
+
+        CreateMap<Craft, CraftDetailResponseDto>()
         .ForMember(
             dest => dest.IsActive,
             opt => opt.MapFrom(src => !src.IsDeleted)
@@ -108,6 +140,23 @@ public class ResponseMappingProfile : Profile
             opt => opt.MapFrom(src => !src.IsDeleted)
         );
 
+        CreateMap<CraftProperty, PropertyResponseDto>()
+        .AfterMap(
+            (src, dest) =>
+            {
+                var craft = src.Craft;
+                var property = src.Property;
+
+                dest.Id = src.Id;
+                dest.Name = property.Name;
+                dest.Description = property.Description;
+                dest.IsActive = !property.IsDeleted;
+                dest.Status = StatusDeletedHelper.GetStatusDeletedEntity(property.IsDeleted);
+                dest.PropertyType = property.PropertyType;
+                dest.PropertyTypeName = EnumHelper.GetDescription<PropertyType>((PropertyType)property.PropertyType);
+            }
+        );
+
         CreateMap<TechniqueTypeProperty, PropertyResponseDto>()
         .AfterMap(
             (src, dest) =>
@@ -128,10 +177,10 @@ public class ResponseMappingProfile : Profile
         CreateMap<TechniqueType, TechniqueTypeResponseDto>()
         .ForMember(
             dest => dest.Status,
-            opt => opt.MapFrom(src => StatusDeletedHelper.GetStatusDeletedEntity(!src.IsDeleted))
+            opt => opt.MapFrom(src => StatusDeletedHelper.GetStatusDeletedEntity(src.IsDeleted))
         ).ForMember(
             dest => dest.IsActive,
-            opt => opt.MapFrom(src => src.IsDeleted)
+            opt => opt.MapFrom(src => !src.IsDeleted)
         );
 
         CreateMap<TechniqueType, TechniqueTypeDetailResponseDto>()

@@ -1,6 +1,7 @@
 using AW.Common.Entities;
 using AW.Domain.Dto.QueryFilters;
 using AW.Domain.Entities;
+using AW.Domain.Enumerations;
 using AW.Domain.Interfaces;
 using AW.Domain.Interfaces.Services;
 
@@ -17,6 +18,17 @@ public class CraftService : CatalogBaseService<Craft>, ICraftService
         var result = await _unitOfWork.CraftRepository.GetPaged(filter);
         var pagedItems = PagedList<Craft>.Create(result, filter.PageNumber, filter.PageSize);
         return pagedItems;
+    }
+
+    public async Task UpdateProfile(int craftId, string urlProfile, string userName)
+    {
+        var lastEntity = await _unitOfWork.CraftRepository.GetById(craftId);
+        lastEntity.CraftPictureUrl = urlProfile;
+        lastEntity.LastModifiedDate = DateTime.Now;
+        lastEntity.LastModifiedBy = userName;
+
+        await base.Update(lastEntity);
+        await _unitOfWork.SaveChangesAsync();
     }
 
     public async Task CreateCraft(Craft entity, int[] CategoryIds, int[] TechniqueTypeIds)
@@ -36,6 +48,38 @@ public class CraftService : CatalogBaseService<Craft>, ICraftService
         }
 
         await base.Create(entity);
+        await _unitOfWork.SaveChangesAsync();
+    }
+
+    public async Task UpdateCraft(Craft entity, int[] CategoryIds, int[] TechniqueTypeIds)
+    {
+        var oldEntity = await _unitOfWork.CraftRepository.GetById(entity.Id);
+
+        oldEntity.Category.Clear();
+
+        foreach (var item in CategoryIds)
+        {
+            var category = await _unitOfWork.CategoryRepository.GetById(item);
+            if (item > 0)
+                oldEntity.Category.Add(category);
+        }
+
+        oldEntity.TechniqueType.Clear();
+
+        foreach (var item in TechniqueTypeIds)
+        {
+            var technique = await _unitOfWork.TechniqueTypeRepository.GetById(item);
+            if (item > 0)
+                oldEntity.TechniqueType.Add(technique);
+        }
+
+        entity.CraftmanId = oldEntity.CraftmanId;
+        entity.CraftPictureUrl = oldEntity.CraftPictureUrl;
+        entity.SerialId = oldEntity.SerialId;
+        entity.PublicationDate = oldEntity.PublicationDate;
+        entity.Status = (short)CraftStatus.Stock;
+
+        await base.Update(entity);
         await _unitOfWork.SaveChangesAsync();
     }
 }

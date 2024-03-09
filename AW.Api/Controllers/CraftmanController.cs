@@ -119,7 +119,7 @@ public class CraftmanController : ControllerBase
     [HttpPost]
     [Route("UploadImageProfile")]
     [Authorize]
-    public async Task<IActionResult> UploadImageProfileLocal([FromForm] ImageProfileCreateRequestDto requestDto)
+    public async Task<IActionResult> UploadImageProfileLocal([FromForm] ImageCreateRequestDto requestDto)
     {
         try
         {
@@ -127,7 +127,7 @@ public class CraftmanController : ControllerBase
 
             string url = $"{GetUrlBaseLocal((short)LocalContainer.Image_Profile)}{urlFile}";
 
-            await _service.UpdateProfile(requestDto.ProfileId, url, _tokenHelper.GetUserName());
+            await _service.UpdateProfile(requestDto.EntityAssigmentId, url, _tokenHelper.GetUserName());
 
             return Ok();
         }
@@ -186,23 +186,23 @@ public class CraftmanController : ControllerBase
     [HttpPut]
     [Route("UpdateImageProfile")]
     [Authorize]
-    public async Task<IActionResult> UpdateImageProfileLocal([FromForm] ImageProfileCreateRequestDto requestDto)
+    public async Task<IActionResult> UpdateImageProfileLocal([FromForm] ImageCreateRequestDto requestDto)
     {
         try
         {
-            Expression<Func<Craftman, bool>> filter = x => x.Id == requestDto.ProfileId;
+            Expression<Func<Craftman, bool>> filter = x => x.Id == requestDto.EntityAssigmentId;
             var existCraftman = await _service.Exist(filter);
 
             if (!existCraftman)
                 return BadRequest("No se encontró ningun Artesano");
 
-            var entity = await _service.GetById(requestDto.ProfileId);
+            var entity = await _service.GetById(requestDto.EntityAssigmentId);
 
             var urlFile = await _localService.EditFileAsync(requestDto.File, LocalContainer.Image_Profile, entity.ProfilePictureUrl!);
 
             string url = $"{GetUrlBaseLocal((short)LocalContainer.Image_Profile)}{urlFile}";
 
-            await _service.UpdateProfile(requestDto.ProfileId, url, _tokenHelper.GetUserName());
+            await _service.UpdateProfile(requestDto.EntityAssigmentId, url, _tokenHelper.GetUserName());
 
             return Ok();
         }

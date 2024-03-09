@@ -107,6 +107,7 @@ public class Startup
         services.AddScoped(typeof(IRetrieveRepository<>), typeof(RetrieveRepository<>));
         services.AddScoped(typeof(ICatalogBaseRepository<>), typeof(CatalogBaseRepository<>));
         services.AddScoped<IAzureBlobStorageRepository, AzureBlobStorageRepository>();
+        services.AddScoped<ICartRepository, CartRepository>();
         services.AddScoped<ICategoryRepository, CategoryRepository>();
         services.AddScoped<ICraftRepository, CraftRepository>();
         services.AddScoped<ICraftmantRepository, CraftmanRepository>();
@@ -122,6 +123,7 @@ public class Startup
         services.AddScoped(typeof(ICatalogBaseService<>), typeof(CatalogBaseService<>));
         services.AddScoped<IAuthenticationService, AuthenticationService>();
         services.AddScoped<IAzureBlobStorageService, AzureBlobStorageService>();
+        services.AddScoped<ICartService, CartService>();
         services.AddScoped<ICategoryService, CategoryService>();
         services.AddScoped<ICraftService, CraftService>();
         services.AddScoped<ICraftmantService, CraftmanService>();

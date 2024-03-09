@@ -12,6 +12,8 @@ public class QueryFilterMappingProfile : Profile
     {
         CreateMap<BaseCatalogQueryFilter, Category>();
 
+        CreateMap<CartQueryFilter, Cart>();
+
         CreateMap<CategoryQueryFilter, Category>();
 
         CreateMap<CityQueryFilter, City>();

@@ -24,7 +24,7 @@ public class UnitOfWork : IUnitOfWork
 
     protected ICrudRepository<Administrator> _administratorRepository;
 
-    protected ICrudRepository<Cart> _cartRepository;
+    protected ICartRepository _cartRepository;
 
     protected ICategoryRepository _categoryRepository;
 
@@ -90,7 +90,7 @@ public class UnitOfWork : IUnitOfWork
 
         _administratorRepository = new CrudRepository<Administrator>(_dbContext);
 
-        _cartRepository = new CrudRepository<Cart>(_dbContext);
+        _cartRepository = new CartRepository(_dbContext);
 
         _categoryRepository = new CategoryRepository(_dbContext);
 
@@ -143,7 +143,7 @@ public class UnitOfWork : IUnitOfWork
 
     public ICrudRepository<Administrator> AdministratorRepository => _administratorRepository;
 
-    public ICrudRepository<Cart> CartRepository => _cartRepository;
+    public ICartRepository CartRepository => _cartRepository;
 
     public ICategoryRepository CategoryRepository => _categoryRepository;
 

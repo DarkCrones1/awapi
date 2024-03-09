@@ -60,7 +60,7 @@ public class TechniqueTypeController : ControllerBase
     }
 
     /// <summary>
-    /// Retorna información detallada de una tecnica artesanal
+    /// Lista los detalles de una tecnica artesanal
     /// </summary>
     /// <param name="id"></param>
     /// <returns></returns>

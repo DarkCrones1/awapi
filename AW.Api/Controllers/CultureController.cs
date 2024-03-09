@@ -62,7 +62,7 @@ public class CultureController : ControllerBase
     }
 
     /// <summary>
-    /// Buca una cultura mediante su Id, devuelve información detallada
+    /// Lista los detalles de una cultura
     /// </summary>
     /// <param name="id"></param>
     /// <returns></returns>

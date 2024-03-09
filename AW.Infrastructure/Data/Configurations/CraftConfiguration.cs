@@ -34,5 +34,37 @@ public class CraftConfiguration : IEntityTypeConfiguration<Craft>
             .HasForeignKey(d => d.CultureId)
             .OnDelete(DeleteBehavior.ClientSetNull)
             .HasConstraintName("FK_Craft_Culture");
+
+        builder.HasMany(d => d.Category).WithMany(p => p.Craft)
+            .UsingEntity<Dictionary<string, object>>(
+                "CraftCategory",
+                r => r.HasOne<Category>().WithMany()
+                    .HasForeignKey("CategoryId")
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("FK_CraftCategory_Category"),
+                l => l.HasOne<Craft>().WithMany()
+                    .HasForeignKey("CraftId")
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("FK_CraftCategory_Craft"),
+                j =>
+                {
+                    j.HasKey("CraftId", "CategoryId");
+                });
+
+        builder.HasMany(d => d.TechniqueType).WithMany(p => p.Craft)
+            .UsingEntity<Dictionary<string, object>>(
+                "CraftTechniqueType",
+                r => r.HasOne<TechniqueType>().WithMany()
+                    .HasForeignKey("TechniqueTypeId")
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("FK_CraftTechniqueType_TechniqueType"),
+                l => l.HasOne<Craft>().WithMany()
+                    .HasForeignKey("CraftId")
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("FK_CraftTechniqueType_Craft"),
+                j =>
+                {
+                    j.HasKey("CraftId", "TechniqueTypeId");
+                });
     }
 }

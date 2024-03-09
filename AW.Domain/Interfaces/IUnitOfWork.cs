@@ -11,7 +11,7 @@ public interface IUnitOfWork : IDisposable
 
     ICrudRepository<Administrator> AdministratorRepository { get; }
 
-    ICrudRepository<Cart> CartRepository { get; }
+    ICartRepository CartRepository { get; }
 
     ICategoryRepository CategoryRepository { get; }
 

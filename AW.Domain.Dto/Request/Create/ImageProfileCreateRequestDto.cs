@@ -2,9 +2,9 @@ using Microsoft.AspNetCore.Http;
 
 namespace AW.Domain.Dto.Request.Create;
 
-public class ImageProfileCreateRequestDto
+public class ImageCreateRequestDto
 {
-    public int ProfileId { get; set; }
+    public int EntityAssigmentId { get; set; }
 
     public IFormFile File { get; set; } = null!;
 }

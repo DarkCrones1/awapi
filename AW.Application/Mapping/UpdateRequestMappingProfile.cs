@@ -12,6 +12,8 @@ public class UpdateRequestMappingProfile : Profile
     {
         CreateMap<CategoryUpdateRequestDto, Category>();
 
+        CreateMap<CraftUpdateRequestDto, Craft>();
+
         CreateMap<CraftmanUpdateRequestDto, Craftman>()
         .AfterMap(
             (src, dest) =>

@@ -60,7 +60,7 @@ public class CategoryController : ControllerBase
     }
 
     /// <summary>
-    /// Busca una categoria mediante su Id, devuelve información detallada
+    /// Lista los detalles de una categoria
     /// </summary>
     /// <param name="id"></param>
     /// <returns></returns>

@@ -10,7 +10,16 @@ public class CreateRequestMappingProfile : Profile
 {
     public CreateRequestMappingProfile()
     {
-        CreateMap<ImageProfileCreateRequestDto, AWDocument>();
+        CreateMap<ImageCreateRequestDto, AWDocument>();
+
+        CreateMap<CartCreateRequestDto, Cart>()
+        .ForMember(
+            dest => dest.CreatedDate,
+            opt => opt.MapFrom(src => DateTime.Now)
+        ).ForMember(
+            dest => dest.Status,
+            opt => opt.MapFrom(src => (short)CartStatus.Arrange)
+        );
 
         CreateMap<CategoryCreateRequestDto, Category>()
         .ForMember(

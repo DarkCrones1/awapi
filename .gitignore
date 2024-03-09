@@ -489,7 +489,7 @@ AW.Common/obj/*
 AW.Domain/obj/*
 AW.Domain.Dto/obj/*
 AW.Infrastructure/obj/*
-AW.Api/wwwroot/image-profile
+AW.Api/wwwroot/
 
 # ignore files
 **/*.dll

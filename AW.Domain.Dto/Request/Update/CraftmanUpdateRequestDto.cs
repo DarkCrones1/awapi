@@ -12,6 +12,8 @@ public class CraftmanUpdateRequestDto
 
     public string CellPhone { get; set; } = null!;
 
+    public string? History { get; set; }
+
     public short? Gender { get; set; }
 
     public DateTime? BirthDate { get; set; }
