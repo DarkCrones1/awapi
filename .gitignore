@@ -490,6 +490,7 @@ AW.Domain/obj/*
 AW.Domain.Dto/obj/*
 AW.Infrastructure/obj/*
 AW.Api/wwwroot/
+src
 
 # ignore files
 **/*.dll

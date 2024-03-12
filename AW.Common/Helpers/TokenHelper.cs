@@ -28,12 +28,12 @@ public class TokenHelper
         return nameIdentifier!.Value;
     }
 
-    public string GetAccountId()
+    public int GetAccountId()
     {
         var identity = _httpContextAccessor.HttpContext!.User.Identity as ClaimsIdentity;
         var accountId = identity!.FindFirst(ClaimTypes.Sid);
 
-        return accountId!.Value;
+        return int.Parse(accountId!.Value);
     }
 
     public string GetUserAccountType()
