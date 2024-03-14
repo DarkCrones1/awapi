@@ -11,7 +11,7 @@ public class UserDataInfoConfiguration : IEntityTypeConfiguration<UserDataInfo>
     public void Configure(EntityTypeBuilder<UserDataInfo> builder)
     {
         builder.Ignore(x => x.FullName);
-        builder.HasKey(e => e.Id).HasName("PK__Craftman__3214EC235D7D5044");
+        builder.HasKey(e => e.Id).HasName("PK__UserDataInfo__8574EC235D7D5044");
 
 
         builder.Property(e => e.CellPhone)
@@ -38,22 +38,5 @@ public class UserDataInfoConfiguration : IEntityTypeConfiguration<UserDataInfo>
             .HasMaxLength(50)
             .IsUnicode(false);
         builder.Property(e => e.ProfilePictureUrl).HasMaxLength(250);
-
-        builder.HasMany(d => d.Customer).WithMany(p => p.UserDataInfo)
-            .UsingEntity<Dictionary<string, object>>(
-                "UserDataInfoCustomer",
-                r => r.HasOne<Customer>().WithMany()
-                    .HasForeignKey("CustomerId")
-                    .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("FK_UserDataInfoCustomer_Customer"),
-                l => l.HasOne<UserDataInfo>().WithMany()
-                    .HasForeignKey("UserDataInfoId")
-                    .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("FK_UserDataInfoCustomer_UserDataInfo"),
-                j =>
-                {
-                    j.HasKey("UserDataInfoId", "CustomerId");
-                });
-
     }
 }

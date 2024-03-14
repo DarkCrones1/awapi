@@ -79,6 +79,24 @@ public class UserAccountRepository : CrudRepository<UserAccount>, IUserAccountRe
         return await query.ToListAsync();
     }
 
+    public async Task<ActiveUserAccount> GetUserAccount(int id)
+    {
+        Expression<Func<ActiveUserAccount, bool>> filter = x => x.Id == id;
+        var entity = await GetUserAccountToLogin(filter);
+
+        return entity ?? new ActiveUserAccount();
+    }
+
+    public async Task<ActiveUserAccount> GetUserAccountToLogin(Expression<Func<ActiveUserAccount, bool>> filters)
+    {
+        var entity = await _dbContext.ActiveUserAccount
+        .Where(filters)
+        .AsNoTracking()
+        .FirstOrDefaultAsync();
+
+        return entity ?? new ActiveUserAccount();
+    }
+
     public async Task<ActiveUserAccountCustomer> GetUserAccountCustomer(int id)
     {
         Expression<Func<ActiveUserAccountCustomer, bool>> filter = x => x.Id == id;

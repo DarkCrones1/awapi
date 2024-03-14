@@ -187,41 +187,41 @@ public class CustomerController : ControllerBase
         }
     }
 
-    /// <summary>
-    /// Actualiza la foto de perfil del Usuario
-    /// </summary>
-    /// <param name="requestDto"></param>
-    /// <returns></returns>
-    /// <exception cref="LogicBusinessException"></exception>
-    [HttpPut]
-    [Route("UpdateImageProfile")]
-    [Authorize]
-    public async Task<IActionResult> UpdateImageProfileLocal([FromForm] ImageCreateRequestDto requestDto)
-    {
-        try
-        {
-            Expression<Func<Customer, bool>> filter = x => x.Id == requestDto.EntityAssigmentId;
-            var existCraftman = await _service.Exist(filter);
+    // /// <summary>
+    // /// Actualiza la foto de perfil del Usuario
+    // /// </summary>
+    // /// <param name="requestDto"></param>
+    // /// <returns></returns>
+    // /// <exception cref="LogicBusinessException"></exception>
+    // [HttpPut]
+    // [Route("UpdateImageProfile")]
+    // [Authorize]
+    // public async Task<IActionResult> UpdateImageProfileLocal([FromForm] ImageCreateRequestDto requestDto)
+    // {
+    //     try
+    //     {
+    //         Expression<Func<Customer, bool>> filter = x => x.Id == requestDto.EntityAssigmentId;
+    //         var existCraftman = await _service.Exist(filter);
 
-            if (!existCraftman)
-                return BadRequest("No se encontrp ningun Cliente");
+    //         if (!existCraftman)
+    //             return BadRequest("No se encontrp ningun Cliente");
 
-            var entity = await _service.GetById(requestDto.EntityAssigmentId);
+    //         var entity = await _service.GetById(requestDto.EntityAssigmentId);
 
-            var urlFile = await _localService.EditFileAsync(requestDto.File, LocalContainer.Image_Profile, entity.ProfilePictureUrl!);
+    //         var urlFile = await _localService.EditFileAsync(requestDto.File, LocalContainer.Image_Profile, entity.ProfilePictureUrl!);
 
-            string url = $"{GetUrlBaseLocal((short)LocalContainer.Image_Profile)}{urlFile}";
+    //         string url = $"{GetUrlBaseLocal((short)LocalContainer.Image_Profile)}{urlFile}";
 
-            await _service.UpdateProfile(requestDto.EntityAssigmentId, url, _tokenHelper.GetUserName());
+    //         await _service.UpdateProfile(requestDto.EntityAssigmentId, url, _tokenHelper.GetUserName());
 
-            return Ok();
-        }
-        catch (Exception ex)
-        {
+    //         return Ok();
+    //     }
+    //     catch (Exception ex)
+    //     {
 
-            throw new LogicBusinessException(ex);
-        }
-    }
+    //         throw new LogicBusinessException(ex);
+    //     }
+    // }
 
     /// <summary>
     /// Elimina de manera lógica un Cliente y deshabilita su cuenta de usuario
@@ -258,35 +258,35 @@ public class CustomerController : ControllerBase
         }
     }
 
-    /// <summary>
-    /// Elimina la imagen de perfil del usuario
-    /// </summary>
-    /// <param name="id"></param>
-    /// <returns></returns>
-    /// <exception cref="LogicBusinessException"></exception>
-    [HttpDelete]
-    [Route("{id:int}/DeleteImageProfile")]
-    [Authorize]
-    public async Task<IActionResult> DeleteImageProfile([FromRoute] int id)
-    {
-        try
-        {
-            Expression<Func<Customer, bool>> filter = x => x.Id == id;
-            var existCustomer = await _service.Exist(filter);
+    // /// <summary>
+    // /// Elimina la imagen de perfil del usuario
+    // /// </summary>
+    // /// <param name="id"></param>
+    // /// <returns></returns>
+    // /// <exception cref="LogicBusinessException"></exception>
+    // [HttpDelete]
+    // [Route("{id:int}/DeleteImageProfile")]
+    // [Authorize]
+    // public async Task<IActionResult> DeleteImageProfile([FromRoute] int id)
+    // {
+    //     try
+    //     {
+    //         Expression<Func<Customer, bool>> filter = x => x.Id == id;
+    //         var existCustomer = await _service.Exist(filter);
 
-            if (!existCustomer)
-                return BadRequest("No se encontro ningun Cliente");
+    //         if (!existCustomer)
+    //             return BadRequest("No se encontro ningun Cliente");
 
-            var entity = await _service.GetById(id);
+    //         var entity = await _service.GetById(id);
 
-            await _localService.DeteleAsync(LocalContainer.Image_Profile, entity.ProfilePictureUrl!);
-            await _service.UpdateProfile(id, null!, _tokenHelper.GetUserName());
-            return Ok(true);
-        }
-        catch (Exception ex)
-        {
+    //         await _localService.DeteleAsync(LocalContainer.Image_Profile, entity.ProfilePictureUrl!);
+    //         await _service.UpdateProfile(id, null!, _tokenHelper.GetUserName());
+    //         return Ok(true);
+    //     }
+    //     catch (Exception ex)
+    //     {
 
-            throw new LogicBusinessException(ex);
-        }
-    }
+    //         throw new LogicBusinessException(ex);
+    //     }
+    // }
 }

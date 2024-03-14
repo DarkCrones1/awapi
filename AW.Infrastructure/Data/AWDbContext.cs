@@ -60,6 +60,10 @@ public partial class AWDbContext : DbContext
 
     public virtual DbSet<UserAccount> UserAccount { get; set; }
 
+    public virtual DbSet<UserDataInfo> UserDataInfo { get; set; }
+
+    public virtual DbSet<ActiveUserAccount> ActiveUserAccount { get; set; }
+
     public virtual DbSet<ActiveUserAccountAdministrator> ActiveUserAccountAdministrator { get; set; }
 
     public virtual DbSet<ActiveUserAccountCustomer> ActiveUserAccountCustomer { get; set; }

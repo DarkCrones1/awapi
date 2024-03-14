@@ -21,6 +21,4 @@ public partial class Craftman : BaseRemovableAuditablePaginationEntity
     public virtual ICollection<TechniqueType> TechniqueType { get; } = new List<TechniqueType>();
 
     public virtual ICollection<UserAccount> UserAccount { get; } = new List<UserAccount>();
-
-    public virtual ICollection<UserDataInfo> UserDataInfo {get;} = new List<UserDataInfo>();
 }

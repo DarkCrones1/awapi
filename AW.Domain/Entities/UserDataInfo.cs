@@ -22,7 +22,5 @@ public partial class UserDataInfo : BaseAuditableEntity
 
     public string FullName { get => $"{FirstName} {MiddleName} {LastName}".Trim(); }
 
-    public virtual ICollection<Customer> Customer { get; } = new List<Customer>();
-
-    public virtual ICollection<Craftman> Craftman { get; } = new List<Craftman>();
+    public virtual ICollection<UserAccount> UserAccount { get; } = new List<UserAccount>();
 }

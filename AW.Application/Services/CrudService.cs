@@ -68,6 +68,9 @@ public class CrudService<T> : ICrudService<T> where T : BaseEntity
         if (typeRep == typeof(UserAccount))
             return (ICrudRepository<T>)this._unitOfWork.UserAccountRepository;
 
+        if (typeRep == typeof(UserDataInfo))
+            return (ICrudRepository<T>)this._unitOfWork.UserDataInfoRepository;
+
         return (ICrudRepository<T>)this._unitOfWork.TicketRepository;
     }
 

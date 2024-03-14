@@ -8,6 +8,9 @@ namespace AW.Domain.Interfaces.Repositories;
 
 public interface IUserAccountRepository : IQueryPagedRepository<ActiveUserAccountAdministrator>, ICrudRepository<UserAccount>, IQueryFilterPagedRepository<UserAccount, UserAccountQueryFilter>
 {
+    Task<ActiveUserAccount> GetUserAccount(int id);
+    Task<ActiveUserAccount> GetUserAccountToLogin(Expression<Func<ActiveUserAccount, bool>> filters);
+
     Task<ActiveUserAccountCustomer> GetUserAccountCustomer(int id);
     Task<ActiveUserAccountCustomer> GetUserAccountCustomerToLogin(Expression<Func<ActiveUserAccountCustomer, bool>> filters);
 

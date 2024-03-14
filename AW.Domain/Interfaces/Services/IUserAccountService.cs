@@ -9,6 +9,10 @@ namespace AW.Domain.Interfaces.Services;
 public interface IUserAccountService : ICrudService<UserAccount>
 {
     Task<int> CreateUser(UserAccount user);
+
+    Task<ActiveUserAccount> GetUserAccount(int id);
+    Task<ActiveUserAccount> GetUserAccountToLogin(Expression<Func<ActiveUserAccount, bool>> filters);
+
     Task<ActiveUserAccountCustomer> GetUserAccountCustomer(int id);
     Task<ActiveUserAccountCustomer> GetUserAccountCustomerToLogin(Expression<Func<ActiveUserAccountCustomer, bool>> filters);
 

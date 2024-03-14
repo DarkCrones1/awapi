@@ -19,6 +19,4 @@ public partial class Customer : BaseRemovableAuditablePaginationEntity
     public virtual ICollection<Ticket> Ticket { get; } = new List<Ticket>();
 
     public virtual ICollection<UserAccount> UserAccount { get; } = new List<UserAccount>();
-
-    public virtual ICollection<UserDataInfo> UserDataInfo {get;} = new List<UserDataInfo>();
 }

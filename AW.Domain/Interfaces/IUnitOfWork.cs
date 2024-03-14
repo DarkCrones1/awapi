@@ -49,6 +49,10 @@ public interface IUnitOfWork : IDisposable
 
     IUserAccountRepository UserAccountRepository { get; }
 
+    ICrudRepository<UserDataInfo> UserDataInfoRepository { get; }
+
+    IRetrieveRepository<ActiveUserAccount> ActiveUserAccountRepository { get; }
+
     IRetrieveRepository<ActiveUserAccountAdministrator> ActiveUserAccountAdministratorRepository { get; }
 
     IRetrieveRepository<ActiveUserAccountCraftman> ActiveUserAccountCraftmanRepository { get; }
