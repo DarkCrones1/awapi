@@ -12,6 +12,10 @@ public class UpdateRequestMappingProfile : Profile
     {
         CreateMap<CategoryUpdateRequestDto, Category>();
 
+        CreateMap<BaseCatalogUpdateRequestDto, Rol>();
+        
+        CreateMap<CategoryUpdateRequestDto, Category>();
+
         CreateMap<CraftUpdateRequestDto, Craft>();
 
         CreateMap<CraftmanUpdateRequestDto, Craftman>()

@@ -100,6 +100,20 @@ public class CreateRequestMappingProfile : Profile
             opt => opt.MapFrom(src => ValuesStatusPropertyEntity.IsNotDeleted)
         );
 
+        CreateMap<TicketCreateRequestDto, Ticket>()
+        .ForMember(
+            dest => dest.CreatedDate,
+            opt => opt.MapFrom(src => DateTime.Now)
+        )
+        .ForMember(
+            dest => dest.SerialId,
+            opt => opt.MapFrom(src => Guid.NewGuid())
+        )
+        .ForMember(
+            dest => dest.Status,
+            opt => opt.MapFrom(src => (short)TicketStatus.Pendding)
+        );
+
         CreateMap<TechniqueTypeCreateRequestDto, TechniqueType>()
         .ForMember(
             dest => dest.CreatedDate,

@@ -45,7 +45,7 @@ public interface IUnitOfWork : IDisposable
 
     ICrudRepository<TechniqueTypeProperty> TechniqueTypePropertyRepository { get; }
 
-    ICrudRepository<Ticket> TicketRepository { get; }
+    ITicketRepository TicketRepository { get; }
 
     IUserAccountRepository UserAccountRepository { get; }
 

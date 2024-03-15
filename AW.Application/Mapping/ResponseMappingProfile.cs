@@ -11,6 +11,17 @@ public class ResponseMappingProfile : Profile
 {
     public ResponseMappingProfile()
     {
+
+        CreateMap<Rol, BaseCatalogResponseDto>()
+        .ForMember(
+            dest => dest.Status,
+            opt => opt.MapFrom(src => StatusDeletedHelper.GetStatusDeletedEntity(src.IsDeleted))
+        )
+        .ForMember(
+            dest => dest.IsActive,
+            opt => opt.MapFrom(src => !src.IsDeleted)
+        );
+
         CreateMap<Cart, CartResponseDto>()
         .ForMember(
             dest => dest.StatusName,
@@ -125,6 +136,22 @@ public class ResponseMappingProfile : Profile
             {
 
             }
+        );
+
+        CreateMap<Ticket, TicketResponseDto>()
+        .ForMember(
+            dest => dest.StatusName,
+            opt => opt.MapFrom(src => EnumHelper.GetDescription<TicketStatus>((TicketStatus)src.Status))
+        );
+
+        CreateMap<Ticket, TicketDetailResponseDto>()
+        .ForMember(
+            dest => dest.StatusName,
+            opt => opt.MapFrom(src => EnumHelper.GetDescription<TicketStatus>((TicketStatus)src.Status))
+        )
+        .ForMember(
+            dest => dest.Cart,
+            opt => opt.MapFrom(src => src.Cart)
         );
 
         CreateMap<Property, PropertyResponseDto>()

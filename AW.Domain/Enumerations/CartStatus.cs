@@ -6,14 +6,12 @@ public enum CartStatus
 {
     [Description("Ordenado")]
     Arrange = 1,
-    [Description("Proceso")]
-    Process = 2,
     [Description("Pendiente")]
-    Pendding = 3,
+    Pendding = 2,
     [Description("Terminado")]
-    Finished = 4,
+    Finished = 3,
     [Description("Cerrado")]
-    Closed = 5,
+    Closed = 4,
     [Description("Cancelado")]
     Canceled = 10
 }

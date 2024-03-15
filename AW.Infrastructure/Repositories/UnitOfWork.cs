@@ -58,7 +58,7 @@ public class UnitOfWork : IUnitOfWork
 
     protected ICrudRepository<TechniqueTypeProperty> _techniqueTypePropertyRepository;
 
-    protected ICrudRepository<Ticket> _ticketRepository;
+    protected ITicketRepository _ticketRepository;
 
     protected IUserAccountRepository _userAccountRepository;
 
@@ -124,7 +124,7 @@ public class UnitOfWork : IUnitOfWork
 
         _techniqueTypePropertyRepository = new CrudRepository<TechniqueTypeProperty>(_dbContext);
 
-        _ticketRepository = new CrudRepository<Ticket>(_dbContext);
+        _ticketRepository = new TicketRepository(_dbContext);
 
         _userAccountRepository = new UserAccountRepository(_dbContext);
 
@@ -177,7 +177,7 @@ public class UnitOfWork : IUnitOfWork
 
     public ICrudRepository<TechniqueTypeProperty> TechniqueTypePropertyRepository => _techniqueTypePropertyRepository;
 
-    public ICrudRepository<Ticket> TicketRepository => _ticketRepository;
+    public ITicketRepository TicketRepository => _ticketRepository;
 
     public IUserAccountRepository UserAccountRepository => _userAccountRepository;
 

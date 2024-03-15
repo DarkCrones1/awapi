@@ -141,6 +141,12 @@ public class CultureController : ControllerBase
         }
     }
 
+    /// <summary>
+    /// Elimina de manera logica una cultura
+    /// </summary>
+    /// <param name="id"></param>
+    /// <returns></returns>
+    /// <exception cref="LogicBusinessException"></exception>
     [HttpDelete]
     [Route("{id:int}")]
     [Authorize]

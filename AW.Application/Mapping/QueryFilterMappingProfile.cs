@@ -30,6 +30,8 @@ public class QueryFilterMappingProfile : Profile
 
         CreateMap<TechniqueQueryFilter, TechniqueType>();
 
+        CreateMap<TicketQueryFilter, Ticket>();
+
         CreateMap<UserAccountQueryFilter, UserAccount>();
     }
 }

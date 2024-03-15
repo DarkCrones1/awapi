@@ -62,7 +62,7 @@ public class Startup
             var xmlFile = $"{Assembly.GetExecutingAssembly().GetName().Name}.xml";
             var xmlFilePath = Path.Combine(AppContext.BaseDirectory, xmlFile);
             options.IncludeXmlComments(xmlFilePath);
-            
+
             options.AddSecurityDefinition("Bearer", new OpenApiSecurityScheme
             {
                 Name = "Authorization",
@@ -115,6 +115,7 @@ public class Startup
         services.AddScoped<ICustomerRepository, CustomerRepository>();
         services.AddScoped<ILocalStorageRepository, LocalStorageRepository>();
         services.AddScoped<ITechniqueTypeRepository, TechniqueTypeRepository>();
+        services.AddScoped<ITicketRepository, TicketRepository>();
         services.AddScoped<IUnitOfWork, UnitOfWork>();
         services.AddScoped<IUserAccountRepository, UserAccountRepository>();
 
@@ -132,6 +133,7 @@ public class Startup
         services.AddScoped<IMiscellaneousService, MiscellaneousService>();
         services.AddScoped<ILocalStorageService, LocalStorageService>();
         services.AddScoped<ITechniqueTypeService, TechniqueTypeService>();
+        services.AddScoped<ITicketService, TicketService>();
         services.AddScoped<IUserAccountService, UserAccountService>();
         services.AddScoped<TokenHelper>();
         services.AddHttpContextAccessor();
