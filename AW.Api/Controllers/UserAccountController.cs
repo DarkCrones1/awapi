@@ -17,6 +17,7 @@ using Microsoft.AspNetCore.Authorization;
 using AW.Domain.Dto.QueryFilters;
 using AW.Domain.Interfaces.Services;
 using AW.Common.Functions;
+using AW.Domain.Enumerations;
 
 namespace AW.Api.Controllers;
 
@@ -85,123 +86,179 @@ public class UserAccountController : ControllerBase
         var response = new ApiResponse<IEnumerable<UserAccountCustomerResponseDto>>(data: dtos, meta: metaDataResponse);
         return Ok(response);
     }
-    
+
     /// <summary>
-    /// Crea Cuentas de usuario para Artesanos
+    /// Crea una cuenta de usuario (empieza como cliente)
     /// </summary>
     /// <param name="requestDto"></param>
     /// <returns></returns>
+    /// <exception cref="LogicBusinessException"></exception>
     [HttpPost]
-    [Route("Craftman")]
+    [Route("")]
     [AllowAnonymous]
-    [ProducesResponseType((int)HttpStatusCode.OK, Type = typeof(ApiResponse<UserAccountCraftmanResponseDto>))]
-    public async Task<IActionResult> CreateUserAccountCraftmant([FromBody] UserAccountCraftmanCreateRequestDto requestDto)
+    [ProducesResponseType((int)HttpStatusCode.OK, Type = typeof(ApiResponse<UserAccountResponseDto>))]
+    public async Task<IActionResult> CreateUser([FromBody] UserAccountCreateRequestDto requestDto)
     {
         try
         {
             Expression<Func<UserAccount, bool>> filterUserName = x => !x.IsDeleted!.Value && x.UserName == requestDto.UserName;
-    
+
             var existUser = await _service.Exist(filterUserName);
-    
+
             if (existUser)
                 return BadRequest("Ya existe un usuario con este correo electrónico");
-    
+
             Expression<Func<UserAccount, bool>> filterEmail = x => !x.IsDeleted!.Value && x.Email == requestDto.Email;
-    
+
             var existEmail = await _service.Exist(filterEmail);
-    
+
             if (existUser)
                 return BadRequest("Ya existe un usuario con este nombre de usuario");
-    
-            var entity = await PopulateUserAccountCraftman(requestDto);
+
+            var entity = await PopulateUserAccount(requestDto);
             entity.Password = MD5Encrypt.GetMD5(requestDto.Password);
             await _service.CreateUser(entity);
-    
+
             var result = _mapper.Map<UserAccountCraftmanResponseDto>(entity);
             var response = new ApiResponse<UserAccountCraftmanResponseDto>(result);
             return Ok(response);
         }
         catch (Exception ex)
         {
-            
+
             throw new LogicBusinessException(ex);
         }
     }
 
-    /// <summary>
-    /// Crea cuentas de usuario para Clientes
-    /// </summary>
-    /// <param name="requestDto"></param>
-    /// <returns></returns>
-    [HttpPost]
-    [Route("Customer")]
-    [AllowAnonymous]
-    [ProducesResponseType((int)HttpStatusCode.OK, Type = typeof(ApiResponse<UserAccountCustomerResponseDto>))]
-    public async Task<IActionResult> CreateUserAccountCustomer([FromBody] UserAccountCustomerCreateRequestDto requestDto)
-    {
-        try
-        {
-            Expression<Func<UserAccount, bool>> filterUserName = x => !x.IsDeleted!.Value && x.UserName == requestDto.UserName;
-    
-            var existUser = await _service.Exist(filterUserName);
-    
-            if (existUser)
-                return BadRequest("Ya existe un usuario con este correo electrónico");
-    
-            Expression<Func<UserAccount, bool>> filterEmail = x => !x.IsDeleted!.Value && x.Email == requestDto.Email;
-    
-            var existEmail = await _service.Exist(filterEmail);
-    
-            if (existUser)
-                return BadRequest("Ya existe un usuario con este nombre de usuario");
-    
-            var entity = await PopulateUserAccountCustomer(requestDto);
-            entity.Password = MD5Encrypt.GetMD5(requestDto.Password);
-            await _service.CreateUser(entity);
-    
-            var result = _mapper.Map<UserAccountCustomerResponseDto>(entity);
-            var response = new ApiResponse<UserAccountCustomerResponseDto>(result);
-            return Ok(response);
-        }
-        catch (Exception ex)
-        {
-            
-            throw new LogicBusinessException(ex);
-        }
-    }
+    // /// <summary>
+    // /// Crea Cuentas de usuario para Artesanos
+    // /// </summary>
+    // /// <param name="requestDto"></param>
+    // /// <returns></returns>
+    // [HttpPost]
+    // [Route("Craftman")]
+    // [AllowAnonymous]
+    // [ProducesResponseType((int)HttpStatusCode.OK, Type = typeof(ApiResponse<UserAccountCraftmanResponseDto>))]
+    // public async Task<IActionResult> CreateUserAccountCraftmant([FromBody] UserAccountCraftmanCreateRequestDto requestDto)
+    // {
+    //     try
+    //     {
+    //         Expression<Func<UserAccount, bool>> filterUserName = x => !x.IsDeleted!.Value && x.UserName == requestDto.UserName;
 
-    private async Task<UserAccount> PopulateUserAccountCraftman(UserAccountCraftmanCreateRequestDto requestDto)
+    //         var existUser = await _service.Exist(filterUserName);
+
+    //         if (existUser)
+    //             return BadRequest("Ya existe un usuario con este correo electrónico");
+
+    //         Expression<Func<UserAccount, bool>> filterEmail = x => !x.IsDeleted!.Value && x.Email == requestDto.Email;
+
+    //         var existEmail = await _service.Exist(filterEmail);
+
+    //         if (existUser)
+    //             return BadRequest("Ya existe un usuario con este nombre de usuario");
+
+    //         var entity = await PopulateUserAccountCraftman(requestDto);
+    //         entity.Password = MD5Encrypt.GetMD5(requestDto.Password);
+    //         await _service.CreateUser(entity);
+
+    //         var result = _mapper.Map<UserAccountCraftmanResponseDto>(entity);
+    //         var response = new ApiResponse<UserAccountCraftmanResponseDto>(result);
+    //         return Ok(response);
+    //     }
+    //     catch (Exception ex)
+    //     {
+
+    //         throw new LogicBusinessException(ex);
+    //     }
+    // }
+
+    // /// <summary>
+    // /// Crea cuentas de usuario para Clientes
+    // /// </summary>
+    // /// <param name="requestDto"></param>
+    // /// <returns></returns>
+    // [HttpPost]
+    // [Route("Customer")]
+    // [AllowAnonymous]
+    // [ProducesResponseType((int)HttpStatusCode.OK, Type = typeof(ApiResponse<UserAccountCustomerResponseDto>))]
+    // public async Task<IActionResult> CreateUserAccountCustomer([FromBody] UserAccountCustomerCreateRequestDto requestDto)
+    // {
+    //     try
+    //     {
+    //         Expression<Func<UserAccount, bool>> filterUserName = x => !x.IsDeleted!.Value && x.UserName == requestDto.UserName;
+
+    //         var existUser = await _service.Exist(filterUserName);
+
+    //         if (existUser)
+    //             return BadRequest("Ya existe un usuario con este correo electrónico");
+
+    //         Expression<Func<UserAccount, bool>> filterEmail = x => !x.IsDeleted!.Value && x.Email == requestDto.Email;
+
+    //         var existEmail = await _service.Exist(filterEmail);
+
+    //         if (existUser)
+    //             return BadRequest("Ya existe un usuario con este nombre de usuario");
+
+    //         var entity = await PopulateUserAccountCustomer(requestDto);
+    //         entity.Password = MD5Encrypt.GetMD5(requestDto.Password);
+    //         await _service.CreateUser(entity);
+
+    //         var result = _mapper.Map<UserAccountCustomerResponseDto>(entity);
+    //         var response = new ApiResponse<UserAccountCustomerResponseDto>(result);
+    //         return Ok(response);
+    //     }
+    //     catch (Exception ex)
+    //     {
+
+    //         throw new LogicBusinessException(ex);
+    //     }
+    // }
+
+    private async Task<UserAccount> PopulateUserAccount(UserAccountCreateRequestDto requestDto)
     {
         Expression<Func<UserAccount, bool>> filter = x => !x.IsDeleted!.Value && x.Email == requestDto.Email;
 
         var existUser = await _service.Exist(filter);
 
         var userAccount = _mapper.Map<UserAccount>(requestDto);
-
-        var craftman = _mapper.Map<Craftman>(requestDto);
-        craftman.UserAccount.Add(userAccount);
-
-        userAccount.Craftman.Add(craftman);
-
-        return userAccount;
-    }
-
-
-    private async Task<UserAccount> PopulateUserAccountCustomer(UserAccountCustomerCreateRequestDto requestDto)
-    {
-        Expression<Func<UserAccount, bool>> filter = x => !x.IsDeleted!.Value && x.Email == requestDto.Email;
-
-        var existUser = await _service.Exist(filter);
-            
-        var userAccount = _mapper.Map<UserAccount>(requestDto);
-
         var customer = _mapper.Map<Customer>(requestDto);
-        customer.UserAccount.Add(userAccount);
 
         userAccount.Customer.Add(customer);
-
+        customer.UserAccount.Add(userAccount);
         return userAccount;
     }
+
+    // private async Task<UserAccount> PopulateUserAccountCraftman(UserAccountCraftmanCreateRequestDto requestDto)
+    // {
+    //     Expression<Func<UserAccount, bool>> filter = x => !x.IsDeleted!.Value && x.Email == requestDto.Email;
+
+    //     var existUser = await _service.Exist(filter);
+
+    //     var userAccount = _mapper.Map<UserAccount>(requestDto);
+
+    //     var craftman = _mapper.Map<Craftman>(requestDto);
+    //     craftman.UserAccount.Add(userAccount);
+
+    //     userAccount.Craftman.Add(craftman);
+
+    //     return userAccount;
+    // }
+
+    // private async Task<UserAccount> PopulateUserAccountCustomer(UserAccountCustomerCreateRequestDto requestDto)
+    // {
+    //     Expression<Func<UserAccount, bool>> filter = x => !x.IsDeleted!.Value && x.Email == requestDto.Email;
+
+    //     var existUser = await _service.Exist(filter);
+
+    //     var userAccount = _mapper.Map<UserAccount>(requestDto);
+
+    //     var customer = _mapper.Map<Customer>(requestDto);
+    //     customer.UserAccount.Add(userAccount);
+
+    //     userAccount.Customer.Add(customer);
+
+    //     return userAccount;
+    // }
 
     /// <summary>
     /// Actualiza los datos de inicio de sesión
@@ -213,20 +270,56 @@ public class UserAccountController : ControllerBase
     [Route("{id:int}")]
     public async Task<IActionResult> Update([FromRoute] int id, UserAccountUpdateRequestDto requestDto)
     {
-        Expression<Func<UserAccount, bool>> filter = x => x.Id == id;
+        try
+        {
+            Expression<Func<UserAccount, bool>> filter = x => x.Id == id;
 
-        var existUser = await _service.Exist(filter);
+            var existUser = await _service.Exist(filter);
 
-        if (!existUser)
-            return BadRequest("No se encontró el usuario con esas características");
+            if (!existUser)
+                return BadRequest("No se encontró el usuario con esas características");
 
-        var entity = await _service.GetById(id);
-        entity.Id = id;
-        entity.Password = MD5Encrypt.GetMD5(requestDto.Password);
-        entity.IsDeleted = false;
+            var entity = await _service.GetById(id);
+            entity.Id = id;
+            entity.Password = MD5Encrypt.GetMD5(requestDto.Password);
+            entity.IsDeleted = false;
 
-        await _service.Update(entity);
-        return Ok(true);
+            await _service.Update(entity);
+            return Ok(true);
+        }
+        catch (Exception ex)
+        {
+
+            throw new LogicBusinessException(ex);
+        }
+    }
+
+    [HttpPut]
+    [Route("{id:int/ChangeAccountType}")]
+    public async Task<IActionResult> UpdateToCraftman([FromRoute] int id, short accountType)
+    {
+        try
+        {
+            Expression<Func<UserAccount, bool>> filter = x => x.Id == id;
+
+            var existUser = await _service.Exist(filter);
+
+            if (!existUser)
+                return BadRequest("No se encontró el usuario con esas características");
+
+            var entity = await _service.GetById(id);
+            entity.Id = id;
+            entity.AccountType = accountType;
+            entity.IsDeleted = false;
+
+            await _service.Update(entity);
+            return Ok(true);
+        }
+        catch (Exception ex)
+        {
+
+            throw new LogicBusinessException(ex);
+        }
     }
 
     /// <summary>

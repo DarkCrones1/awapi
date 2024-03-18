@@ -6,25 +6,7 @@ public partial class Customer : BaseRemovableAuditablePaginationEntity
 {
     public Guid Code { get; set; }
 
-    public string FirstName { get; set; } = null!;
-
-    public string? MiddleName { get; set; }
-
-    public string LastName { get; set; } = null!;
-
-    public string CellPhone { get; set; } = null!;
-
-    public string? Phone { get; set; }
-
     public int? CustomerTypeId { get; set; }
-
-    public short? Gender { get; set; }
-
-    public DateTime? BirthDate { get; set; }
-
-    public string? ProfilePictureUrl { get; set; }
-
-    public string FullName { get => $"{FirstName} {MiddleName} {LastName}".Trim(); }
 
     public virtual ICollection<Cart> Cart { get; } = new List<Cart>();
 

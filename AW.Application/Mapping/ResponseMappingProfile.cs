@@ -84,19 +84,23 @@ public class ResponseMappingProfile : Profile
         .ForMember(
             dest => dest.StatusName,
             opt => opt.MapFrom(src => EnumHelper.GetDescription<CraftmanStatus>((CraftmanStatus)src.Status))
-        ).ForMember(
-            dest => dest.GenderName,
-            opt => opt.MapFrom(src => EnumHelper.GetDescription<Gender>((Gender)src.Gender!))
-        );
+        )
+        // .ForMember(
+        //     dest => dest.GenderName,
+        //     opt => opt.MapFrom(src => EnumHelper.GetDescription<Gender>((Gender)src.Gender!))
+        // )
+        ;
 
         CreateMap<Craftman, CraftmanDetailResponseDto>()
         .ForMember(
             dest => dest.StatusName,
             opt => opt.MapFrom(src => EnumHelper.GetDescription<CraftmanStatus>((CraftmanStatus)src.Status))
-        ).ForMember(
-            dest => dest.GenderName,
-            opt => opt.MapFrom(src => EnumHelper.GetDescription<Gender>((Gender)src.Gender!))
-        ).AfterMap(
+        )
+        // .ForMember(
+        //     dest => dest.GenderName,
+        //     opt => opt.MapFrom(src => EnumHelper.GetDescription<Gender>((Gender)src.Gender!))
+        // )
+        .AfterMap(
             (src, dest) =>
             {
                 var craftmanAddress = src.Address.FirstOrDefault() ?? new Address();
@@ -120,17 +124,17 @@ public class ResponseMappingProfile : Profile
             opt => opt.MapFrom(src => StatusDeletedHelper.GetStatusDeletedEntity(src.IsDeleted))
         );
 
-        CreateMap<Customer, CustomerResponseDto>()
-        .ForMember(
-            dest => dest.GenderName,
-            opt => opt.MapFrom(src => EnumHelper.GetDescription<Gender>((Gender)src.Gender!))
-        );
+        CreateMap<Customer, CustomerResponseDto>();
+        // .ForMember(
+        //     dest => dest.GenderName,
+        //     opt => opt.MapFrom(src => EnumHelper.GetDescription<Gender>((Gender)src.Gender!))
+        // );
 
         CreateMap<Customer, CustomerDetailResponseDto>()
-        .ForMember(
-            dest => dest.GenderName,
-            opt => opt.MapFrom(src => EnumHelper.GetDescription<Gender>((Gender)src.Gender!))
-        )
+        // .ForMember(
+        //     dest => dest.GenderName,
+        //     opt => opt.MapFrom(src => EnumHelper.GetDescription<Gender>((Gender)src.Gender!))
+        // )
         .AfterMap(
             (src, dest) =>
             {
@@ -233,9 +237,9 @@ public class ResponseMappingProfile : Profile
             {
                 var customer = src.Customer.FirstOrDefault() ?? new Customer();
                 dest.CustomerId = customer.Id;
-                dest.FullName = customer.FullName;
-                dest.Phone = customer!.Phone!;
-                dest.CellPhone = customer.CellPhone;
+                // dest.FullName = customer.FullName;
+                // dest.Phone = customer!.Phone!;
+                // dest.CellPhone = customer.CellPhone;
 
                 dest.UserAccountType = src.AccountType;
                 dest.UserAccountTypeName = EnumHelper.GetDescription<UserAccountType>((UserAccountType)src.AccountType);
@@ -254,9 +258,9 @@ public class ResponseMappingProfile : Profile
             {
                 var craftman = src.Craftman.FirstOrDefault() ?? new Craftman();
                 dest.CraftmanId = craftman.Id;
-                dest.FullName = craftman.FullName;
-                dest.Phone = craftman!.Phone!;
-                dest.CellPhone = craftman.CellPhone;
+                // dest.FullName = craftman.FullName;
+                // dest.Phone = craftman!.Phone!;
+                // dest.CellPhone = craftman.CellPhone;
 
                 dest.UserAccountType = src.AccountType;
                 dest.UserAccountTypeName = EnumHelper.GetDescription<UserAccountType>((UserAccountType)src.AccountType);

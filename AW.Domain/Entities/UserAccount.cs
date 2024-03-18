@@ -22,6 +22,8 @@ public partial class UserAccount : BaseRemovablePaginationEntity
 
     public virtual ICollection<Craftman> Craftman { get; } = new List<Craftman>();
 
+    public virtual ICollection<UserDataInfo> UserDataInfo { get; } = new List<UserDataInfo>();
+
     public virtual ICollection<Administrator> Administrator { get; } = new List<Administrator>();
 
     public virtual ICollection<Rol> Rol { get; } = new List<Rol>();

@@ -157,6 +157,70 @@ public class CreateRequestMappingProfile : Profile
             }
         );
 
+        CreateMap<UserAccountCreateRequestDto, UserAccount>()
+        .ForMember(
+            dest => dest.IsDeleted,
+            opt => opt.MapFrom(src => ValuesStatusPropertyEntity.IsNotDeleted)
+        ).ForMember(
+            dest => dest.IsActive,
+            opt => opt.MapFrom(src => true)
+        ).ForMember(
+            dest => dest.IsAuthorized,
+            opt => opt.MapFrom(src => true)
+        ).ForMember(
+            dest => dest.CreatedDate,
+            opt => opt.MapFrom(src => DateTime.Now)
+        ).ForMember(
+            dest => dest.AccountType,
+            opt => opt.MapFrom(src => (short)UserAccountType.Customer)
+        ).ForMember(
+            dest => dest.Email,
+            opt => opt.MapFrom(src => src.Email)
+        ).AfterMap(
+            (src, dest) =>
+            {
+                var userDataInfo = new UserDataInfo
+                {
+                    FirstName = "Asignar",
+                    MiddleName = "Asignar",
+                    LastName = "Asignar",
+                    CellPhone = "Asignar",
+                    Phone = "Asignar",
+                    ProfilePictureUrl = "Asignar",
+                    BirthDate = null,
+                };
+                dest.UserDataInfo.Add(userDataInfo);
+            }
+        );
+
+        CreateMap<UserAccountCreateRequestDto, Customer>()
+        .AfterMap(
+            (src, dest) =>
+            {
+                dest.Code = Guid.NewGuid();
+                dest.IsDeleted = ValuesStatusPropertyEntity.IsNotDeleted;
+                dest.CreatedDate = DateTime.Now;
+
+                var customerAddress = new CustomerAddress
+                {
+                    RegisterDate = DateTime.Now,
+                    IsDefault = true,
+                    Status = 1,
+                    Address = new Address
+                    {
+                        Address1 = "Asignar",
+                        Address2 = "Asignar",
+                        Street = "Asignar",
+                        ExternalNumber = "Asignar",
+                        InternalNumber = "Asignar",
+                        ZipCode = "Asignar",
+                        CityId = null
+                    }
+                };
+                dest.CustomerAddress.Add(customerAddress);
+            }
+        );
+
         CreateMap<UserAccountCustomerCreateRequestDto, UserAccount>()
         .ForMember(
             dest => dest.IsDeleted,

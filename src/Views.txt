@@ -26,3 +26,10 @@ FROM            dbo.Customer INNER JOIN
                          dbo.UserAccountCustomer ON dbo.Customer.Id = dbo.UserAccountCustomer.CustomerId INNER JOIN
                          dbo.UserAccount ON dbo.UserAccountCustomer.UserAccountId = dbo.UserAccount.Id
 
+
+VW_ActiveUserAccount
+
+SELECT        dbo.UserAccount.Id, dbo.UserAccount.UserName, dbo.UserAccount.Email, dbo.UserDataInfo.FirstName, dbo.UserDataInfo.MiddleName, dbo.UserDataInfo.LastName, dbo.UserDataInfo.CellPhone, dbo.UserDataInfo.Phone, 
+                         dbo.UserDataInfo.FirstName + ' ' + ISNULL(dbo.UserDataInfo.MiddleName, '') + ' ' + dbo.UserDataInfo.LastName AS Name, dbo.UserAccount.AccountType
+FROM            dbo.UserAccount INNER JOIN
+                         dbo.UserDataInfo ON dbo.UserAccount.Id = dbo.UserDataInfo.Id

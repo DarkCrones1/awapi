@@ -6,17 +6,9 @@ public partial class Craftman : BaseRemovableAuditablePaginationEntity
 {
     public Guid Code { get; set; }
 
-    public string FirstName { get; set; } = null!;
-
-    public string? MiddleName { get; set; }
-
-    public string LastName { get; set; } = null!;
-
-    public string? Phone { get; set; }
-
-    public string CellPhone { get; set; } = null!;
-
     public short Status { get; set; }
+
+    public string? History { get; set; }
 
     public virtual ICollection<Address> Address { get; } = new List<Address>();
 

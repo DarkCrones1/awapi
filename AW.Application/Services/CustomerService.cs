@@ -49,7 +49,7 @@ public class CustomerService : CrudService<Customer>, ICustomerService
         _unitOfWork.AddressRepository.Update(address);
 
         entity.Code = oldEntity.Code;
-        entity.ProfilePictureUrl = oldEntity.ProfilePictureUrl;
+        // entity.ProfilePictureUrl = oldEntity.ProfilePictureUrl;
         entity.CustomerTypeId = oldEntity.CustomerTypeId;
         await base.Update(entity);
         await _unitOfWork.SaveChangesAsync();
@@ -59,7 +59,7 @@ public class CustomerService : CrudService<Customer>, ICustomerService
     {
         var lastEntity = await _unitOfWork.CustomerRepository.GetById(CustomerId);
 
-        lastEntity.ProfilePictureUrl = urlProfile;
+        // lastEntity.ProfilePictureUrl = urlProfile;
         lastEntity.LastModifiedDate = DateTime.Now;
         lastEntity.LastModifiedBy = userName;
 

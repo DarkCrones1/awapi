@@ -62,6 +62,10 @@ public class UnitOfWork : IUnitOfWork
 
     protected IUserAccountRepository _userAccountRepository;
 
+    protected ICrudRepository<UserDataInfo> _userDataInfoRepository;
+
+    protected IRetrieveRepository<ActiveUserAccount> _activeUserAccountRepository;
+
     protected IRetrieveRepository<ActiveUserAccountAdministrator> _activeUserAccountAdministratorRepository;
 
     protected IRetrieveRepository<ActiveUserAccountCraftman> _activeUserAccountCraftmanRepository;
@@ -128,6 +132,10 @@ public class UnitOfWork : IUnitOfWork
 
         _userAccountRepository = new UserAccountRepository(_dbContext);
 
+        _userDataInfoRepository = new CrudRepository<UserDataInfo>(_dbContext);
+
+        _activeUserAccountRepository = new RetrieveRepository<ActiveUserAccount>(_dbContext);
+
         _activeUserAccountAdministratorRepository = new RetrieveRepository<ActiveUserAccountAdministrator>(_dbContext);
 
         _activeUserAccountCraftmanRepository = new RetrieveRepository<ActiveUserAccountCraftman>(_dbContext);
@@ -180,6 +188,10 @@ public class UnitOfWork : IUnitOfWork
     public ITicketRepository TicketRepository => _ticketRepository;
 
     public IUserAccountRepository UserAccountRepository => _userAccountRepository;
+
+    public ICrudRepository<UserDataInfo> UserDataInfoRepository => _userDataInfoRepository;
+
+    public IRetrieveRepository<ActiveUserAccount> ActiveUserAccountRepository => _activeUserAccountRepository;
 
     public IRetrieveRepository<ActiveUserAccountAdministrator> ActiveUserAccountAdministratorRepository => _activeUserAccountAdministratorRepository;
 

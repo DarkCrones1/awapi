@@ -29,6 +29,18 @@ public class UserAccountService : CrudService<UserAccount>, IUserAccountService
         return user.Id;
     }
 
+    public async Task<ActiveUserAccount> GetUserAccount(int id)
+    {
+        var entity = await _unitOfWork.UserAccountRepository.GetUserAccount(id);
+        return entity;
+    }
+
+    public async Task<ActiveUserAccount> GetUserAccountToLogin(Expression<Func<ActiveUserAccount, bool>> filters)
+    {
+        var entity = await _unitOfWork.UserAccountRepository.GetUserAccountToLogin(filters);
+        return entity;
+    }
+
     public async Task<ActiveUserAccountCustomer> GetUserAccountCustomer(int id)
     {
         var entity = await _unitOfWork.UserAccountRepository.GetUserAccountCustomer(id);

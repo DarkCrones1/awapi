@@ -66,6 +66,22 @@ public class UserAccountConfiguration : IEntityTypeConfiguration<UserAccount>
                     j.HasKey("UserAccountId", "CraftmanId");
                 });
 
+        builder.HasMany(d => d.UserDataInfo).WithMany(p => p.UserAccount)
+            .UsingEntity<Dictionary<string, object>>(
+                "UserAccountUserDataInfo",
+                r => r.HasOne<UserDataInfo>().WithMany()
+                    .HasForeignKey("UserDataInfoId")
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("FK_UserAccountUserDataInfo_UserDataInfo"),
+                l => l.HasOne<UserAccount>().WithMany()
+                    .HasForeignKey("UserAccountId")
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("FK_UseraccountUserDataInfo_UserAccount"),
+                j =>
+                {
+                    j.HasKey("UserAccountId", "UserDataInfoId");
+                });
+
         builder.HasMany(d => d.Rol).WithMany(p => p.UserAccount)
             .UsingEntity<Dictionary<string, object>>(
                 "UserRol",
