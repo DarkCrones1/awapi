@@ -17,12 +17,14 @@ using Microsoft.AspNetCore.Authorization;
 using AW.Domain.Dto.QueryFilters;
 using AW.Domain.Interfaces.Services;
 using AW.Common.Functions;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 
 namespace AW.Api.Controllers;
 
 [ApiController]
 [Route("api/[controller]")]
 [Produces("application/json")]
+[Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme, Policy = "Admin")]
 public class CategoryController : ControllerBase
 {
     private readonly IMapper _mapper;
@@ -43,6 +45,7 @@ public class CategoryController : ControllerBase
     /// <returns></returns>
     [HttpGet]
     [Route("")]
+    [AllowAnonymous]
     [ProducesResponseType((int)HttpStatusCode.OK, Type = typeof(ApiResponse<IEnumerable<CategoryResponseDto>>))]
     [ProducesResponseType((int)HttpStatusCode.BadRequest, Type = typeof(ApiResponse<IEnumerable<CategoryResponseDto>>))]
     [ProducesResponseType((int)HttpStatusCode.NotFound, Type = typeof(ApiResponse<IEnumerable<CategoryResponseDto>>))]
@@ -66,6 +69,7 @@ public class CategoryController : ControllerBase
     /// <returns></returns>
     [HttpGet]
     [Route("{id:int}")]
+    [AllowAnonymous]
     [ProducesResponseType((int)HttpStatusCode.OK, Type = typeof(ApiResponse<IEnumerable<CategoryResponseDto>>))]
     [ProducesResponseType((int)HttpStatusCode.BadRequest, Type = typeof(ApiResponse<IEnumerable<CategoryResponseDto>>))]
     [ProducesResponseType((int)HttpStatusCode.NotFound, Type = typeof(ApiResponse<IEnumerable<CategoryResponseDto>>))]
@@ -90,7 +94,6 @@ public class CategoryController : ControllerBase
     /// <returns></returns>
     /// <exception cref="LogicBusinessException"></exception>
     [HttpPost]
-    [Authorize]
     [ProducesResponseType((int)HttpStatusCode.OK, Type = typeof(ApiResponse<CategoryResponseDto>))]
     public async Task<IActionResult> CreateCategory([FromBody] CategoryCreateRequestDto requestDto)
     {
@@ -118,7 +121,6 @@ public class CategoryController : ControllerBase
     /// <exception cref="LogicBusinessException"></exception>
     [HttpPut]
     [Route("{id:int}")]
-    [Authorize]
     [ProducesResponseType((int)HttpStatusCode.OK, Type = typeof(ApiResponse<CategoryResponseDto>))]
     public async Task<IActionResult> Update([FromRoute] int id, [FromBody] CategoryUpdateRequestDto requestDto)
     {
@@ -153,7 +155,6 @@ public class CategoryController : ControllerBase
     /// <exception cref="LogicBusinessException"></exception>
     [HttpDelete]
     [Route("{id:int}")]
-    [Authorize]
     public async Task<IActionResult> Delete([FromRoute] int id)
     {
         try

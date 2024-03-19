@@ -17,13 +17,14 @@ using Microsoft.AspNetCore.Authorization;
 using AW.Domain.Dto.QueryFilters;
 using AW.Domain.Interfaces.Services;
 using AW.Common.Functions;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 
 namespace AW.Api.Controllers;
 
 [ApiController]
 [Route("api/[controller]")]
 [Produces("application/json")]
-[Authorize]
+[Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme, Policy = "Admin")]
 public class UserAccountController : ControllerBase
 {
     private readonly IMapper _mapper;

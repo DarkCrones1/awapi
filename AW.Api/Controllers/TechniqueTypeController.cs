@@ -17,12 +17,14 @@ using Microsoft.AspNetCore.Authorization;
 using AW.Domain.Dto.QueryFilters;
 using AW.Domain.Interfaces.Services;
 using AW.Common.Functions;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 
 namespace AW.Api.Controllers;
 
 [ApiController]
 [Route("api/[controller]")]
 [Produces("application/json")]
+[Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme, Policy = "Admin")]
 public class TechniqueTypeController : ControllerBase
 {
     private readonly IMapper _mapper;
@@ -43,6 +45,7 @@ public class TechniqueTypeController : ControllerBase
     /// <returns></returns>
     [HttpGet]
     [Route("")]
+    [AllowAnonymous]
     [ProducesResponseType((int)HttpStatusCode.OK, Type = typeof(ApiResponse<IEnumerable<TechniqueTypeResponseDto>>))]
     [ProducesResponseType((int)HttpStatusCode.BadRequest, Type = typeof(ApiResponse<IEnumerable<TechniqueTypeResponseDto>>))]
     [ProducesResponseType((int)HttpStatusCode.NotFound, Type = typeof(ApiResponse<IEnumerable<TechniqueTypeResponseDto>>))]
@@ -66,6 +69,7 @@ public class TechniqueTypeController : ControllerBase
     /// <returns></returns>
     [HttpGet]
     [Route("{id:int}")]
+    [AllowAnonymous]
     [ProducesResponseType((int)HttpStatusCode.OK, Type = typeof(ApiResponse<IEnumerable<TechniqueTypeDetailResponseDto>>))]
     [ProducesResponseType((int)HttpStatusCode.BadRequest, Type = typeof(ApiResponse<IEnumerable<TechniqueTypeDetailResponseDto>>))]
     [ProducesResponseType((int)HttpStatusCode.NotFound, Type = typeof(ApiResponse<IEnumerable<TechniqueTypeDetailResponseDto>>))]
@@ -90,7 +94,6 @@ public class TechniqueTypeController : ControllerBase
     /// <returns></returns>
     /// <exception cref="LogicBusinessException"></exception>
     [HttpPost]
-    [Authorize]
     [ProducesResponseType((int)HttpStatusCode.OK, Type = typeof(ApiResponse<TechniqueTypeResponseDto>))]
     public async Task<IActionResult> CreateTechniqueType([FromBody] TechniqueTypeCreateRequestDto requestDto)
     {
@@ -119,7 +122,6 @@ public class TechniqueTypeController : ControllerBase
     /// <exception cref="LogicBusinessException"></exception>
     [HttpPut]
     [Route("{id:int}")]
-    [Authorize]
     [ProducesResponseType((int)HttpStatusCode.OK, Type = typeof(ApiResponse<TechniqueTypeResponseDto>))]
     public async Task<IActionResult> Update([FromRoute] int id, [FromBody] TechniqueTypeUpdateRequestDto requestDto)
     {
@@ -154,7 +156,6 @@ public class TechniqueTypeController : ControllerBase
     /// <exception cref="LogicBusinessException"></exception>
     [HttpDelete]
     [Route("{id:int}")]
-    [Authorize]
     public async Task<IActionResult> Delete([FromRoute] int id)
     {
         try

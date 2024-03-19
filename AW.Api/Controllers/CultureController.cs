@@ -19,12 +19,14 @@ using AW.Domain.Interfaces.Services;
 using AW.Common.Functions;
 using AW.Common.Enumerations;
 using AW.Application.Services;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 
 namespace AW.Api.Controllers;
 
 [ApiController]
 [Route("api/[controller]")]
 [Produces("application/json")]
+[Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme, Policy = "Admin")]
 public class CultureController : ControllerBase
 {
     private readonly IMapper _mapper;
@@ -45,6 +47,7 @@ public class CultureController : ControllerBase
     /// <returns></returns>
     [HttpGet]
     [Route("")]
+    [AllowAnonymous]
     [ProducesResponseType((int)HttpStatusCode.OK, Type = typeof(ApiResponse<IEnumerable<CultureResponseDto>>))]
     [ProducesResponseType((int)HttpStatusCode.BadRequest, Type = typeof(ApiResponse<IEnumerable<CultureResponseDto>>))]
     [ProducesResponseType((int)HttpStatusCode.NotFound, Type = typeof(ApiResponse<IEnumerable<CultureResponseDto>>))]
@@ -68,6 +71,7 @@ public class CultureController : ControllerBase
     /// <returns></returns>
     [HttpGet]
     [Route("{id:int}")]
+    [AllowAnonymous]
     [ProducesResponseType((int)HttpStatusCode.OK, Type = typeof(ApiResponse<IEnumerable<CultureResponseDto>>))]
     [ProducesResponseType((int)HttpStatusCode.BadRequest, Type = typeof(ApiResponse<IEnumerable<CultureResponseDto>>))]
     [ProducesResponseType((int)HttpStatusCode.NotFound, Type = typeof(ApiResponse<IEnumerable<CultureResponseDto>>))]
@@ -91,7 +95,6 @@ public class CultureController : ControllerBase
     /// <param name="requestDto"></param>
     /// <returns></returns>
     [HttpPost]
-    [Authorize]
     [ProducesResponseType((int)HttpStatusCode.OK, Type = typeof(ApiResponse<CultureResponseDto>))]
     public async Task<IActionResult> Create([FromBody] CultureCreateRequestDto requestDto)
     {
@@ -114,7 +117,6 @@ public class CultureController : ControllerBase
     /// <exception cref="LogicBusinessException"></exception>
     [HttpPut]
     [Route("{id:int}")]
-    [Authorize]
     [ProducesResponseType((int)HttpStatusCode.OK, Type = typeof(ApiResponse<CultureResponseDto>))]
     public async Task<IActionResult> Update([FromRoute] int id, [FromBody] CategoryUpdateRequestDto requestDto)
     {
@@ -149,7 +151,6 @@ public class CultureController : ControllerBase
     /// <exception cref="LogicBusinessException"></exception>
     [HttpDelete]
     [Route("{id:int}")]
-    [Authorize]
     public async Task<IActionResult> Delete([FromRoute] int id)
     {
         try

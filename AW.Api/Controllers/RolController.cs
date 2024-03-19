@@ -19,13 +19,14 @@ using AW.Domain.Interfaces.Services;
 using AW.Common.Functions;
 using AW.Domain.Enumerations;
 using AW.Common.QueryFilters;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 
 namespace AW.Api.Controllers;
 
 [ApiController]
 [Route("api/[controller]")]
 [Produces("application/json")]
-[Authorize]
+[Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme, Policy = "Admin")]
 public class RolController : ControllerBase
 {
     private readonly IMapper _mapper;

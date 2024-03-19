@@ -18,13 +18,14 @@ using AW.Domain.Dto.QueryFilters;
 using AW.Domain.Interfaces.Services;
 using AW.Common.Functions;
 using AW.Domain.Enumerations;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 
 namespace AW.Api.Controllers;
 
 [ApiController]
 [Route("api/[controller]")]
 [Produces("application/json")]
-[Authorize]
+[Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme, Policy = "Admin-Customer")]
 public class TicketController : ControllerBase
 {
     private readonly IMapper _mapper;

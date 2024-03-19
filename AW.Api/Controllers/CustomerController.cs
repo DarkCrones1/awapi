@@ -18,12 +18,14 @@ using AW.Domain.Dto.QueryFilters;
 using AW.Domain.Interfaces.Services;
 using AW.Common.Functions;
 using AW.Common.Enumerations;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 
 namespace AW.Api.Controllers;
 
 [ApiController]
 [Route("api/[controller]")]
 [Produces("application/json")]
+[Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme, Policy = "Admin-Customer")]
 public class CustomerController : ControllerBase
 {
     private readonly IMapper _mapper;
@@ -121,7 +123,6 @@ public class CustomerController : ControllerBase
     /// <exception cref="LogicBusinessException"></exception>
     [HttpPost]
     [Route("UploadImageProfile")]
-    [Authorize]
     public async Task<IActionResult> UploadImageProfileLocal([FromForm] ImageCreateRequestDto requestDto)
     {
         try
@@ -150,7 +151,6 @@ public class CustomerController : ControllerBase
     /// <exception cref="LogicBusinessException"></exception>
     [HttpPut]
     [Route("{id:int}")]
-    [Authorize]
     [ProducesResponseType((int)HttpStatusCode.OK, Type = typeof(ApiResponse<CustomerResponseDto>))]
     public async Task<IActionResult> UpdateCustomer([FromRoute] int id, [FromBody] CustomerUpdateRequestDto requestDto)
     {
@@ -195,7 +195,6 @@ public class CustomerController : ControllerBase
     /// <exception cref="LogicBusinessException"></exception>
     [HttpPut]
     [Route("UpdateImageProfile")]
-    [Authorize]
     public async Task<IActionResult> UpdateImageProfileLocal([FromForm] ImageCreateRequestDto requestDto)
     {
         try
@@ -231,7 +230,6 @@ public class CustomerController : ControllerBase
     /// <exception cref="LogicBusinessException"></exception>
     [HttpDelete]
     [Route("{id:int}")]
-    [Authorize]
     public async Task<IActionResult> Delete([FromRoute] int id)
     {
         try
@@ -266,7 +264,6 @@ public class CustomerController : ControllerBase
     /// <exception cref="LogicBusinessException"></exception>
     [HttpDelete]
     [Route("{id:int}/DeleteImageProfile")]
-    [Authorize]
     public async Task<IActionResult> DeleteImageProfile([FromRoute] int id)
     {
         try

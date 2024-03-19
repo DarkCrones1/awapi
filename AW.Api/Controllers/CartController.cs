@@ -19,12 +19,14 @@ using AW.Domain.Interfaces.Services;
 using AW.Common.Functions;
 using AW.Common.Enumerations;
 using AW.Domain.Enumerations;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 
 namespace AW.Api.Controllers;
 
 [ApiController]
 [Route("api/[controller]")]
 [Produces("application/json")]
+[Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme, Policy = "Admin-Customer")]
 public class CartController : ControllerBase
 {
     private readonly IMapper _mapper;
@@ -93,7 +95,6 @@ public class CartController : ControllerBase
     /// <exception cref="LogicBusinessException"></exception>
     [HttpPost]
     [Route("")]
-    [Authorize]
     [ProducesResponseType((int)HttpStatusCode.OK, Type = typeof(ApiResponse<CartResponseDto>))]
     public async Task<IActionResult> Create([FromBody] CartCreateRequestDto requestDto)
     {

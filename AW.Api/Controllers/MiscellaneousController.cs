@@ -5,12 +5,15 @@ using Microsoft.AspNetCore.Mvc;
 using AW.Common.Dtos.Response;
 using AW.Domain.Interfaces.Services;
 using AW.Api.Responses;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.Authorization;
 
 namespace AW.Api.Controllers;
 
 [ApiController]
 [Route("api/[controller]")]
 [Produces("application/json")]
+[Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme, Policy = "Admin")]
 public class MiscellaneousController : ControllerBase
 {
     private readonly IMiscellaneousService _service;
