@@ -96,6 +96,14 @@ public class Startup
         // Add Mappers
         services.AddAutoMapper(typeof(MappingProfile).Assembly);
 
+        // Add Authorizacion
+        services.AddAuthorization(options => {
+            options.AddPolicy("Admin-Craftman", policy => policy.RequireClaim("UserAccountType", "1", "2"));
+            options.AddPolicy("Admin-Customer", policy => policy.RequireClaim("UserAccountType", "1", "3"));
+            options.AddPolicy("Craftman-Customer", policy => policy.RequireClaim("UserAccountType", "2", "3"));
+            options.AddPolicy("Admin", policy => policy.RequireClaim("UserAccountType", "1"));
+        });
+
         // Configure Cors
         services.AddCors(options => options.AddPolicy("corsPolicy", builder =>
         {

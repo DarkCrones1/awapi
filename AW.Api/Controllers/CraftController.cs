@@ -18,12 +18,14 @@ using AW.Domain.Dto.QueryFilters;
 using AW.Domain.Interfaces.Services;
 using AW.Common.Functions;
 using AW.Common.Enumerations;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 
 namespace AW.Api.Controllers;
 
 [ApiController]
 [Route("api/[controller]")]
 [Produces("application/json")]
+[Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme, Policy = "Admin-Craftman")]
 public class CraftController : ControllerBase
 {
     private readonly IMapper _mapper;
@@ -48,6 +50,7 @@ public class CraftController : ControllerBase
     /// <returns></returns>
     [HttpGet]
     [Route("")]
+    [AllowAnonymous]
     [ProducesResponseType((int)HttpStatusCode.OK, Type = typeof(ApiResponse<IEnumerable<CraftResponseDto>>))]
     [ProducesResponseType((int)HttpStatusCode.BadRequest, Type = typeof(ApiResponse<IEnumerable<CraftResponseDto>>))]
     [ProducesResponseType((int)HttpStatusCode.NotFound, Type = typeof(ApiResponse<IEnumerable<CraftResponseDto>>))]
@@ -71,6 +74,7 @@ public class CraftController : ControllerBase
     /// <returns></returns>
     [HttpGet]
     [Route("{id:int}")]
+    [AllowAnonymous]
     [ProducesResponseType((int)HttpStatusCode.OK, Type = typeof(ApiResponse<IEnumerable<CraftDetailResponseDto>>))]
     [ProducesResponseType((int)HttpStatusCode.BadRequest, Type = typeof(ApiResponse<IEnumerable<CraftDetailResponseDto>>))]
     [ProducesResponseType((int)HttpStatusCode.NotFound, Type = typeof(ApiResponse<IEnumerable<CraftDetailResponseDto>>))]
@@ -93,7 +97,6 @@ public class CraftController : ControllerBase
     /// <returns></returns>
     /// <exception cref="LogicBusinessException"></exception>
     [HttpPost]
-    [Authorize]
     [ProducesResponseType((int)HttpStatusCode.OK, Type = typeof(ApiResponse<CraftResponseDto>))]
     public async Task<IActionResult> CreateCraft([FromBody] CraftCreateRequestDto requestDto)
     {
@@ -101,6 +104,7 @@ public class CraftController : ControllerBase
         {
             var entity = _mapper.Map<Craft>(requestDto);
             entity.CreatedBy = _tokenHelper.GetUserName();
+            entity.CraftmanId = _tokenHelper.GetCraftmanId();
             await _service.CreateCraft(entity, requestDto.CategoryIds!, requestDto.TechniqueTypeIds!);
 
             var result = _mapper.Map<CraftResponseDto>(entity);
@@ -146,7 +150,6 @@ public class CraftController : ControllerBase
     /// <exception cref="LogicBusinessException"></exception>
     [HttpPost]
     [Route("UploadImageCraft")]
-    [Authorize]
     public async Task<IActionResult> UploadImageCraftLocal([FromForm] ImageCreateRequestDto requestDto)
     {
         try
@@ -175,7 +178,6 @@ public class CraftController : ControllerBase
     /// <exception cref="LogicBusinessException"></exception>
     [HttpPut]
     [Route("{id:int}")]
-    [Authorize]
     [ProducesResponseType((int)HttpStatusCode.OK, Type = typeof(ApiResponse<CraftResponseDto>))]
     public async Task<IActionResult> UpdateCraft(int id, [FromBody] CraftUpdateRequestDto requestDto)
     {
@@ -213,7 +215,6 @@ public class CraftController : ControllerBase
     /// <exception cref="LogicBusinessException"></exception>
     [HttpPut]
     [Route("UpdateImageCraft")]
-    [Authorize]
     public async Task<IActionResult> UpdateImageCraftLocal([FromForm] ImageCreateRequestDto requestDto)
     {
         try
@@ -249,7 +250,6 @@ public class CraftController : ControllerBase
     /// <exception cref="LogicBusinessException"></exception>
     [HttpDelete]
     [Route("{id:int}")]
-    [Authorize]
     public async Task<IActionResult> Delete([FromRoute] int id)
     {
         try
@@ -282,7 +282,6 @@ public class CraftController : ControllerBase
     /// <exception cref="LogicBusinessException"></exception>
     [HttpDelete]
     [Route("{id:int}/DeleteImageCraft")]
-    [Authorize]
     public async Task<IActionResult> DeleteImageCraft([FromRoute] int id)
     {
         try

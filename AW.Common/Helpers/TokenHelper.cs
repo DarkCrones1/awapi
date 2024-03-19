@@ -44,19 +44,19 @@ public class TokenHelper
         return accountType!.Value;
     }
 
-    public string GetCustomerId()
+    public int GetCustomerId()
     {
         var identity = _httpContextAccessor.HttpContext!.User.Identity as ClaimsIdentity;
         var customerId = identity!.FindFirst("CustomerId");
 
-        return customerId!.Value;
+        return int.Parse(customerId!.Value);
     }
 
-    public string GetCraftmanId()
+    public int GetCraftmanId()
     {
         var identity = _httpContextAccessor.HttpContext!.User.Identity as ClaimsIdentity;
         var craftmanId = identity!.FindFirst("CraftmanId");
 
-        return craftmanId!.Value;
+        return int.Parse(craftmanId!.Value);
     }
 }

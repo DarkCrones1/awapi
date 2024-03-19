@@ -9,13 +9,11 @@ public class CraftCreateRequestDto : BaseCatalogCreateRequestDto
         _Propertys = new List<PropertyCraftCreateRequestDto>();
     }
 
-    public int CraftmanId { get; set; }
+    // public int CraftmanId { get; set; }
 
     public decimal? Price { get; set; }
 
     public string? History { get; set; }
-
-    public string? CraftPictureUrl { get; set; }
 
     public int CultureId { get; set; }
 

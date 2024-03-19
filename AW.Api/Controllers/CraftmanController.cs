@@ -19,12 +19,14 @@ using AW.Domain.Interfaces.Services;
 using AW.Common.Functions;
 using AW.Common.Enumerations;
 using AW.Domain.Enumerations;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 
 namespace AW.Api.Controllers;
 
 [ApiController]
 [Route("api/[controller]")]
 [Produces("application/json")]
+[Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme, Policy = "Admin-Craftman")]
 public class CraftmanController : ControllerBase
 {
     private readonly IMapper _mapper;
@@ -49,6 +51,7 @@ public class CraftmanController : ControllerBase
     /// <returns></returns>
     [HttpGet]
     [Route("")]
+    [AllowAnonymous]
     [ProducesResponseType((int)HttpStatusCode.OK, Type = typeof(ApiResponse<IEnumerable<CraftmanResponseDto>>))]
     [ProducesResponseType((int)HttpStatusCode.BadRequest, Type = typeof(ApiResponse<IEnumerable<CraftmanResponseDto>>))]
     [ProducesResponseType((int)HttpStatusCode.NotFound, Type = typeof(ApiResponse<IEnumerable<CraftmanResponseDto>>))]
@@ -70,6 +73,7 @@ public class CraftmanController : ControllerBase
     /// </summary>
     [HttpGet]
     [Route("{id:int}")]
+    [AllowAnonymous]
     [ProducesResponseType((int)HttpStatusCode.OK, Type = typeof(ApiResponse<CraftmanDetailResponseDto>))]
     [ProducesResponseType((int)HttpStatusCode.BadRequest, Type = typeof(ApiResponse<CraftmanDetailResponseDto>))]
     [ProducesResponseType((int)HttpStatusCode.NotFound, Type = typeof(ApiResponse<CraftmanDetailResponseDto>))]
@@ -118,7 +122,6 @@ public class CraftmanController : ControllerBase
     /// <exception cref="LogicBusinessException"></exception>
     [HttpPost]
     [Route("UploadImageProfile")]
-    [Authorize]
     public async Task<IActionResult> UploadImageProfileLocal([FromForm] ImageCreateRequestDto requestDto)
     {
         try
@@ -147,7 +150,6 @@ public class CraftmanController : ControllerBase
     /// <exception cref="LogicBusinessException"></exception>
     [HttpPut]
     [Route("{id:int}")]
-    [Authorize]
     [ProducesResponseType((int)HttpStatusCode.OK, Type = typeof(ApiResponse<CraftmanResponseDto>))]
     public async Task<IActionResult> UpdateCraftmant([FromRoute] int id, [FromBody] CraftmanUpdateRequestDto requestDto)
     {
@@ -185,7 +187,6 @@ public class CraftmanController : ControllerBase
     /// <exception cref="LogicBusinessException"></exception>
     [HttpPut]
     [Route("UpdateImageProfile")]
-    [Authorize]
     public async Task<IActionResult> UpdateImageProfileLocal([FromForm] ImageCreateRequestDto requestDto)
     {
         try
@@ -221,7 +222,6 @@ public class CraftmanController : ControllerBase
     /// <exception cref="LogicBusinessException"></exception>
     [HttpDelete]
     [Route("{id:int}")]
-    [Authorize]
     public async Task<IActionResult> Delete([FromRoute] int id)
     {
         try
@@ -257,7 +257,6 @@ public class CraftmanController : ControllerBase
     /// <exception cref="LogicBusinessException"></exception>
     [HttpDelete]
     [Route("{id:int}/DeleteImageProfile")]
-    [Authorize]
     public async Task<IActionResult> DeleteImageProfile([FromRoute] int id)
     {
         try
