@@ -86,7 +86,7 @@ public class UserAccountController : ControllerBase
         var response = new ApiResponse<IEnumerable<UserAccountCustomerResponseDto>>(data: dtos, meta: metaDataResponse);
         return Ok(response);
     }
-    
+
     /// <summary>
     /// Crea Cuentas de usuario para Artesanos
     /// </summary>
@@ -101,30 +101,30 @@ public class UserAccountController : ControllerBase
         try
         {
             Expression<Func<UserAccount, bool>> filterUserName = x => !x.IsDeleted!.Value && x.UserName == requestDto.UserName;
-    
+
             var existUser = await _service.Exist(filterUserName);
-    
+
+            if (existUser)
+                return BadRequest("Ya existe un perfil con este nombre de usuario");
+
+            Expression<Func<UserAccount, bool>> filterEmail = x => !x.IsDeleted!.Value && x.Email == requestDto.Email;
+
+            var existEmail = await _service.Exist(filterEmail);
+
             if (existUser)
                 return BadRequest("Ya existe un usuario con este correo electrónico");
-    
-            Expression<Func<UserAccount, bool>> filterEmail = x => !x.IsDeleted!.Value && x.Email == requestDto.Email;
-    
-            var existEmail = await _service.Exist(filterEmail);
-    
-            if (existUser)
-                return BadRequest("Ya existe un usuario con este nombre de usuario");
-    
+
             var entity = await PopulateUserAccountCraftman(requestDto);
             entity.Password = MD5Encrypt.GetMD5(requestDto.Password);
             await _service.CreateUser(entity);
-    
+
             var result = _mapper.Map<UserAccountCraftmanResponseDto>(entity);
             var response = new ApiResponse<UserAccountCraftmanResponseDto>(result);
             return Ok(response);
         }
         catch (Exception ex)
         {
-            
+
             throw new LogicBusinessException(ex);
         }
     }
@@ -143,30 +143,30 @@ public class UserAccountController : ControllerBase
         try
         {
             Expression<Func<UserAccount, bool>> filterUserName = x => !x.IsDeleted!.Value && x.UserName == requestDto.UserName;
-    
+
             var existUser = await _service.Exist(filterUserName);
-    
+
+            if (existUser)
+                return BadRequest("Ya existe un perfil con este nombre de usuario");
+
+            Expression<Func<UserAccount, bool>> filterEmail = x => !x.IsDeleted!.Value && x.Email == requestDto.Email;
+
+            var existEmail = await _service.Exist(filterEmail);
+
             if (existUser)
                 return BadRequest("Ya existe un usuario con este correo electrónico");
-    
-            Expression<Func<UserAccount, bool>> filterEmail = x => !x.IsDeleted!.Value && x.Email == requestDto.Email;
-    
-            var existEmail = await _service.Exist(filterEmail);
-    
-            if (existUser)
-                return BadRequest("Ya existe un usuario con este nombre de usuario");
-    
+
             var entity = await PopulateUserAccountCustomer(requestDto);
             entity.Password = MD5Encrypt.GetMD5(requestDto.Password);
             await _service.CreateUser(entity);
-    
+
             var result = _mapper.Map<UserAccountCustomerResponseDto>(entity);
             var response = new ApiResponse<UserAccountCustomerResponseDto>(result);
             return Ok(response);
         }
         catch (Exception ex)
         {
-            
+
             throw new LogicBusinessException(ex);
         }
     }
@@ -193,7 +193,7 @@ public class UserAccountController : ControllerBase
         Expression<Func<UserAccount, bool>> filter = x => !x.IsDeleted!.Value && x.Email == requestDto.Email;
 
         var existUser = await _service.Exist(filter);
-            
+
         var userAccount = _mapper.Map<UserAccount>(requestDto);
 
         var customer = _mapper.Map<Customer>(requestDto);

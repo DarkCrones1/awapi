@@ -21,6 +21,10 @@ public class CraftDetailResponseDto : BaseCatalogResponseDto
 
     public string? CraftStatusName { get; set; }
 
+    public int CultureId { get; set; }
+
+    public string? CultureName { get; set; }
+
     public DateTime? PublicationDate { get; set; }
 
     public decimal? Price { get; set; }
