@@ -31,9 +31,9 @@ public class CultureController : ControllerBase
 {
     private readonly IMapper _mapper;
     private readonly ICultureService _service;
-    private readonly TokenHelper _tokenHelper;
+    private readonly ITokenHelperService _tokenHelper;
 
-    public CultureController(IMapper mapper, ICultureService service, TokenHelper tokenHelper)
+    public CultureController(IMapper mapper, ICultureService service, ITokenHelperService tokenHelper)
     {
         this._mapper = mapper;
         this._service = service;

@@ -29,9 +29,9 @@ public class TechniqueTypeController : ControllerBase
 {
     private readonly IMapper _mapper;
     private readonly ITechniqueTypeService _service;
-    private readonly TokenHelper _tokenHelper;
+    private readonly ITokenHelperService _tokenHelper;
 
-    public TechniqueTypeController(IMapper mapper, ITechniqueTypeService service, TokenHelper tokenHelper)
+    public TechniqueTypeController(IMapper mapper, ITechniqueTypeService service, ITokenHelperService tokenHelper)
     {
         this._mapper = mapper;
         this._service = service;

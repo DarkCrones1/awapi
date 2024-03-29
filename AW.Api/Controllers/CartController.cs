@@ -31,9 +31,9 @@ public class CartController : ControllerBase
 {
     private readonly IMapper _mapper;
     private readonly ICartService _service;
-    private readonly TokenHelper _tokenHelper;
+    private readonly ITokenHelperService _tokenHelper;
 
-    public CartController(IMapper mapper, ICartService service, TokenHelper tokenHelper)
+    public CartController(IMapper mapper, ICartService service, ITokenHelperService tokenHelper)
     {
         this._mapper = mapper;
         this._service = service;

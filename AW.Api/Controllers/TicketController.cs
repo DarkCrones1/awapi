@@ -30,10 +30,10 @@ public class TicketController : ControllerBase
 {
     private readonly IMapper _mapper;
     private readonly ITicketService _service;
-    private readonly TokenHelper _tokenHelper;
+    private readonly ITokenHelperService _tokenHelper;
     private readonly ICartService _cartService;
 
-    public TicketController(IMapper mapper, ITicketService service, TokenHelper tokenHelper, ICartService cartService)
+    public TicketController(IMapper mapper, ITicketService service, ITokenHelperService tokenHelper, ICartService cartService)
     {
         this._mapper = mapper;
         this._service = service;

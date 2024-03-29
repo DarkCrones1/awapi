@@ -1,9 +1,10 @@
 using System.Security.Claims;
+using AW.Common.Interfaces.Services;
 using Microsoft.AspNetCore.Http;
 
 namespace AW.Common.Helpers;
 
-public class TokenHelper
+public class TokenHelper : ITokenHelperService
 {
     private readonly IHttpContextAccessor _httpContextAccessor;
 
@@ -24,7 +25,7 @@ public class TokenHelper
     {
         var identity = _httpContextAccessor.HttpContext!.User.Identity as ClaimsIdentity;
         var nameIdentifier = identity!.FindFirst(ClaimTypes.NameIdentifier);
-        
+
         return nameIdentifier!.Value;
     }
 

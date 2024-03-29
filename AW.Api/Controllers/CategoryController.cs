@@ -24,14 +24,14 @@ namespace AW.Api.Controllers;
 [ApiController]
 [Route("api/[controller]")]
 [Produces("application/json")]
-[Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme, Policy = "Admin")]
+// [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme, Policy = "Admin")]
 public class CategoryController : ControllerBase
 {
     private readonly IMapper _mapper;
     private readonly ICategoryService _service;
-    private readonly TokenHelper _tokenHelper;
+    private readonly ITokenHelperService _tokenHelper;
 
-    public CategoryController(IMapper mapper, ICategoryService service, TokenHelper tokenHelper)
+    public CategoryController(IMapper mapper, ICategoryService service, ITokenHelperService tokenHelper)
     {
         this._mapper = mapper;
         this._service = service;

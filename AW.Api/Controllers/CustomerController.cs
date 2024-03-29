@@ -31,10 +31,10 @@ public class CustomerController : ControllerBase
     private readonly IMapper _mapper;
     private readonly IConfiguration _configuration;
     private readonly ICustomerService _service;
-    private readonly TokenHelper _tokenHelper;
+    private readonly ITokenHelperService _tokenHelper;
     private readonly ILocalStorageService _localService;
 
-    public CustomerController(IMapper mapper, IConfiguration configuration,ICustomerService service, TokenHelper tokenHelper, ILocalStorageService localService)
+    public CustomerController(IMapper mapper, IConfiguration configuration,ICustomerService service, ITokenHelperService tokenHelper, ILocalStorageService localService)
     {
         this._mapper = mapper;
         this._configuration = configuration;

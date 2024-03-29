@@ -31,10 +31,10 @@ public class CraftController : ControllerBase
     private readonly IMapper _mapper;
     private readonly IConfiguration _configuration;
     private readonly ICraftService _service;
-    private readonly TokenHelper _tokenHelper;
+    private readonly ITokenHelperService _tokenHelper;
     private readonly ILocalStorageService _localService;
 
-    public CraftController(IMapper mapper, IConfiguration configuration, ICraftService service, TokenHelper tokenHelper, ILocalStorageService localService)
+    public CraftController(IMapper mapper, IConfiguration configuration, ICraftService service, ITokenHelperService tokenHelper, ILocalStorageService localService)
     {
         this._mapper = mapper;
         this._configuration = configuration;

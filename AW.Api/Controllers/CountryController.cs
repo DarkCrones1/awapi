@@ -28,9 +28,9 @@ public class CountryController : ControllerBase
     private readonly IMapper _mapper;
     private readonly ICrudService<Country> _service;
     private readonly ICrudService<City> _cityService;
-    private readonly TokenHelper _tokenHelper;
+    private readonly ITokenHelperService _tokenHelper;
 
-    public CountryController(IMapper mapper, ICrudService<Country> service, ICrudService<City> cityService, TokenHelper tokenHelper)
+    public CountryController(IMapper mapper, ICrudService<Country> service, ICrudService<City> cityService, ITokenHelperService tokenHelper)
     {
         this._mapper = mapper;
         this._service = service;

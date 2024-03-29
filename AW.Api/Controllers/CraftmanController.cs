@@ -32,10 +32,10 @@ public class CraftmanController : ControllerBase
     private readonly IMapper _mapper;
     private readonly IConfiguration _configuration;
     private readonly ICraftmantService _service;
-    private readonly TokenHelper _tokenHelper;
+    private readonly ITokenHelperService _tokenHelper;
     private readonly ILocalStorageService _localService;
 
-    public CraftmanController(IMapper mapper, IConfiguration configuration, ICraftmantService service, TokenHelper tokenHelper, ILocalStorageService localService)
+    public CraftmanController(IMapper mapper, IConfiguration configuration, ICraftmantService service, ITokenHelperService tokenHelper, ILocalStorageService localService)
     {
         this._mapper = mapper;
         this._configuration = configuration;

@@ -30,9 +30,9 @@ public class UserAccountController : ControllerBase
     private readonly IMapper _mapper;
     private readonly IUserAccountService _service;
     private readonly ICatalogBaseService<Rol> _rolService;
-    private readonly TokenHelper _tokenHelper;
+    private readonly ITokenHelperService _tokenHelper;
 
-    public UserAccountController(IMapper mapper, IUserAccountService service, ICatalogBaseService<Rol> rolService, TokenHelper tokenHelper)
+    public UserAccountController(IMapper mapper, IUserAccountService service, ICatalogBaseService<Rol> rolService, ITokenHelperService tokenHelper)
     {
         this._mapper = mapper;
         this._service = service;
