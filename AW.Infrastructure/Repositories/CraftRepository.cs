@@ -29,12 +29,57 @@ public class CraftRepository : CatalogBaseRepository<Craft>, ICraftRepository
 
         if (!string.IsNullOrEmpty(entity.Name) && !string.IsNullOrWhiteSpace(entity.Name))
             query = query.Where(x => x.Name.Contains(entity.Name));
-        
+
         if (!string.IsNullOrEmpty(entity.Description) && !string.IsNullOrWhiteSpace(entity.Description))
             query = query.Where(x => x.Description!.Contains(entity.Description));
 
         if (entity.IsDeleted.HasValue)
             query = query.Where(x => x.IsDeleted == entity.IsDeleted);
+
+        if (entity.SerialId.HasValue)
+            query = query.Where(x => x.SerialId == entity.SerialId);
+
+        if (!string.IsNullOrEmpty(entity.InitialPartSerialId) && !string.IsNullOrWhiteSpace(entity.InitialPartSerialId))
+            query = query.Where(x => x.SerialId.ToString().StartsWith(entity.InitialPartSerialId));
+
+        if (entity.CraftmanId > 0)
+            query = query.Where(x => x.CraftmanId == entity.CraftmanId);
+
+        if (!string.IsNullOrEmpty(entity.CraftmanName) && !string.IsNullOrWhiteSpace(entity.CraftmanName))
+            query = query.Where(x => x.Craftman.FirstName.Contains(entity.CraftmanName) || x.Craftman.LastName.Contains(entity.CraftmanName) || x.Craftman.MiddleName!.Contains(entity.CraftmanName));
+
+        if (entity.CraftStatus > 0)
+            query = query.Where(x => x.Status == entity.CraftStatus);
+
+        if (entity.CultureId > 0)
+            query = query.Where(x => x.CultureId == entity.CultureId);
+
+        if (entity.PublicationDate.HasValue)
+            query = query.Where(x => x.PublicationDate == entity.PublicationDate.Value.Date);
+
+        if (entity.PublicationDate.HasValue)
+            query = query.Where(x => x.PublicationDate!.Value >= entity.MinPublicationDate!.Value.Date);
+
+        if (entity.PublicationDate.HasValue)
+            query = query.Where(x => x.PublicationDate!.Value >= entity.MaxPublicationDate!.Value.Date);
+
+        if (entity.CreatedDate.HasValue)
+            query = query.Where(x => x.CreatedDate.Date == entity.CreatedDate.Value.Date);
+
+        if (entity.MinCreatedDate.HasValue)
+            query = query.Where(x => x.CreatedDate.Date >= entity.MinCreatedDate.Value.Date);
+
+        if (entity.MaxCreatedDate.HasValue)
+            query = query.Where(x => x.CreatedDate.Date <= entity.MaxCreatedDate.Value.Date);
+
+        if (entity.Price > 0)
+            query = query.Where(x => x.Price == entity.Price);
+
+        if (entity.MinPrice > 0)
+            query = query.Where(x => x.Price >= entity.MinPrice);
+
+        if (entity.MaxPrice > 0)
+            query = query.Where(x => x.Price <= entity.MaxPrice);
 
         return await query.ToListAsync();
     }
