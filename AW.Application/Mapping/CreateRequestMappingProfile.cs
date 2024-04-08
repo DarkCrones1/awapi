@@ -182,6 +182,9 @@ public class CreateRequestMappingProfile : Profile
         .AfterMap(
             (src, dest) =>
             {
+                dest.FirstName = "Asignar";
+                dest.LastName = "Asignar";
+                dest.CellPhone = "Asignar";
                 dest.Code = Guid.NewGuid();
                 dest.IsDeleted = ValuesStatusPropertyEntity.IsNotDeleted;
                 dest.CreatedDate = DateTime.Now;
@@ -231,6 +234,9 @@ public class CreateRequestMappingProfile : Profile
         .AfterMap(
             (src, dest) =>
             {
+                dest.FirstName = "Asignar";
+                dest.LastName = "Asignar";
+                dest.CellPhone = "Asignar";
                 dest.Code = Guid.NewGuid();
                 dest.IsDeleted = ValuesStatusPropertyEntity.IsNotDeleted;
                 dest.CreatedDate = DateTime.Now;

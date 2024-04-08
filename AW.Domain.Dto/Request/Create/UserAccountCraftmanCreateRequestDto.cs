@@ -10,17 +10,17 @@ public class UserAccountCraftmanCreateRequestDto
     public string? Email { get; set; }
 
     // Customer info
-    public string FirstName { get; set; } = null!;
+    // public string FirstName { get; set; } = null!;
 
-    public string? MiddleName { get; set; }
+    // public string? MiddleName { get; set; }
 
-    public string LastName { get; set; } = null!;
+    // public string LastName { get; set; } = null!;
 
-    public string CellPhone { get; set; } = null!;
+    // public string CellPhone { get; set; } = null!;
 
-    public string? Phone { get; set; }
+    // public string? Phone { get; set; }
 
-    public short? Gender { get; set; }
+    // public short? Gender { get; set; }
 
-    public DateTime? BirthDate { get; set; }
+    // public DateTime? BirthDate { get; set; }
 }
