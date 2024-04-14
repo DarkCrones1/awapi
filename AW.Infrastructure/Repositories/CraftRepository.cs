@@ -81,6 +81,12 @@ public class CraftRepository : CatalogBaseRepository<Craft>, ICraftRepository
         if (entity.MaxPrice > 0)
             query = query.Where(x => x.Price <= entity.MaxPrice);
 
+        if (entity.CategoryIds != null && entity.CategoryIds.Length > 0)
+            query = query.Where(x => x.Category.Any(x => entity.CategoryIds.Contains(x.Id)));
+
+        if (entity.TechniqueTypeIds != null && entity.TechniqueTypeIds.Length > 0)
+            query = query.Where(x => x.TechniqueType.Any(x => entity.TechniqueTypeIds.Contains(x.Id)));
+
         return await query.ToListAsync();
     }
 }

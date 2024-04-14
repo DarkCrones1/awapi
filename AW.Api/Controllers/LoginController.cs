@@ -70,6 +70,8 @@ public class LoginController : ControllerBase
             _userCraftman = await GetCraftman(requestDto);
             if (_userCraftman.AccountType == 2)
             {
+                // var dbConection = _configuration["UserConnection:awDevStringCraftman"];
+                // _configuration["ConnectionStrings:awDevString"] = dbConection;
                 var token = await GenerateTokenCraftman();
                 return Ok(new { token });
             }
@@ -77,6 +79,8 @@ public class LoginController : ControllerBase
             _userCustomer = await GetCustomer(requestDto);
             if (_userCustomer.AccountType == 3)
             {
+                // var dbConection = _configuration["UserConnection:awDevStringCustomer"];
+                // _configuration["ConnectionStrings:awDevString"] = dbConection;
                 var token = await GenerateTokenCustomer();
                 return Ok(new { token });
             }

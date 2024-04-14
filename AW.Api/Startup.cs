@@ -103,6 +103,8 @@ public class Startup
             options.AddPolicy("Admin-Customer", policy => policy.RequireClaim("UserAccountType", "1", "3"));
             options.AddPolicy("Craftman-Customer", policy => policy.RequireClaim("UserAccountType", "2", "3"));
             options.AddPolicy("Admin", policy => policy.RequireClaim("UserAccountType", "1"));
+            options.AddPolicy("Craftman", policy => policy.RequireClaim("UserAccountType", "2"));
+            options.AddPolicy("Customer", policy => policy.RequireClaim("UserAccountType", "3"));
         });
 
         // Configure Cors
