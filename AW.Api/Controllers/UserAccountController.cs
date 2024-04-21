@@ -88,6 +88,49 @@ public class UserAccountController : ControllerBase
     }
 
     /// <summary>
+    /// Dar de alta al personal administrativo de la página (Administrador)
+    /// </summary>
+    /// <param name="requestDto"></param>
+    /// <returns></returns>
+    /// <exception cref="LogicBusinessException"></exception>
+    [HttpPost]
+    [Route("Administrator")]
+    [AllowAnonymous]
+    [ProducesResponseType((int)HttpStatusCode.OK, Type = typeof(ApiResponse<UserAccountAdministratorResponseDto>))]
+    public async Task<IActionResult> CreateUserAccountAdministrator([FromBody] UserAccountAdministratorCreateRequestDto requestDto)
+    {
+        try
+        {
+            Expression<Func<UserAccount, bool>> filterUserName = x => !x.IsDeleted!.Value && x.UserName == requestDto.UserName;
+
+            var existUser = await _service.Exist(filterUserName);
+
+            if (existUser)
+                return BadRequest("Ya existe un perfil con este nombre de usuario");
+
+            Expression<Func<UserAccount, bool>> filterEmail = x => !x.IsDeleted!.Value && x.Email == requestDto.Email;
+
+            var existEmail = await _service.Exist(filterEmail);
+
+            if (existEmail)
+                return BadRequest("Ya existe un usuario con este correo electrónico");
+
+            var entity = await PopulateUserAccountAdministrator(requestDto);
+            entity.Password = MD5Encrypt.GetMD5(requestDto.Password);
+            await _service.CreateUser(entity);
+
+            var result = _mapper.Map<UserAccountAdministratorResponseDto>(entity);
+            var response = new ApiResponse<UserAccountAdministratorResponseDto>(result);
+            return Ok(response);
+        }
+        catch (Exception ex)
+        {
+
+            throw new LogicBusinessException(ex);
+        }
+    }
+
+    /// <summary>
     /// Crea Cuentas de usuario para Artesanos
     /// </summary>
     /// <param name="requestDto"></param>
@@ -171,6 +214,25 @@ public class UserAccountController : ControllerBase
         }
     }
 
+    private async Task<UserAccount> PopulateUserAccountAdministrator(UserAccountAdministratorCreateRequestDto requestDto)
+    {
+        Expression<Func<UserAccount, bool>> filter = x => !x.IsDeleted!.Value && x.Email == requestDto.Email;
+
+        var existUser = await _service.Exist(filter);
+
+        var userAccount = _mapper.Map<UserAccount>(requestDto);
+
+        var administrator = _mapper.Map<Administrator>(requestDto);
+
+        var rol = await _rolService.GetById(requestDto.RolId);
+
+        administrator.UserAccount.Add(userAccount);
+        userAccount.Administrator.Add(administrator);
+        userAccount.Rol.Add(rol);
+
+        return userAccount;
+    }
+
     private async Task<UserAccount> PopulateUserAccountCraftman(UserAccountCraftmanCreateRequestDto requestDto)
     {
         Expression<Func<UserAccount, bool>> filter = x => !x.IsDeleted!.Value && x.Email == requestDto.Email;
@@ -180,8 +242,8 @@ public class UserAccountController : ControllerBase
         var userAccount = _mapper.Map<UserAccount>(requestDto);
 
         var craftman = _mapper.Map<Craftman>(requestDto);
-        craftman.UserAccount.Add(userAccount);
 
+        craftman.UserAccount.Add(userAccount);
         userAccount.Craftman.Add(craftman);
 
         return userAccount;
@@ -197,8 +259,8 @@ public class UserAccountController : ControllerBase
         var userAccount = _mapper.Map<UserAccount>(requestDto);
 
         var customer = _mapper.Map<Customer>(requestDto);
-        customer.UserAccount.Add(userAccount);
 
+        customer.UserAccount.Add(userAccount);
         userAccount.Customer.Add(customer);
 
         return userAccount;

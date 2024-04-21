@@ -219,6 +219,33 @@ public class ResponseMappingProfile : Profile
             opt => opt.MapFrom(src => !src.IsDeleted)
         );
 
+        CreateMap<UserAccount, UserAccountAdministratorResponseDto>()
+        .ForMember(
+            dest => dest.UserName,
+            opt => opt.MapFrom(src => src.UserName)
+        )
+        .ForMember(
+            dest => dest.IsDeleted,
+            opt => opt.MapFrom(src => src.IsDeleted)
+        ).AfterMap(
+            (src, dest) =>
+            {
+                var administrator = src.Administrator.FirstOrDefault() ?? new Administrator();
+                dest.AdministratorId = administrator.Id;
+                dest.FullName = administrator.FullName;
+                dest.Phone = administrator.Phone!;
+                dest.CellPhone = administrator.CellPhone;
+                
+
+                var rol = src.Rol.FirstOrDefault() ?? new Rol();
+                dest.RolId = rol.Id;
+                dest.RolName = rol.Name;
+
+                dest.UserAccountType = src.AccountType;
+                dest.UserAccountTypeName = EnumHelper.GetDescription<UserAccountType>((UserAccountType)src.AccountType);
+            }
+        );
+
         CreateMap<UserAccount, UserAccountCustomerResponseDto>()
         .ForMember(
             dest => dest.UserName,

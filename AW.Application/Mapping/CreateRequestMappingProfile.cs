@@ -157,6 +157,36 @@ public class CreateRequestMappingProfile : Profile
             }
         );
 
+        CreateMap<UserAccountAdministratorCreateRequestDto, UserAccount>()
+        .ForMember(
+            dest => dest.IsDeleted,
+            opt => opt.MapFrom(src => ValuesStatusPropertyEntity.IsNotDeleted)
+        ).ForMember(
+            dest => dest.IsActive,
+            opt => opt.MapFrom(src => true)
+        ).ForMember(
+            dest => dest.IsAuthorized,
+            opt => opt.MapFrom(src => true)
+        ).ForMember(
+            dest => dest.CreatedDate,
+            opt => opt.MapFrom(src => DateTime.Now)
+        ).ForMember(
+            dest => dest.AccountType,
+            opt => opt.MapFrom(src => (short)UserAccountType.Admin)
+        ).ForMember(
+            dest => dest.Email,
+            opt => opt.MapFrom(src => src.Email)
+        );
+
+        CreateMap<UserAccountAdministratorCreateRequestDto, Administrator>()
+        .AfterMap(
+            (src, dest) =>
+            {
+                dest.IsDeleted = ValuesStatusPropertyEntity.IsNotDeleted;
+                dest.CreatedDate = DateTime.Now;
+            }
+        );
+
         CreateMap<UserAccountCustomerCreateRequestDto, UserAccount>()
         .ForMember(
             dest => dest.IsDeleted,
