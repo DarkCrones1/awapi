@@ -13,7 +13,6 @@ namespace AW.Api.Controllers;
 [ApiController]
 [Route("api/[controller]")]
 [Produces("application/json")]
-[Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme, Policy = "Admin")]
 public class MiscellaneousController : ControllerBase
 {
     private readonly IMiscellaneousService _service;

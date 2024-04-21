@@ -111,7 +111,7 @@ public class UserAccountController : ControllerBase
 
             var existEmail = await _service.Exist(filterEmail);
 
-            if (existUser)
+            if (existEmail)
                 return BadRequest("Ya existe un usuario con este correo electrónico");
 
             var entity = await PopulateUserAccountCraftman(requestDto);
@@ -153,7 +153,7 @@ public class UserAccountController : ControllerBase
 
             var existEmail = await _service.Exist(filterEmail);
 
-            if (existUser)
+            if (existEmail)
                 return BadRequest("Ya existe un usuario con este correo electrónico");
 
             var entity = await PopulateUserAccountCustomer(requestDto);

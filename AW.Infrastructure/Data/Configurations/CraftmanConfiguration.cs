@@ -12,7 +12,6 @@ public class CraftmanConfiguration : IEntityTypeConfiguration<Craftman>
         builder.Ignore(x => x.FullName);
         builder.HasKey(e => e.Id).HasName("PK__Craftman__3214EC235D7D5044");
 
-
         builder.Property(e => e.CellPhone)
             .HasMaxLength(50)
             .IsUnicode(false);
