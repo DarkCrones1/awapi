@@ -90,7 +90,7 @@ public class LoginController : ControllerBase
         catch (Exception)
         {
 
-            throw new LogicBusinessException("Esta Cuenta de Usuario debe de iniciar como Cliente");
+            throw new LogicBusinessException("No se ha encontrado ningun usuario");
         }
     }
 

@@ -248,7 +248,7 @@ public class CreateRequestMappingProfile : Profile
             opt => opt.MapFrom(src => true)
         ).ForMember(
             dest => dest.IsAuthorized,
-            opt => opt.MapFrom(src => true)
+            opt => opt.MapFrom(src => false)
         ).ForMember(
             dest => dest.CreatedDate,
             opt => opt.MapFrom(src => DateTime.Now)
@@ -264,22 +264,26 @@ public class CreateRequestMappingProfile : Profile
         .AfterMap(
             (src, dest) =>
             {
-                dest.FirstName = "Asignar";
-                dest.LastName = "Asignar";
-                dest.CellPhone = "Asignar";
+                dest.FirstName = src.FirstName;
+                dest.MiddleName = src.MiddleName;
+                dest.LastName = src.LastName;
+                dest.CellPhone = src.CellPhone;
+                dest.Phone = src.Phone;
+                dest.Gender = src.Gender;
+                dest.BirthDate = src.BirthDate;
                 dest.Code = Guid.NewGuid();
                 dest.IsDeleted = ValuesStatusPropertyEntity.IsNotDeleted;
                 dest.CreatedDate = DateTime.Now;
-                dest.Status = (short)CraftmanStatus.Aproved;
+                dest.Status = (short)CraftmanStatus.Pendding;
                 var address = new Address
                 {
-                    Address1 = "Asignar",
-                    Address2 = "Asignar",
-                    Street = "Asignar",
-                    ExternalNumber = "Asignar",
-                    InternalNumber = "Asignar",
-                    ZipCode = "Asignar",
-                    CityId = null
+                    Address1 = src.Address1,
+                    Address2 = src.Address2,
+                    Street = src.Street,
+                    ExternalNumber = src.ExternalNumber,
+                    InternalNumber = src.InternalNumber,
+                    ZipCode = src.ZipCode,
+                    CityId = src.CityId
                 };
                 dest.Address.Add(address);
             }
