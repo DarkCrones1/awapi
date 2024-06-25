@@ -2,9 +2,9 @@ using FluentValidation;
 using AW.Domain.Dto.Request.Create;
 
 namespace AW.Application.Validators;
-public class UserAccountCreateRequestCustomerValidator : AbstractValidator<UserAccountCustomerCreateRequestDto>
+public class UserAccountCraftmanCreateRequestValidator : AbstractValidator<UserAccountCraftmanCreateRequestDto>
 {
-    public UserAccountCreateRequestCustomerValidator()
+    public UserAccountCraftmanCreateRequestValidator()
     {
         RuleFor(x => x.UserName).Length(10).NotNull().NotEmpty().Must(LowerCase).WithMessage("El nombre de usuario debe de ir en minúsculas");
         RuleFor(x => x.Password).NotNull().NotEmpty().WithMessage("La contraseña es requerido");

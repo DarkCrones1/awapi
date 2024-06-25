@@ -18,6 +18,7 @@ using AW.Domain.Dto.QueryFilters;
 using AW.Domain.Interfaces.Services;
 using AW.Common.Functions;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
+using AW.Common.Enumerations;
 
 namespace AW.Api.Controllers;
 
@@ -28,14 +29,18 @@ namespace AW.Api.Controllers;
 public class CategoryController : ControllerBase
 {
     private readonly IMapper _mapper;
+    private readonly IConfiguration _configuration;
     private readonly ICategoryService _service;
     private readonly ITokenHelperService _tokenHelper;
+    private readonly ILocalStorageService _localService;
 
-    public CategoryController(IMapper mapper, ICategoryService service, ITokenHelperService tokenHelper)
+    public CategoryController(IMapper mapper, IConfiguration configuration, ICategoryService service, ITokenHelperService tokenHelper, ILocalStorageService localService)
     {
         this._mapper = mapper;
+        this._configuration = configuration;
         this._service = service;
         this._tokenHelper = tokenHelper;
+        this._localService = localService;
     }
 
     /// <summary>
@@ -170,6 +175,120 @@ public class CategoryController : ControllerBase
             oldEntity.LastModifiedBy = _tokenHelper.GetUserName();
             oldEntity.LastModifiedDate = DateTime.Now;
             await _service.Update(oldEntity);
+            return Ok(true);
+        }
+        catch (Exception ex)
+        {
+
+            throw new LogicBusinessException(ex);
+        }
+    }
+
+    private string GetUrlBaseLocal(int type)
+    {
+        var url = type switch
+        {
+            1 => _configuration.GetValue<string>("DefaultValues:craftImageLocalStorageBaseUrl"),
+            2 => _configuration.GetValue<string>("DefaultValues:ImageProfileCraftmanLocalStorageBaseUrl"),
+            3 => _configuration.GetValue<string>("DefaultValues:ImageProfileCustomerLocalStorageBaseUrl"),
+            4 => _configuration.GetValue<string>("DefaultValues:categoryImageLocalStorageBaseUrl"),
+            5 => _configuration.GetValue<string>("DefaultValues:customerDocuments"),
+            _ => _configuration.GetValue<string>("DefaultValues:craftmanDocuments"),
+        };
+        return url!;
+    }
+
+    private static LocalContainer GetLocalContainer(int value)
+    {
+        return value switch
+        {
+            1 => LocalContainer.Image_Craft,
+            2 => LocalContainer.Image_Profile_Craftman,
+            3 => LocalContainer.Image_Profile_Customer,
+            4 => LocalContainer.Image_Category,
+            5 => LocalContainer.Customer_Other_Documents,
+            _ => LocalContainer.Craftman_Other_Documents
+        };
+    }
+
+    /// <summary>
+    /// Sirve para subir una imagen de categoria
+    /// </summary>
+    /// <param name="requestDto"></param>
+    /// <returns></returns>
+    /// <exception cref="LogicBusinessException"></exception>
+    [HttpPost]
+    [Route("UploadImageCategory")]
+    public async Task<IActionResult> UploadImageCraftLocal([FromForm] ImageCreateRequestDto requestDto)
+    {
+        try
+        {
+            var urlFile = await _localService.UploadAsync(requestDto.File, LocalContainer.Image_Category, Guid.NewGuid().ToString());
+
+            string url = $"{GetUrlBaseLocal((short)LocalContainer.Image_Category)}{urlFile}";
+
+            await _service.UpdateProfile(requestDto.EntityAssigmentId, url, _tokenHelper.GetUserName());
+
+            return Ok();
+        }
+        catch (Exception ex)
+        {
+
+            throw new LogicBusinessException(ex);
+        }
+    }
+
+    /// <summary>
+    /// Actualiza la imagen de la categoria
+    /// </summary>
+    /// <param name="requestDto"></param>
+    /// <returns></returns>
+    /// <exception cref="LogicBusinessException"></exception>
+    [HttpPut]
+    [Route("UpdateImageCategory")]
+    public async Task<IActionResult> UpdateImageCraftLocal([FromForm] ImageCreateRequestDto requestDto)
+    {
+        try
+        {
+            Expression<Func<Category, bool>> filter = x => x.Id == requestDto.EntityAssigmentId;
+            var existCraft = await _service.Exist(filter);
+
+            if (!existCraft)
+                return BadRequest("No se encontró ninguna Artesania");
+
+            var entity = await _service.GetById(requestDto.EntityAssigmentId);
+
+            var urlFile = await _localService.EditFileAsync(requestDto.File, LocalContainer.Image_Craft, entity.CategoryPictureUrl!);
+
+            string url = $"{GetUrlBaseLocal((short)LocalContainer.Image_Category)}{urlFile}";
+
+            await _service.UpdateProfile(requestDto.EntityAssigmentId, url, _tokenHelper.GetUserName());
+
+            return Ok();
+        }
+        catch (Exception ex)
+        {
+
+            throw new LogicBusinessException(ex);
+        }
+    }
+
+    [HttpDelete]
+    [Route("{id:int}/DeleteImageCategory")]
+    public async Task<IActionResult> DeleteImageCraft([FromRoute] int id)
+    {
+        try
+        {
+            Expression<Func<Category, bool>> filter = x => x.Id == id;
+            var existCraft = await _service.Exist(filter);
+
+            if (!existCraft)
+                return BadRequest("No se encontró ninguna Artesania");
+
+            var entity = await _service.GetById(id);
+
+            await _localService.DeteleAsync(LocalContainer.Image_Category, entity.CategoryPictureUrl!);
+            await _service.UpdateProfile(id, null!, _tokenHelper.GetUserName());
             return Ok(true);
         }
         catch (Exception ex)

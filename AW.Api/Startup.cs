@@ -22,6 +22,8 @@ using AW.Common.Helpers;
 using AW.Domain.Interfaces.Repositories;
 using AW.Domain.Interfaces.Services;
 using gem.application.Services;
+using FluentValidation;
+using FluentValidation.AspNetCore;
 
 namespace AW.Api;
 
@@ -150,6 +152,9 @@ public class Startup
         services.AddHttpContextAccessor();
 
         // Add AutoValidator
+        services.AddValidatorsFromAssemblies(AppDomain.CurrentDomain.GetAssemblies());
+        services.AddFluentValidationAutoValidation();
+        services.AddFluentValidationClientsideAdapters();
 
         // Add Cashing
         services.AddResponseCaching();

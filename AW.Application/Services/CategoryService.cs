@@ -18,4 +18,15 @@ public class CategoryService : CatalogBaseService<Category>, ICategoryService
         var pagedItems = PagedList<Category>.Create(result, filter.PageNumber, filter.PageSize);
         return pagedItems;
     }
+
+    public async Task UpdateProfile(int categoryId, string urlProfile, string userName)
+    {
+        var lastEntity = await _unitOfWork.CategoryRepository.GetById(categoryId);
+        lastEntity.CategoryPictureUrl = urlProfile;
+        lastEntity.LastModifiedDate = DateTime.Now;
+        lastEntity.LastModifiedBy = userName;
+
+        await base.Update(lastEntity);
+        await _unitOfWork.SaveChangesAsync();
+    }
 }

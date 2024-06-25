@@ -94,9 +94,10 @@ public class CraftmanController : ControllerBase
         var url = type switch
         {
             1 => _configuration.GetValue<string>("DefaultValues:craftImageLocalStorageBaseUrl"),
-            2 => _configuration.GetValue<string>("DefaultValues:ImageProfileLocalStorageBaseUrl"),
-            3 => _configuration.GetValue<string>("DefaultValues:categoryImageLocalStorageBaseUrl"),
-            4 => _configuration.GetValue<string>("DefaultValues:customerDocuments"),
+            2 => _configuration.GetValue<string>("DefaultValues:ImageProfileCraftmanLocalStorageBaseUrl"),
+            3 => _configuration.GetValue<string>("DefaultValues:ImageProfileCustomerLocalStorageBaseUrl"),
+            4 => _configuration.GetValue<string>("DefaultValues:categoryImageLocalStorageBaseUrl"),
+            5 => _configuration.GetValue<string>("DefaultValues:customerDocuments"),
             _ => _configuration.GetValue<string>("DefaultValues:craftmanDocuments"),
         };
         return url!;
@@ -107,9 +108,10 @@ public class CraftmanController : ControllerBase
         return value switch
         {
             1 => LocalContainer.Image_Craft,
-            2 => LocalContainer.Image_Profile,
-            3 => LocalContainer.Image_Category,
-            4 => LocalContainer.Customer_Other_Documents,
+            2 => LocalContainer.Image_Profile_Craftman,
+            3 => LocalContainer.Image_Profile_Customer,
+            4 => LocalContainer.Image_Category,
+            5 => LocalContainer.Customer_Other_Documents,
             _ => LocalContainer.Craftman_Other_Documents
         };
     }
@@ -122,21 +124,20 @@ public class CraftmanController : ControllerBase
     /// <exception cref="LogicBusinessException"></exception>
     [HttpPost]
     [Route("UploadImageProfile")]
-    public async Task<IActionResult> UploadImageProfileLocal([FromForm] ImageCreateRequestDto requestDto)
+    public async Task<IActionResult> UploadImageProfileLocal([FromForm] ImageProfileCreateRequestDto requestDto)
     {
         try
         {
-            var urlFile = await _localService.UploadAsync(requestDto.File, LocalContainer.Image_Profile, Guid.NewGuid().ToString());
+            var urlFile = await _localService.UploadAsync(requestDto.File, LocalContainer.Image_Profile_Craftman, Guid.NewGuid().ToString());
 
-            string url = $"{GetUrlBaseLocal((short)LocalContainer.Image_Profile)}{urlFile}";
+            string url = $"{GetUrlBaseLocal((short)LocalContainer.Image_Profile_Craftman)}{urlFile}";
 
-            await _service.UpdateProfile(requestDto.EntityAssigmentId, url, _tokenHelper.GetUserName());
+            await _service.UpdateProfile(_tokenHelper.GetCraftmanId(), url, _tokenHelper.GetUserName());
 
             return Ok();
         }
         catch (Exception ex)
         {
-
             throw new LogicBusinessException(ex);
         }
     }
@@ -187,23 +188,23 @@ public class CraftmanController : ControllerBase
     /// <exception cref="LogicBusinessException"></exception>
     [HttpPut]
     [Route("UpdateImageProfile")]
-    public async Task<IActionResult> UpdateImageProfileLocal([FromForm] ImageCreateRequestDto requestDto)
+    public async Task<IActionResult> UpdateImageProfileLocal([FromForm] ImageProfileCreateRequestDto requestDto)
     {
         try
         {
-            Expression<Func<Craftman, bool>> filter = x => x.Id == requestDto.EntityAssigmentId;
+            Expression<Func<Craftman, bool>> filter = x => x.Id == _tokenHelper.GetCraftmanId();
             var existCraftman = await _service.Exist(filter);
 
             if (!existCraftman)
                 return BadRequest("No se encontró ningun Artesano");
 
-            var entity = await _service.GetById(requestDto.EntityAssigmentId);
+            var entity = await _service.GetById(_tokenHelper.GetCraftmanId());
 
-            var urlFile = await _localService.EditFileAsync(requestDto.File, LocalContainer.Image_Profile, entity.ProfilePictureUrl!);
+            var urlFile = await _localService.EditFileAsync(requestDto.File, LocalContainer.Image_Profile_Craftman, entity.ProfilePictureUrl!);
 
-            string url = $"{GetUrlBaseLocal((short)LocalContainer.Image_Profile)}{urlFile}";
+            string url = $"{GetUrlBaseLocal((short)LocalContainer.Image_Profile_Craftman)}{urlFile}";
 
-            await _service.UpdateProfile(requestDto.EntityAssigmentId, url, _tokenHelper.GetUserName());
+            await _service.UpdateProfile(_tokenHelper.GetCraftmanId(), url, _tokenHelper.GetUserName());
 
             return Ok();
         }
@@ -252,25 +253,24 @@ public class CraftmanController : ControllerBase
     /// <summary>
     /// Elimina la imagen de perfil del usuario
     /// </summary>
-    /// <param name="id"></param>
     /// <returns></returns>
     /// <exception cref="LogicBusinessException"></exception>
     [HttpDelete]
-    [Route("{id:int}/DeleteImageProfile")]
-    public async Task<IActionResult> DeleteImageProfile([FromRoute] int id)
+    [Route("DeleteImageProfile")]
+    public async Task<IActionResult> DeleteImageProfile()
     {
         try
         {
-            Expression<Func<Craftman, bool>> filter = x => x.Id == id;
+            Expression<Func<Craftman, bool>> filter = x => x.Id == _tokenHelper.GetCraftmanId();
             var existCraftman = await _service.Exist(filter);
 
             if (!existCraftman)
                 return BadRequest("No se encontró ningun Artesano");
 
-            var entity = await _service.GetById(id);
+            var entity = await _service.GetById(_tokenHelper.GetCraftmanId());
 
-            await _localService.DeteleAsync(LocalContainer.Image_Profile, entity.ProfilePictureUrl!);
-            await _service.UpdateProfile(id, null!, _tokenHelper.GetUserName());
+            await _localService.DeteleAsync(LocalContainer.Image_Profile_Craftman, entity.ProfilePictureUrl!);
+            await _service.UpdateProfile(_tokenHelper.GetCraftmanId(), null!, _tokenHelper.GetUserName());
             return Ok(true);
         }
         catch (Exception ex)

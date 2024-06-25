@@ -122,9 +122,10 @@ public class CraftController : ControllerBase
         var url = type switch
         {
             1 => _configuration.GetValue<string>("DefaultValues:craftImageLocalStorageBaseUrl"),
-            2 => _configuration.GetValue<string>("DefaultValues:ImageProfileLocalStorageBaseUrl"),
-            3 => _configuration.GetValue<string>("DefaultValues:categoryImageLocalStorageBaseUrl"),
-            4 => _configuration.GetValue<string>("DefaultValues:customerDocuments"),
+            2 => _configuration.GetValue<string>("DefaultValues:ImageProfileCraftmanLocalStorageBaseUrl"),
+            3 => _configuration.GetValue<string>("DefaultValues:ImageProfileCustomerLocalStorageBaseUrl"),
+            4 => _configuration.GetValue<string>("DefaultValues:categoryImageLocalStorageBaseUrl"),
+            5 => _configuration.GetValue<string>("DefaultValues:customerDocuments"),
             _ => _configuration.GetValue<string>("DefaultValues:craftmanDocuments"),
         };
         return url!;
@@ -135,9 +136,10 @@ public class CraftController : ControllerBase
         return value switch
         {
             1 => LocalContainer.Image_Craft,
-            2 => LocalContainer.Image_Profile,
-            3 => LocalContainer.Image_Category,
-            4 => LocalContainer.Customer_Other_Documents,
+            2 => LocalContainer.Image_Profile_Craftman,
+            3 => LocalContainer.Image_Profile_Customer,
+            4 => LocalContainer.Image_Category,
+            5 => LocalContainer.Customer_Other_Documents,
             _ => LocalContainer.Craftman_Other_Documents
         };
     }

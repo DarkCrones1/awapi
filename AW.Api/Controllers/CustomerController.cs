@@ -34,7 +34,7 @@ public class CustomerController : ControllerBase
     private readonly ITokenHelperService _tokenHelper;
     private readonly ILocalStorageService _localService;
 
-    public CustomerController(IMapper mapper, IConfiguration configuration,ICustomerService service, ITokenHelperService tokenHelper, ILocalStorageService localService)
+    public CustomerController(IMapper mapper, IConfiguration configuration, ICustomerService service, ITokenHelperService tokenHelper, ILocalStorageService localService)
     {
         this._mapper = mapper;
         this._configuration = configuration;
@@ -95,9 +95,10 @@ public class CustomerController : ControllerBase
         var url = type switch
         {
             1 => _configuration.GetValue<string>("DefaultValues:craftImageLocalStorageBaseUrl"),
-            2 => _configuration.GetValue<string>("DefaultValues:ImageProfileLocalStorageBaseUrl"),
-            3 => _configuration.GetValue<string>("DefaultValues:categoryImageLocalStorageBaseUrl"),
-            4 => _configuration.GetValue<string>("DefaultValues:customerDocuments"),
+            2 => _configuration.GetValue<string>("DefaultValues:ImageProfileCraftmanLocalStorageBaseUrl"),
+            3 => _configuration.GetValue<string>("DefaultValues:ImageProfileCustomerLocalStorageBaseUrl"),
+            4 => _configuration.GetValue<string>("DefaultValues:categoryImageLocalStorageBaseUrl"),
+            5 => _configuration.GetValue<string>("DefaultValues:customerDocuments"),
             _ => _configuration.GetValue<string>("DefaultValues:craftmanDocuments"),
         };
         return url!;
@@ -108,9 +109,10 @@ public class CustomerController : ControllerBase
         return value switch
         {
             1 => LocalContainer.Image_Craft,
-            2 => LocalContainer.Image_Profile,
-            3 => LocalContainer.Image_Category,
-            4 => LocalContainer.Customer_Other_Documents,
+            2 => LocalContainer.Image_Profile_Craftman,
+            3 => LocalContainer.Image_Profile_Customer,
+            4 => LocalContainer.Image_Category,
+            5 => LocalContainer.Customer_Other_Documents,
             _ => LocalContainer.Craftman_Other_Documents
         };
     }
@@ -123,21 +125,21 @@ public class CustomerController : ControllerBase
     /// <exception cref="LogicBusinessException"></exception>
     [HttpPost]
     [Route("UploadImageProfile")]
-    public async Task<IActionResult> UploadImageProfileLocal([FromForm] ImageCreateRequestDto requestDto)
+    public async Task<IActionResult> UploadImageProfileLocal([FromForm] ImageProfileCreateRequestDto requestDto)
     {
         try
         {
-            var urlFile = await _localService.UploadAsync(requestDto.File, LocalContainer.Image_Profile, Guid.NewGuid().ToString());
-    
-            string url = $"{GetUrlBaseLocal((short)LocalContainer.Image_Profile)}{urlFile}";
-    
-            await _service.UpdateProfile(requestDto.EntityAssigmentId, url, _tokenHelper.GetUserName());
-    
+            var urlFile = await _localService.UploadAsync(requestDto.File, LocalContainer.Image_Profile_Customer, Guid.NewGuid().ToString());
+
+            string url = $"{GetUrlBaseLocal((short)LocalContainer.Image_Profile_Customer)}{urlFile}";
+
+            await _service.UpdateProfile(_tokenHelper.GetCustomerId(), url, _tokenHelper.GetUserName());
+
             return Ok();
         }
         catch (Exception ex)
         {
-            
+
             throw new LogicBusinessException(ex);
         }
     }
@@ -195,23 +197,23 @@ public class CustomerController : ControllerBase
     /// <exception cref="LogicBusinessException"></exception>
     [HttpPut]
     [Route("UpdateImageProfile")]
-    public async Task<IActionResult> UpdateImageProfileLocal([FromForm] ImageCreateRequestDto requestDto)
+    public async Task<IActionResult> UpdateImageProfileLocal([FromForm] ImageProfileCreateRequestDto requestDto)
     {
         try
         {
-            Expression<Func<Customer, bool>> filter = x => x.Id == requestDto.EntityAssigmentId;
+            Expression<Func<Customer, bool>> filter = x => x.Id == _tokenHelper.GetCustomerId();
             var existCraftman = await _service.Exist(filter);
 
             if (!existCraftman)
-                return BadRequest("No se encontrp ningun Cliente");
+                return BadRequest("No se encontró ningun Cliente");
 
-            var entity = await _service.GetById(requestDto.EntityAssigmentId);
+            var entity = await _service.GetById(_tokenHelper.GetCustomerId());
 
-            var urlFile = await _localService.EditFileAsync(requestDto.File, LocalContainer.Image_Profile, entity.ProfilePictureUrl!);
+            var urlFile = await _localService.EditFileAsync(requestDto.File, LocalContainer.Image_Profile_Customer, entity.ProfilePictureUrl!);
 
-            string url = $"{GetUrlBaseLocal((short)LocalContainer.Image_Profile)}{urlFile}";
+            string url = $"{GetUrlBaseLocal((short)LocalContainer.Image_Profile_Customer)}{urlFile}";
 
-            await _service.UpdateProfile(requestDto.EntityAssigmentId, url, _tokenHelper.GetUserName());
+            await _service.UpdateProfile(_tokenHelper.GetCustomerId(), url, _tokenHelper.GetUserName());
 
             return Ok();
         }
@@ -245,7 +247,7 @@ public class CustomerController : ControllerBase
             entity.LastModifiedDate = DateTime.Now;
             entity.IsDeleted = true;
             entity.Id = id;
-            
+
             await _service.DownedProfile(entity);
             return Ok(true);
         }
@@ -259,25 +261,24 @@ public class CustomerController : ControllerBase
     /// <summary>
     /// Elimina la imagen de perfil del usuario
     /// </summary>
-    /// <param name="id"></param>
     /// <returns></returns>
     /// <exception cref="LogicBusinessException"></exception>
     [HttpDelete]
-    [Route("{id:int}/DeleteImageProfile")]
-    public async Task<IActionResult> DeleteImageProfile([FromRoute] int id)
+    [Route("DeleteImageProfile")]
+    public async Task<IActionResult> DeleteImageProfile()
     {
         try
         {
-            Expression<Func<Customer, bool>> filter = x => x.Id == id;
+            Expression<Func<Customer, bool>> filter = x => x.Id == _tokenHelper.GetCustomerId();
             var existCustomer = await _service.Exist(filter);
 
             if (!existCustomer)
                 return BadRequest("No se encontro ningun Cliente");
 
-            var entity = await _service.GetById(id);
+            var entity = await _service.GetById(_tokenHelper.GetCustomerId());
 
-            await _localService.DeteleAsync(LocalContainer.Image_Profile, entity.ProfilePictureUrl!);
-            await _service.UpdateProfile(id, null!, _tokenHelper.GetUserName());
+            await _localService.DeteleAsync(LocalContainer.Image_Profile_Customer, entity.ProfilePictureUrl!);
+            await _service.UpdateProfile(_tokenHelper.GetCustomerId(), null!, _tokenHelper.GetUserName());
             return Ok(true);
         }
         catch (Exception ex)

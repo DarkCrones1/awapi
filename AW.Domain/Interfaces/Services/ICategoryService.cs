@@ -8,4 +8,5 @@ namespace AW.Domain.Interfaces.Services;
 public interface ICategoryService : ICatalogBaseService<Category>
 {
     Task<PagedList<Category>> GetPaged(CategoryQueryFilter filter);
+    Task UpdateProfile(int craftmanId, string urlProfile, string userName);
 }
