@@ -14,5 +14,5 @@ public class CartDetailResponseDto
 
     public decimal Total { get; set; }
 
-    public IEnumerable<CraftResponseDto> Craft { get; } = new List<CraftResponseDto>();
+    public IEnumerable<CartCraftResponseDto> CartCraft { get; } = new List<CartCraftResponseDto>();
 }

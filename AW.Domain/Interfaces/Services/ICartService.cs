@@ -8,5 +8,5 @@ namespace AW.Domain.Interfaces.Services;
 public interface ICartService : ICrudService<Cart>
 {
     Task<PagedList<Cart>> GetPaged(CartQueryFilter filter);
-    Task CreateCart(Cart entity, int[] CraftIds);
+    Task CreateCart(Cart entity);
 }

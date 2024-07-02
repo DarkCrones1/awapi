@@ -19,6 +19,20 @@ public class CreateRequestMappingProfile : Profile
         ).ForMember(
             dest => dest.Status,
             opt => opt.MapFrom(src => (short)CartStatus.Arrange)
+        ).AfterMap(
+            (src, dest) => 
+            {
+                foreach (var item in src.CartCrafts)
+                {
+                    var cartCraft = new CartCraft
+                    {
+                        CreatedDate = DateTime.Now,
+                        AmountItems = item.AmountItems,
+                        CraftId = item.CraftId
+                    };
+                    dest.CartCraft.Add(cartCraft);
+                }
+            }
         );
 
         CreateMap<CategoryCreateRequestDto, Category>()
@@ -248,7 +262,7 @@ public class CreateRequestMappingProfile : Profile
             opt => opt.MapFrom(src => true)
         ).ForMember(
             dest => dest.IsAuthorized,
-            opt => opt.MapFrom(src => false)
+            opt => opt.MapFrom(src => true)
         ).ForMember(
             dest => dest.CreatedDate,
             opt => opt.MapFrom(src => DateTime.Now)

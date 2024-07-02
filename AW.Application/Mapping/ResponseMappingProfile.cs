@@ -26,18 +26,32 @@ public class ResponseMappingProfile : Profile
         .ForMember(
             dest => dest.StatusName,
             opt => opt.MapFrom(src => EnumHelper.GetDescription<CartStatus>((CartStatus)src.Status))
+        ).ForMember(
+            dest => dest.Total,
+            opt => opt.MapFrom(src => src.Total)
         );
 
         CreateMap<Cart, CartDetailResponseDto>()
         .ForMember(
-            dest => dest.Craft,
-            opt => opt.MapFrom(src => src.Craft)
+            dest => dest.CartCraft,
+            opt => opt.MapFrom(src => src.CartCraft)
         ).ForMember(
             dest => dest.Status,
             opt => opt.MapFrom(src => src.Status)
         ).ForMember(
             dest => dest.StatusName,
             opt => opt.MapFrom(src => EnumHelper.GetDescription<CartStatus>((CartStatus)src.Status))
+        );
+
+        CreateMap<CartCraft, CartCraftResponseDto>()
+        .AfterMap(
+            (src, dest) => 
+            {
+                var craft = src.Craft;
+                var cart = src.Cart;
+
+                dest.CraftId = craft.Id;
+            }
         );
 
         CreateMap<Category, CategoryResponseDto>()

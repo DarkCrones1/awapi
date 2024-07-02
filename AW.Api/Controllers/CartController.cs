@@ -103,7 +103,7 @@ public class CartController : ControllerBase
             var entity = _mapper.Map<Cart>(requestDto);
             entity.CreatedBy = _tokenHelper.GetUserName();
 
-            await _service.CreateCart(entity, requestDto.CraftIds!);
+            await _service.CreateCart(entity);
 
             var result = _mapper.Map<CartResponseDto>(entity);
             var response = new ApiResponse<CartResponseDto>(result);

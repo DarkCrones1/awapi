@@ -10,7 +10,7 @@ public partial class Cart : BaseAuditablePaginationEntity
 
     public virtual Customer Customer { get; set; } = null!;
 
-    public virtual ICollection<Craft> Craft { get; } = new List<Craft>();
+    public virtual ICollection<CartCraft> CartCraft { get; } = new List<CartCraft>();
 
     public virtual Ticket Ticket { get; set; } = null!;
 }

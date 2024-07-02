@@ -22,6 +22,8 @@ public partial class AWDbContext : DbContext
 
     public virtual DbSet<Cart> Cart { get; set; }
 
+    public virtual DbSet<CartCraft> CartCraft { get; set; }
+
     public virtual DbSet<Category> Category { get; set; }
 
     public virtual DbSet<City> City { get; set; }

@@ -38,6 +38,9 @@ public class CrudService<T> : ICrudService<T> where T : BaseEntity
         if (typeRep == typeof(Cart))
             return (ICrudRepository<T>)this._unitOfWork.CartRepository;
 
+        if (typeRep == typeof(CartCraft))
+            return (ICrudRepository<T>)this._unitOfWork.CartCraftRepository;
+
         if (typeRep == typeof(City))
             return (ICrudRepository<T>)this._unitOfWork.CityRepository;
 

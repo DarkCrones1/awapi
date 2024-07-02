@@ -19,15 +19,8 @@ public class CartService : CrudService<Cart>, ICartService
         return pagedItems;
     }
 
-    public async Task CreateCart(Cart entity, int[] CraftIds)
+    public async Task CreateCart(Cart entity)
     {
-        foreach (var item in CraftIds)
-        {
-            var craft = await _unitOfWork.CraftRepository.GetById(item);
-            if (item > 0)
-                entity.Craft.Add(craft);
-        }
-
         await base.Create(entity);
         await _unitOfWork.SaveChangesAsync();
     }

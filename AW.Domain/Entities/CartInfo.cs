@@ -9,9 +9,9 @@ public partial class Cart
             decimal? totalPrice = 0;
 
             // Calculamos el total de las artesanias
-            foreach (var item in Craft)
+            foreach (var item in CartCraft)
             {
-                totalPrice += item.Price;
+                totalPrice += item.AmountItems * item.Craft.Price;
             }
 
             return totalPrice; // Devolvemos el total

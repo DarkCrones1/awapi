@@ -16,7 +16,7 @@ public partial class Craft : CatalogBaseAuditablePaginationEntity
 
     public virtual ICollection<Category> Category { get; } = new List<Category>();
 
-    public virtual ICollection<Cart> Cart { get; } = new List<Cart>();
+    public virtual ICollection<CartCraft> CartCraft { get; } = new List<CartCraft>();
 
     public virtual Craftman Craftman { get; set; } = null!;
 
