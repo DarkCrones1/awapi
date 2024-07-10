@@ -50,6 +50,9 @@ public class CrudService<T> : ICrudService<T> where T : BaseEntity
         if (typeRep == typeof(CraftProperty))
             return (ICrudRepository<T>)this._unitOfWork.CraftPropertyRepository;
 
+        if (typeRep == typeof(CraftPictureUrl))
+            return (ICrudRepository<T>)this._unitOfWork.CraftPictureUrlRepository;
+
         if (typeRep == typeof(Craftman))
             return (ICrudRepository<T>)this._unitOfWork.CraftmanRepository;
 

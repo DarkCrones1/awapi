@@ -8,7 +8,7 @@ namespace AW.Domain.Interfaces.Services;
 public interface ICraftService : ICatalogBaseService<Craft>
 {
     Task<PagedList<Craft>> GetPaged(CraftQueryFilter filter);
-    Task UpdateProfile(int craftmanId, string urlProfile, string userName);
+    Task UpdateProfile(CraftPictureUrl craftPictureUrl, string userName);
     Task CreateCraft(Craft entity, int[] CategoryIds, int[] TechniqueTypeIds);
     Task UpdateCraft(Craft entity, int[] CategoryIds, int[] TechniqueTypeIds);
 }

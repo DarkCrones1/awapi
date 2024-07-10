@@ -27,6 +27,8 @@ public interface IUnitOfWork : IDisposable
 
     ICrudRepository<CraftProperty> CraftPropertyRepository { get; }
 
+    ICrudRepository<CraftPictureUrl> CraftPictureUrlRepository { get; }
+
     ICraftmantRepository CraftmanRepository { get; }
 
     ICultureRepository CultureRepository { get; }

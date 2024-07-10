@@ -22,7 +22,6 @@ public class CraftConfiguration : IEntityTypeConfiguration<Craft>
         builder.Property(e => e.PublicationDate)
             .HasDefaultValueSql("(getdate())")
             .HasColumnType("datetime");
-        builder.Property(e => e.CraftPictureUrl).HasMaxLength(250);
         builder.Property(e => e.History).HasMaxLength(10000);
 
         builder.HasOne(d => d.Craftman).WithMany(p => p.Craft)

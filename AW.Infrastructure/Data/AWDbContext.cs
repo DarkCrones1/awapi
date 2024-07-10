@@ -48,6 +48,8 @@ public partial class AWDbContext : DbContext
 
     public virtual DbSet<CustomerType> CustomerType { get; set; }
 
+    public virtual DbSet<CraftPictureUrl> CraftPictureUrl { get; set; }
+
     public virtual DbSet<Property> Property { get; set; }
 
     public virtual DbSet<Rol> Rol { get; set; }

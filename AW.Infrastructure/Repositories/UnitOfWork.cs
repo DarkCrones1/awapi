@@ -40,6 +40,8 @@ public class UnitOfWork : IUnitOfWork
 
     protected ICrudRepository<CraftProperty> _craftPropertyRepository;
 
+    protected ICrudRepository<CraftPictureUrl> _craftPictureUrlRepository;
+
     protected ICraftmantRepository _craftmanRepository;
 
     protected ICultureRepository _cultureRepository;
@@ -110,6 +112,8 @@ public class UnitOfWork : IUnitOfWork
 
         _craftPropertyRepository = new CrudRepository<CraftProperty>(_dbContext);
 
+        _craftPictureUrlRepository = new CrudRepository<CraftPictureUrl>(_dbContext);
+
         _cultureRepository = new CultureRepository(_dbContext);
 
         _customerRepository = new CustomerRepository(_dbContext);
@@ -162,6 +166,8 @@ public class UnitOfWork : IUnitOfWork
     public ICraftRepository CraftRepository => _craftRepository;
 
     public ICrudRepository<CraftProperty> CraftPropertyRepository => _craftPropertyRepository;
+
+    public ICrudRepository<CraftPictureUrl> CraftPictureUrlRepository => _craftPictureUrlRepository;
 
     public ICraftmantRepository CraftmanRepository => _craftmanRepository;
 

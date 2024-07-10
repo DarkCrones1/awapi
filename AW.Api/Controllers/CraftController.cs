@@ -152,7 +152,7 @@ public class CraftController : ControllerBase
     /// <exception cref="LogicBusinessException"></exception>
     [HttpPost]
     [Route("UploadImageCraft")]
-    public async Task<IActionResult> UploadImageCraftLocal([FromForm] ImageCreateRequestDto requestDto)
+    public async Task<IActionResult> UploadImageCraftLocal([FromForm] CraftPictureUrlCreateRequestDto requestDto)
     {
         try
         {
@@ -160,7 +160,10 @@ public class CraftController : ControllerBase
 
             string url = $"{GetUrlBaseLocal((short)LocalContainer.Image_Craft)}{urlFile}";
 
-            await _service.UpdateProfile(requestDto.EntityAssigmentId, url, _tokenHelper.GetUserName());
+            var craftPictureUrl = _mapper.Map<CraftPictureUrl>(requestDto);
+            craftPictureUrl.ImageUrl = url;
+
+            await _service.UpdateProfile(craftPictureUrl, _tokenHelper.GetUserName());
 
             return Ok();
         }
@@ -209,40 +212,44 @@ public class CraftController : ControllerBase
         }
     }
 
-    /// <summary>
-    /// Actualiza la imagen de la artesania
-    /// </summary>
-    /// <param name="requestDto"></param>
-    /// <returns></returns>
-    /// <exception cref="LogicBusinessException"></exception>
-    [HttpPut]
-    [Route("UpdateImageCraft")]
-    public async Task<IActionResult> UpdateImageCraftLocal([FromForm] ImageCreateRequestDto requestDto)
-    {
-        try
-        {
-            Expression<Func<Craft, bool>> filter = x => x.Id == requestDto.EntityAssigmentId;
-            var existCraft = await _service.Exist(filter);
+    // /// <summary>
+    // /// Actualiza la imagen de la artesania
+    // /// </summary>
+    // /// <param name="requestDto"></param>
+    // /// <returns></returns>
+    // /// <exception cref="LogicBusinessException"></exception>
+    // [HttpPut]
+    // [Route("UpdateImageCraft")]
+    // public async Task<IActionResult> UpdateImageCraftLocal([FromForm] CraftPictureUrlCreateRequestDto requestDto)
+    // {
+    //     try
+    //     {
+    //         Expression<Func<Craft, bool>> filter = x => x.Id == requestDto.EntityAssigmentId;
+    //         var existCraft = await _service.Exist(filter);
 
-            if (!existCraft)
-                return BadRequest("No se encontró ninguna Artesania");
+    //         if (!existCraft)
+    //             return BadRequest("No se encontró ninguna Artesania");
 
-            var entity = await _service.GetById(requestDto.EntityAssigmentId);
+    //         var entity = await _service.GetById(requestDto.EntityAssigmentId);
 
-            var urlFile = await _localService.EditFileAsync(requestDto.File, LocalContainer.Image_Craft, entity.CraftPictureUrl!);
+    //         var craftPictureUrl = _mapper.Map<CraftPictureUrl>(requestDto);
 
-            string url = $"{GetUrlBaseLocal((short)LocalContainer.Image_Craft)}{urlFile}";
+    //         Expression<Func<CraftPictureUrl, bool>> imageFilter = x => x.ImageUrl == 
 
-            await _service.UpdateProfile(requestDto.EntityAssigmentId, url, _tokenHelper.GetUserName());
+    //         var urlFile = await _localService.EditFileAsync(requestDto.File, LocalContainer.Image_Craft, entity.CraftPictureUrl!);
 
-            return Ok();
-        }
-        catch (Exception ex)
-        {
+    //         string url = $"{GetUrlBaseLocal((short)LocalContainer.Image_Craft)}{urlFile}";
 
-            throw new LogicBusinessException(ex);
-        }
-    }
+    //         await _service.UpdateProfile(craftPictureUrl, _tokenHelper.GetUserName());
+
+    //         return Ok();
+    //     }
+    //     catch (Exception ex)
+    //     {
+
+    //         throw new LogicBusinessException(ex);
+    //     }
+    // }
 
     /// <summary>
     /// Elimina de manera lógica una artesania
@@ -276,34 +283,34 @@ public class CraftController : ControllerBase
         }
     }
 
-    /// <summary>
-    /// Elimina la imagen de la artesania
-    /// </summary>
-    /// <param name="id"></param>
-    /// <returns></returns>
-    /// <exception cref="LogicBusinessException"></exception>
-    [HttpDelete]
-    [Route("{id:int}/DeleteImageCraft")]
-    public async Task<IActionResult> DeleteImageCraft([FromRoute] int id)
-    {
-        try
-        {
-            Expression<Func<Craft, bool>> filter = x => x.Id == id;
-            var existCraft = await _service.Exist(filter);
+    // /// <summary>
+    // /// Elimina la imagen de la artesania
+    // /// </summary>
+    // /// <param name="id"></param>
+    // /// <returns></returns>
+    // /// <exception cref="LogicBusinessException"></exception>
+    // [HttpDelete]
+    // [Route("{id:int}/DeleteImageCraft")]
+    // public async Task<IActionResult> DeleteImageCraft([FromRoute] int id)
+    // {
+    //     try
+    //     {
+    //         Expression<Func<Craft, bool>> filter = x => x.Id == id;
+    //         var existCraft = await _service.Exist(filter);
 
-            if (!existCraft)
-                return BadRequest("No se encontró ninguna Artesania");
+    //         if (!existCraft)
+    //             return BadRequest("No se encontró ninguna Artesania");
 
-            var entity = await _service.GetById(id);
+    //         var entity = await _service.GetById(id);
 
-            await _localService.DeteleAsync(LocalContainer.Image_Craft, entity.CraftPictureUrl!);
-            await _service.UpdateProfile(id, null!, _tokenHelper.GetUserName());
-            return Ok(true);
-        }
-        catch (Exception ex)
-        {
+    //         await _localService.DeteleAsync(LocalContainer.Image_Craft, entity.CraftPictureUrl!);
+    //         await _service.UpdateProfile(id, null!, _tokenHelper.GetUserName());
+    //         return Ok(true);
+    //     }
+    //     catch (Exception ex)
+    //     {
 
-            throw new LogicBusinessException(ex);
-        }
-    }
+    //         throw new LogicBusinessException(ex);
+    //     }
+    // }
 }

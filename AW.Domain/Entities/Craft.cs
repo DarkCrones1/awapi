@@ -24,6 +24,8 @@ public partial class Craft : CatalogBaseAuditablePaginationEntity
 
     public virtual ICollection<CraftProperty> Property { get; } = new List<CraftProperty>();
 
+    public virtual ICollection<CraftPictureUrl> CraftPictureUrl { get; } = new List<CraftPictureUrl>();
+
     public virtual ICollection<TechniqueType> TechniqueType { get; } = new List<TechniqueType>();
 
     public virtual ICollection<Sale> Sale { get; } = new List<Sale>();

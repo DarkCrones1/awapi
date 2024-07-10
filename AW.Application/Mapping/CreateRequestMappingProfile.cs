@@ -92,6 +92,15 @@ public class CreateRequestMappingProfile : Profile
             }
         );
 
+        CreateMap<CraftPictureUrlCreateRequestDto, CraftPictureUrl>()
+        .ForMember(
+            dest => dest.CraftId,
+            opt => opt.MapFrom(src => src.EntityAssigmentId)
+        ).ForMember(
+            dest => dest.ImageSize,
+            opt => opt.MapFrom(src => src.ImageSize)
+        );
+
         CreateMap<PropertyCraftCreateRequestDto, Property>()
         .AfterMap(
             (src, dest) =>

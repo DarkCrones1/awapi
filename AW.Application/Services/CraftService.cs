@@ -20,10 +20,17 @@ public class CraftService : CatalogBaseService<Craft>, ICraftService
         return pagedItems;
     }
 
-    public async Task UpdateProfile(int craftId, string urlProfile, string userName)
+    public async Task UpdateProfile(CraftPictureUrl craftPictureUrl, string userName)
     {
-        var lastEntity = await _unitOfWork.CraftRepository.GetById(craftId);
-        lastEntity.CraftPictureUrl = urlProfile;
+        var lastEntity = await _unitOfWork.CraftRepository.GetById(craftPictureUrl.CraftId);
+
+        var picture = new CraftPictureUrl
+        {
+            CraftId = craftPictureUrl.CraftId,
+            ImageSize = craftPictureUrl.ImageSize,
+            ImageUrl = craftPictureUrl.ImageUrl,
+        };
+        lastEntity.CraftPictureUrl.Add(picture);
         lastEntity.LastModifiedDate = DateTime.Now;
         lastEntity.LastModifiedBy = userName;
 
@@ -74,7 +81,6 @@ public class CraftService : CatalogBaseService<Craft>, ICraftService
         }
 
         entity.CraftmanId = oldEntity.CraftmanId;
-        entity.CraftPictureUrl = oldEntity.CraftPictureUrl;
         entity.SerialId = oldEntity.SerialId;
         entity.PublicationDate = oldEntity.PublicationDate;
         entity.Status = (short)CraftStatus.Stock;
