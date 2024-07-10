@@ -10,6 +10,7 @@ public interface IMiscellaneousService
     Task<IEnumerable<EnumValueResponseDto>> GetCraftStatus();
     Task<IEnumerable<EnumValueResponseDto>> GetCustomerDocumentType();
     Task<IEnumerable<EnumValueResponseDto>> GetGender();
+    Task<IEnumerable<EnumValueResponseDto>> GetImageSize();
     Task<IEnumerable<EnumValueResponseDto>> GetPaymentStatus();
     Task<IEnumerable<EnumValueResponseDto>> GetPropertyType();
     Task<IEnumerable<EnumValueResponseDto>> GetTicketStatus();

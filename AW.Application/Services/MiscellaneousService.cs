@@ -73,6 +73,17 @@ public class MiscellaneousService : IMiscellaneousService
         return lstItems ?? new List<EnumValueResponseDto>();
     }
 
+    public async Task<IEnumerable<EnumValueResponseDto>> GetImageSize()
+    {
+        var lstItems = new List<EnumValueResponseDto>();
+
+        lstItems = EnumHelper.GetEnumItems<ImageSize>().ToList();
+
+        await Task.CompletedTask;
+
+        return lstItems ?? new List<EnumValueResponseDto>();
+    }
+
     public async Task<IEnumerable<EnumValueResponseDto>> GetPaymentStatus()
     {
         var lstItems = new List<EnumValueResponseDto>();

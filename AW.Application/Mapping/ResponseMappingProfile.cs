@@ -94,6 +94,12 @@ public class ResponseMappingProfile : Profile
             opt => opt.MapFrom(src => EnumHelper.GetDescription<CraftStatus>((CraftStatus)src.Status))
         );
 
+        CreateMap<CraftPictureUrl, CraftPictureUrlResponseDto>()
+        .ForMember(
+            dest => dest.ImageSizeName,
+            opt => opt.MapFrom(src => EnumHelper.GetDescription<ImageSize>((ImageSize)src.ImageSize))
+        );
+
         CreateMap<Craftman, CraftmanResponseDto>()
         .ForMember(
             dest => dest.StatusName,

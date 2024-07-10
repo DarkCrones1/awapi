@@ -101,6 +101,19 @@ public class MiscellaneousController : ControllerBase
     }
 
     [HttpGet]
+    [Route("ImageSize")]
+    [ProducesResponseType((int)HttpStatusCode.OK, Type = typeof(ApiResponse<IEnumerable<EnumValueResponseDto>>))]
+    [ProducesResponseType((int)HttpStatusCode.BadRequest, Type = typeof(ApiResponse<IEnumerable<EnumValueResponseDto>>))]
+    [ProducesResponseType((int)HttpStatusCode.NotFound, Type = typeof(ApiResponse<IEnumerable<EnumValueResponseDto>>))]
+    [ResponseCache(Duration = 300)]
+    public async Task<IActionResult> GetImageSize()
+    {
+        var lstItem = await _service.GetImageSize();
+        var response = new ApiResponse<IEnumerable<EnumValueResponseDto>>(lstItem);
+        return Ok(response);
+    }
+
+    [HttpGet]
     [Route("PaymentStatus")]
     [ProducesResponseType((int)HttpStatusCode.OK, Type = typeof(ApiResponse<IEnumerable<EnumValueResponseDto>>))]
     [ProducesResponseType((int)HttpStatusCode.BadRequest, Type = typeof(ApiResponse<IEnumerable<EnumValueResponseDto>>))]

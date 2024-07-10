@@ -31,9 +31,9 @@ public class CraftDetailResponseDto : BaseCatalogResponseDto
 
     public string? History { get; set; }
 
-    public string? CraftPictureUrl { get; set; }
-
     public IEnumerable<CategoryResponseDto> Category { get => _category; set => _category = value; }
+
+    public IEnumerable<CraftPictureUrlResponseDto> CraftPictureUrl { get; } = new List<CraftPictureUrlResponseDto>();
 
     public IEnumerable<TechniqueTypeResponseDto> TechniqueType { get => _techniqueType; set => _techniqueType = value; }
 
